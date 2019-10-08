@@ -22,7 +22,7 @@
 
 #include <ctype.h>
 
-
+char buffer[1024];
 int main(int argc, char *argv[]) {
 
 	int fd = 1;
@@ -75,7 +75,7 @@ int main(int argc, char *argv[]) {
 
 		while(1){
 
-			if((fd = open(node, O_RDWR | nonBlocking)) == -1){
+			if((fd = open(node, O_WRONLY | nonBlocking)) == -1){
 				printf("Cannot open Node %s.\n", node);
 				return -1;
 			}
@@ -97,19 +97,27 @@ int main(int argc, char *argv[]) {
 	}
 
 	else if(mode == READ){
-		printf("reading %d byte trams\n", tramSize);
+//		printf("reading %d byte trams\n", tramSize);
+//		fflush(stdout);
+		lseek(fd, 0, SEEK_SET);
 
-
-
-		data = malloc(tramSize);
+		size = lseek(fd, 0, SEEK_END);
+		lseek(fd, 0, SEEK_SET);
+		printf("OK\n");
+		//data = malloc(tramSize);
 		while(1){
-			if((fd = open(node, O_RDONLY | nonBlocking)) == -1){
+			printf("OK\n");
+			if((fd = open(node, O_RDONLY | O_NONBLOCK)) == -1){
 					printf("Cannot open Node %s.\n\n", node);
 					return -1;
 			}
+			printf("Non blocking %ul\n" ,(int)O_NONBLOCK);
+			//printf("%s, %d\n",buffer, 1);
 
-			read(fd, data, tramSize);
-			printf("%s",data);
+			int x = read(fd, buffer, 1024);
+			printf("%d\n",x);
+			lseek(fd, 0, SEEK_SET);
+
 
 			fflush(stdout);
 			close(fd);
