@@ -25,17 +25,7 @@ struct serial_driver_struct{
 	int size;
 	struct cdev *cdev;
 
-
-	uint8_t tp[MAXSIZE];
-	uint8_t id_in, id_out; 	//Premiere et derniere indice du tampon circulaire
-	uint8_t num_data;
-
-	atomic_t not_available;	//Drapeau pour empecher collision par 2 usagers
-
 	char non_blocking;
-
-	spinlock_t * tp_spinlock;
-	wait_queue_head_t wait_rx;
 
 }serial = {
 	.id_in = 0,
@@ -48,6 +38,18 @@ struct file_operations serial_fops = {
 	.open    = serial_driver_open,
 	.release = serial_driver_release,
 };
+
+spinlock_t * tp_spinlock;
+spinlock_t * cu_spinlock;
+
+uint8_t id_in, id_out; 	//Premiere et derniere indice du tampon circulaire
+uint8_t num_data;
+char buffer[MAXSIZE];
+
+wait_queue_head_t wait_rx;
+
+
+//kuid_t current_user = NULL;
 
 dev_t dev;
 
@@ -88,22 +90,28 @@ static void __exit serial_driver_exit (void) {
 
 static int serial_driver_open(struct inode *inode, struct file *flip){
 	
+	static kuid current_user = inode->i_uid;
+	static int count = 0;
 	struct serial_dev *dev;  // cette structure  contient ... ?
 
-	if (atomic_read(serial.not_available))
-		return -EAGAIN;  //Pas disponible, revient plus tard
-	atomic_set(serial.not_available);
+	spin_lock(cu_spinlock);
+	serial.user_id = inode->i_uid;
+	spin_unlock(cu_spinlock);
 
-	filp->private_data = &serial;
+	if(inode->i_uid == current_user){
+		count++;
+		filp->private_data = &serial;
 
-	//Identifie l'unite-materiel
-	//Initilisation personnelle
+		//Identifie l'unite-materiel
+		//Initilisation personnelle
 
-	/*if(flip->f_flags & O_ACCMODE){
-		//Si flip->f_flags est en mode O_RDONLY our O_RDWR, le port Série doit être placé en mode Réception
-	} */
+		/*if(flip->f_flags & O_ACCMODE){
+			//Si flip->f_flags est en mode O_RDONLY our O_RDWR, le port Série doit être placé en mode Réception
+		} */
 
 	return 0;
+
+	}
 
 }
 
