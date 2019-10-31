@@ -99,30 +99,32 @@ int main(int argc, char *argv[]) {
 	else if(mode == READ){
 //		printf("reading %d byte trams\n", tramSize);
 //		fflush(stdout);
-		lseek(fd, 0, SEEK_SET);
+		//lseek(fd, 0, SEEK_SET);
 
-		size = lseek(fd, 0, SEEK_END);
-		lseek(fd, 0, SEEK_SET);
-		printf("OK\n");
+		//size = lseek(fd, 0, SEEK_END);
+		//lseek(fd, 0, SEEK_SET);
+		//printf("OK\n");
 		//data = malloc(tramSize);
-		while(1){
+		char data = 0;
+		//while(data != '\n'){
 			printf("OK\n");
 			if((fd = open(node, O_RDONLY | O_NONBLOCK)) == -1){
 					printf("Cannot open Node %s.\n\n", node);
 					return -1;
 			}
-			printf("Non blocking %ul\n" ,(int)O_NONBLOCK);
+			data = read(fd, buffer, tramSize);
+			//printf("Non blocking %ul\n" ,(int)O_NONBLOCK);
 			//printf("%s, %d\n",buffer, 1);
 
-			int x = read(fd, buffer, 1024);
-			printf("%d\n",x);
-			lseek(fd, 0, SEEK_SET);
+			//int x = read(fd, buffer, 1024);
+			printf("%s\n",buffer);
+			//lseek(fd, 0, SEEK_SET);
 
 
 			fflush(stdout);
 			close(fd);
 
-		}
+		//}
 
 	}
 
