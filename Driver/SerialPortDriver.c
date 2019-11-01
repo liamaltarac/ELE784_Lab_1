@@ -21,10 +21,10 @@
 //#include <asm_generic/bitops.h>
 
 #define MAXSIZE 255
+#define NUM_DEVICES 2  //SerialPort0 et SerialPort1
 
 MODULE_AUTHOR("Liam et Maxime");
 MODULE_LICENSE("Dual BSD/GPL");
-
 
 static int serial_driver_open(struct inode *inode, struct file *flip);
 static int serial_driver_release(struct inode *inode, struct file *flip);
@@ -32,7 +32,7 @@ static ssize_t serial_driver_read(struct file *filp, char __user *buf, size_t co
 static ssize_t serial_driver_write(struct file * filp, const char __user *buf, size_t count,
 							   loff_t *f_pos);
 
-struct class * dev_class;
+
 
 struct file_operations 	serial_fops = {
 	.owner   = THIS_MODULE,
@@ -63,6 +63,9 @@ struct serial_driver_struct{
 
 	int size;
 	struct cdev * cdev;
+
+	struct class * dev_class;
+
 	char non_blocking;
 
 	kuid_t active_user;
@@ -74,43 +77,67 @@ struct serial_driver_struct{
 	spinlock_t * tp_spinlock; 
 	circular * c_buf;
 
-}serial = {
-	.active_mode = NULL,
+	dev_t dev; 
+
+
 };
 
+struct serial_driver_struct serial[NUM_DEVICES] = {{.active_mode = NULL,},
+												   {.active_mode = NULL,}};
+
+char t_buf[20];
 static int __init serial_driver_init (void) {
 
-	serial.cdev = cdev_alloc();
-	serial.cdev->ops = &serial_fops;
+	//TODO : Verifier si on peut prendre controlle des ports (premiere chose a faire)
 
-
-
-	alloc_chrdev_region(&dev, 0, 1, "SerialDriver");		//Allocation dynamique d`un numero d`unite-materiel 
-	dev_class = class_create(THIS_MODULE, "Serial Driver");
-	device_create(dev_class, NULL, dev, NULL, "My_Serial_Driver");
+	alloc_chrdev_region(&dev, 0, NUM_DEVICES, "SerialDriver");		//Allocation dynamique d`un numero d`unite-materiel 
 	
-	cdev_init(serial.cdev, &serial_fops);
-	//serial.cdev->owner = THIS_MODULE;
+	int i =0;
+	for(i = 0; i < NUM_DEVICES; i++){
 
-	err = cdev_add(serial.cdev, dev, 1);
+		serial[i].dev = MKDEV(MAJOR(dev), MINOR(dev)+i);
 
-	serial.c_buf = circular_init(10);
+		serial[i].cdev = cdev_alloc();
+		serial[i].cdev->ops = &serial_fops;
+
+		snprintf(t_buf, 20, "Serial Driver %d", i);
+		serial[i].dev_class = class_create(THIS_MODULE, t_buf);
+		device_create(serial[i].dev_class, NULL, 
+					  serial[i].dev, 
+					  NULL, "My_Serial_Driver_%d", i);
+		
+		cdev_init(serial[i].cdev, &serial_fops);
+
+		err = cdev_add(serial[i].cdev, serial[i].dev, 1);
+
+		serial[i].c_buf = circular_init(10);
+
+		printk(KERN_WARNING"Adding Serial Driver %d (err. %d)\n", i, err);
+
+	}
+
 	//spin_lock_init(serial.tp_spinlock);
 
-	printk(KERN_WARNING"Adding SerialDriver : %d\n", err);
 
 	return 0;
 
 }
 
 static void __exit serial_driver_exit (void) {
+	printk(KERN_WARNING"Exiting\n");
+	int i = 0;
+	for(i = 0; i < NUM_DEVICES; i++){
 
-	device_destroy(dev_class, dev);
-	class_destroy(dev_class);
+		device_destroy(serial[i].dev_class, serial[i].dev);
+		class_destroy(serial[i].dev_class);
 
-	unregister_chrdev_region(dev, 1);
-	circular_destroy(serial.c_buf);
-	printk(KERN_WARNING"Removing SerialDriver : Goodbye !\n");
+		circular_destroy(serial[i].c_buf);
+		printk(KERN_WARNING"Removing Serial Driver %d: Goodbye !\n", i);
+
+	}
+
+	unregister_chrdev_region(dev, NUM_DEVICES);
+
 
 	return;
 
@@ -127,15 +154,15 @@ static void __exit serial_driver_exit (void) {
 */
 static int serial_driver_open(struct inode *inode, struct file *flip){
 	
+	int port_num = iminor(inode);
 
+	if(serial[port_num].active_mode == NULL){	//If file not yet opened
 
-	if(serial.active_mode == NULL){	//If file not yet opened
-
-		serial.active_user = current_cred()->uid;
-		serial.active_mode = flip->f_flags & O_ACCMODE;
-		flip -> private_data = &serial;
-		printk(KERN_WARNING"Opening SerialDriver in mode %d\n", serial.active_mode );
-		printk(KERN_WARNING"SerialDriver Opened by %d", serial.active_user);
+		serial[port_num].active_user = current_cred()->uid;
+		serial[port_num].active_mode = flip->f_flags & O_ACCMODE;
+		flip -> private_data = &serial[port_num];
+		printk(KERN_WARNING"Opening Serial Driver %d in mode %d\n",port_num, serial[port_num].active_mode );
+		printk(KERN_WARNING"SerialDriver Opened by %d", serial[port_num].active_user);
 		return 0;
 
 	}  
@@ -166,10 +193,13 @@ static int serial_driver_open(struct inode *inode, struct file *flip){
 
 static int serial_driver_release(struct inode *inode, struct file *flip){
 	
-	printk(KERN_WARNING"Releasing SerialDriver !\n");
+	int port_num = iminor(inode);
+
+
+	printk(KERN_WARNING"Releasing Serial Driver %d!\n", port_num);
 	
 	//serial.active_user = NULL;
-	serial.active_mode = NULL;
+	serial[port_num].active_mode = NULL;
 
 	//clear_bit(serial.not_available);  
 	return 0;
@@ -190,6 +220,8 @@ returns:
 */
 static ssize_t serial_driver_read(struct file *filp, char __user *buf, size_t count, loff_t *f_pos){
 	
+	//int port_num = iminor(inode);
+
 	printk(KERN_WARNING"Reading SerialDriver !\n");
 	struct serial_driver_struct * p = (struct serial_driver_struct *) filp->private_data;
 	printk(KERN_WARNING"Data in buf : %s\n",p->c_buf->buffer);
@@ -246,7 +278,9 @@ returns:
 static ssize_t serial_driver_write(struct file * filp, const char __user *buf, size_t count,
 							   loff_t *f_pos){
 
-	printk(KERN_WARNING"Writing SerialDriver !\n");
+	//int port_num = iminor(inode);
+
+	printk(KERN_WARNING"Writing Serial Driver!\n");
 	struct serial_driver_struct * p = (struct serial_driver_struct *) filp->private_data;
 	printk(KERN_WARNING"Data in buf : %d\n",p->c_buf->num_data);
 
