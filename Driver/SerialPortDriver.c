@@ -12,6 +12,8 @@
 #include <linux/moduleparam.h>
 
 #include <linux/uaccess.h>
+#include <linux/spinlock.h>
+
 #include "circular.h"
 
 
@@ -73,10 +75,10 @@ struct serial_driver_struct{
 
 	bool mode_r, mode_w;
 
-	wait_queue_head_t wait_rx;
+	wait_queue_head_t wait_rx, wait_tx;
 
-	spinlock_t * tp_spinlock; 
-	circular * c_buf;
+	spinlock_t * tx_buf_lock, * rx_buf_lock; 
+	circular * tx_buf, *rx_buf;
 
 	dev_t dev; 
 
@@ -115,11 +117,20 @@ static int __init serial_driver_init (void) {
 		
 		cdev_init(serial[i].cdev, &serial_fops);
 
-		err = cdev_add(serial[i].cdev, serial[i].dev, 1);
+		cdev_add(serial[i].cdev, serial[i].dev, 1);
 
-		serial[i].c_buf = circular_init(10);
+		serial[i].tx_buf = circular_init(10);
+		serial[i].rx_buf = circular_init(10);
+
+		init_waitqueue_head(&serial[i].wait_rx);
+		init_waitqueue_head(&serial[i].wait_tx);
+
+		spin_lock_init(serial[i].rx_buf_lock);
+		spin_lock_init(serial[i].tx_buf_lock);
 
 		printk(KERN_WARNING"Adding Serial Driver %d (err. %d)\n", i, err);
+
+
 
 	}
 
@@ -138,7 +149,8 @@ static void __exit serial_driver_exit (void) {
 		device_destroy(serial[i].dev_class, serial[i].dev);
 		class_destroy(serial[i].dev_class);
 
-		circular_destroy(serial[i].c_buf);
+		circular_destroy(serial[i].tx_buf);
+		circular_destroy(serial[i].rx_buf);
 		printk(KERN_WARNING"Removing Serial Driver %d: Goodbye !\n", i);
 
 	}
@@ -241,52 +253,55 @@ static ssize_t serial_driver_read(struct file *filp, char __user *buf, size_t co
 
 	printk(KERN_WARNING"Reading SerialDriver !\n");
 	struct serial_driver_struct * p = (struct serial_driver_struct *) filp->private_data;
-	printk(KERN_WARNING"Data in buf : %s\n",p->c_buf->buffer);
+	printk(KERN_WARNING"Data in rx_buf : %s\n",p->rx_buf->buffer);
 	printk(KERN_WARNING"Data requested : %d\n",count);
 
 
 	char * buf_r = (char*) kmalloc(count * sizeof(char), GFP_KERNEL);	//tampon local
-	
-	int i = 0;
-	/*while(i < count && p->num_data > 0){
-		data_buf[i] = circular_remove(p->c_buf);
-		i++
-	} */
-	//memcpy(data_buf, , 1);
-	printk(KERN_WARNING"Data to send  : %c\n", buf_r);
 
+	spin_lock_irq(p->rx_buf_lock);
+
+	int i = 0;
+
+waitForDataInBuf:	
+	while(p->rx_buf->num_data == 0){
+		spin_unlock_irq(p->rx_buf_lock);
+
+		/*
+		O_NONBLOCK:
+		S'il n'y a aucune donnee disponible, le Pilote 
+		retourne immediatement en indiquant que (0) 
+		données ont ete fournies a l'usager.
+		*/
+		if(filp->f_flags & O_NONBLOCK) {
+			return 0;
+		}
+
+		printk(KERN_WARNING"No data in read buffer, going to sleep \n");
+		wait_event_interruptible(p->wait_rx, p->rx_buf->num_data > 0);
+		spin_lock_irq(p->rx_buf_lock);
+	}
+	
+	printk(KERN_WARNING"New data in read buffer, Waking up\n");
+
+	while(i < count && p->rx_buf->num_data > 0){
+		printk(KERN_WARNING"buf size: %d\n",p->rx_buf->num_data);
+		buf_r[i] = circular_remove(p->rx_buf);
+		i++;
+	} 
+
+	if((i < count) && !(filp->f_flags & O_NONBLOCK))
+		goto waitForDataInBuf;
+
+	//memcpy(data_buf, , 1);
+	spin_unlock_irq(p->rx_buf_lock);
+
+	printk(KERN_WARNING"Data to send  : %s\n", buf_r);
 	copy_to_user(buf, (void *)buf_r, count);
 
-	
+	kfree(buf_r);
 
-
-	//circular_display(p->c_buf);
-
-	//circular_remove_n(p->buf)
-	//static int count = 0;
-	/*
-	struct serial_driver_struct * p = (struct serial_driver_struct *) filp->private_data;
-	spin_lock(p->tp_spinlock);
-		printk(KERN_WARNING"Started spinlock SerialDriver !\n");
-
-	while(p->c_buf->num_data <= 0){		//est ce que j'ai <<count>> donnees a lui donnee ?
-		printk(KERN_WARNING"NO DATA !!\n");
-		spin_unlock(p->tp_spinlock);
-		if(filp->f_flags & O_NONBLOCK){
-			printk(KERN_WARNING"ERROR IN READING !!\n");
-			return -EAGAIN;
-		}
-		wait_event_interruptible(p->wait_rx, p->c_buf->num_data >= 0);
-		spin_lock(p->tp_spinlock);
-	}
-	count = (p->c_buf->num_data >= count)? count : p->c_buf->num_data;
-
-	copy_to_user(buf, circular_remove_n(p->c_buf, count), count); //bloquant ... a retravailler
-
-	spin_unlock(p->tp_spinlock);  */
-	
-
-	return count; 
+	return i; 
 }
 
 
@@ -306,18 +321,40 @@ static ssize_t serial_driver_write(struct file * filp, const char __user *buf, s
 
 	printk(KERN_WARNING"Writing Serial Driver!\n");
 	struct serial_driver_struct * p = (struct serial_driver_struct *) filp->private_data;
-	printk(KERN_WARNING"Data in buf : %d\n",p->c_buf->num_data);
+	printk(KERN_WARNING"Data in tx_buf : %d\n",p->tx_buf->num_data);
 
-	char * user_buf = (char*) kmalloc(count * sizeof(char), GFP_KERNEL);	
-	copy_from_user((void*)user_buf, buf, count);
-	printk(KERN_WARNING"Data  : %s\n", user_buf);
+	char * buf_w = (char*) kmalloc(count * sizeof(char), GFP_KERNEL);	
+	copy_from_user((void*)buf_w, buf, count);
 
+	spin_lock_irq(p->tx_buf_lock);
 	int i = 0;
-	circular_add_n(p->c_buf, user_buf, count);
+waitForRoomInBuf:
+	while(p->tx_buf->num_data == p->tx_buf->size){
+		spin_unlock_irq(p->tx_buf_lock);
+		if(filp->f_flags & O_NONBLOCK)
+			return 0;		//0 donnees ont ete tranferees.
+		printk(KERN_WARNING"No room in tx buffer, going to sleep \n");
+		wait_event_interruptible(p->wait_tx, p->tx_buf->num_data < p->tx_buf->size);
+		spin_lock_irq(p->tx_buf_lock);
+	}
+
+	printk(KERN_WARNING"Space available in tx buffer, Waking up\n");
+
+	while(i < count && p->tx_buf->num_data < p->tx_buf->size){
+		printk(KERN_WARNING"buf size: %d\n",p->tx_buf->num_data);
+		circular_add(p->tx_buf, buf_w[i]);
+		i++;
+	} 
+
+	if((i < count) && !(filp->f_flags & O_NONBLOCK))
+		goto waitForRoomInBuf;
+
+	//memcpy(data_buf, , 1);
+	spin_unlock_irq(p->tx_buf_lock);
 	
 	//circular_display(p->c_buf);
-	//kfree(user_buf);
-	return count; 
+	kfree(buf_w);
+	return i; 
 }
 
 
