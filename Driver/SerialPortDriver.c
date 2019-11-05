@@ -69,7 +69,7 @@ struct serial_driver_struct{
 	char non_blocking;
 
 	uid_t active_user;
-	int active_mode;
+	//int active_mode;
 
 	bool mode_r, mode_w;
 
@@ -83,11 +83,11 @@ struct serial_driver_struct{
 
 };
 
-struct serial_driver_struct serial[NUM_DEVICES] = {{.active_mode = NULL,
+struct serial_driver_struct serial[NUM_DEVICES] = {{.active_user = NULL,
 													.mode_r = 0,
 													.mode_w = 0
 												   },
-												   {.active_mode = NULL,													
+												   {.active_user = NULL,													
 												   	.mode_r 	 = 0,
 													.mode_w 	 = 0
 												   }};
@@ -173,8 +173,8 @@ static int serial_driver_open(struct inode *inode, struct file *flip){
 	/*"Toute nouvelle ouverture dans un 
 	   mode déjà ouvert sera refusée et un
 	   code d’erreur (ENOTTY) sera retourné au demandeur."*/
-	if((serial[port_num].mode_w == req_mode & O_WRONLY) ||
-	  (serial[port_num].mode_r == req_mode & O_RDONLY)) return -ENOTTY;	
+	if((serial[port_num].mode_w & req_mode & O_WRONLY ) ||
+	  (serial[port_num].mode_r & req_mode & O_RDONLY)) return -ENOTTY;	
 	
 
 	if(serial[port_num].active_user == NULL)	
@@ -198,7 +198,7 @@ static int serial_driver_open(struct inode *inode, struct file *flip){
   			 l’interruption de réception) afin de commencer à recevoir des données
    			 immédiatement. */
 
-	printk(KERN_WARNING"Opening Serial Driver %d in mode %d\n",port_num, serial[port_num].active_mode );
+	printk(KERN_WARNING"Opening Serial Driver %d in mode %d\n",port_num, req_mode);
 	printk(KERN_WARNING"SerialDriver Opened by %d", serial[port_num].active_user);
 	return 0;
 
@@ -211,7 +211,7 @@ static int serial_driver_release(struct inode *inode, struct file *flip){
 
 	printk(KERN_WARNING"Releasing Serial Driver %d!\n", port_num);
 	
-	//serial.active_user = NULL;
+	serial.active_user = NULL;
 	//serial[port_num].active_mode = NULL;
 	serial[port_num].mode_r = 0;
 	serial[port_num].mode_w = 0;
@@ -251,6 +251,8 @@ static ssize_t serial_driver_read(struct file *filp, char __user *buf, size_t co
 	copy_to_user(buf, (void *)data_buf, count);
 
 	
+
+
 	//circular_display(p->c_buf);
 
 	//circular_remove_n(p->buf)
