@@ -153,10 +153,10 @@ static void __exit serial_driver_exit (void) {
 
 /* 
 "
-l’ouverture du Pilote est à usager unique. C’est-à-dire que dès
-qu’un usager ouvre le Pilote dans n’importe quel mode, lecture ou
-écriture ou les deux, le Pilote lui appartient et tous nouvel usager sera
-refusé avec un code d’erreur (ENOTTY). "
+l'ouverture du Pilote est a usager unique. C'est-a-dire que dès
+qu'un usager ouvre le Pilote dans n'importe quel mode, lecture ou
+ecriture ou les deux, le Pilote lui appartient et tous nouvel usager sera
+refuse avec un code d'erreur (ENOTTY). "
 
 -First operation performed on device file.
 -Should perform:
@@ -171,8 +171,8 @@ static int serial_driver_open(struct inode *inode, struct file *flip){
 	int req_mode = flip->f_flags & O_ACCMODE; // requested mode
 
 	/*"Toute nouvelle ouverture dans un 
-	   mode déjà ouvert sera refusée et un
-	   code d’erreur (ENOTTY) sera retourné au demandeur."*/
+	   mode deja ouvert sera refusee et un
+	   code d'erreur (ENOTTY) sera retourne au demandeur."*/
 	if((serial[port_num].mode_w & req_mode & O_WRONLY ) ||
 	  (serial[port_num].mode_r & req_mode & O_RDONLY)) return -ENOTTY;	
 	
@@ -181,24 +181,24 @@ static int serial_driver_open(struct inode *inode, struct file *flip){
 		serial[port_num].active_user = current_cred()->uid.val;
 	
 	
-	/*"L’ouverture du Pilote est à usager unique. C’est-à-dire que dès
-	   qu’un usager ouvre le Pilote dans n’importe quel mode, lecture ou
-	   écriture ou les deux, le Pilote lui appartient et tous nouvel usager sera
-	   refusé avec un code d’erreur (ENOTTY)" */
+	/*"L'ouverture du Pilote est a usager unique. C'est-a-dire que dès
+	   qu'un usager ouvre le Pilote dans n'importe quel mode, lecture ou
+	   ecriture ou les deux, le Pilote lui appartient et tous nouvel usager sera
+	   refuse avec un code d'erreur (ENOTTY)" */
 	if(serial[port_num].active_user != current_cred()->uid.val)
 		return -ENOTTY;
 
-	serial[port_num].mode_w = req_mode & O_WRONLY;
-	serial[port_num].mode_r = req_mode & O_RDONLY;
+	serial[port_num].mode_w |= (req_mode == O_WRONLY) || (req_mode == O_RDWR);
+	serial[port_num].mode_r |= (req_mode == O_RDONLY) || (req_mode == O_RDWR);
 
 	flip -> private_data = &serial[port_num];
 
-	/*TODO : si le mode d’ouverture O_RDONLY ou O_RDWR est choisi par
-			 l’usager, alors le Port Série doit être placé en mode Réception (active
-  			 l’interruption de réception) afin de commencer à recevoir des données
-   			 immédiatement. */
+	/*TODO : si le mode d'ouverture O_RDONLY ou O_RDWR est choisi par
+			 l'usager, alors le Port Serie doit être place en mode Reception (active
+  			 l'interruption de reception) afin de commencer a recevoir des donnees
+   			 immediatement. */
 
-	printk(KERN_WARNING"Opening Serial Driver %d in mode %d\n",port_num, req_mode);
+	printk(KERN_WARNING"Opening Serial Driver %d ! Current mode_r = %d, mode_w= %d\n", port_num,serial[port_num].mode_r, serial[port_num].mode_w);
 	printk(KERN_WARNING"SerialDriver Opened by %d", serial[port_num].active_user);
 	return 0;
 
@@ -208,13 +208,15 @@ static int serial_driver_release(struct inode *inode, struct file *flip){
 	
 	int port_num = iminor(inode);
 
+	int req_mode = flip->f_flags & O_ACCMODE; // requested mode
 
-	printk(KERN_WARNING"Releasing Serial Driver %d!\n", port_num);
 	
-	serial.active_user = NULL;
+	serial[port_num].active_user = NULL;
 	//serial[port_num].active_mode = NULL;
-	serial[port_num].mode_r = 0;
-	serial[port_num].mode_w = 0;
+	serial[port_num].mode_w &= ~((req_mode == O_WRONLY) || (req_mode == O_RDWR));
+	serial[port_num].mode_r &= ~((req_mode == O_RDONLY) || (req_mode == O_RDWR));
+
+	printk(KERN_WARNING"Releasing Serial Driver %d! Current mode_r = %d, mode_w= %d (%d)\n", port_num,serial[port_num].mode_r, serial[port_num].mode_w, req_mode);
 
 	//clear_bit(serial.not_available);  
 	return 0;
@@ -243,12 +245,17 @@ static ssize_t serial_driver_read(struct file *filp, char __user *buf, size_t co
 	printk(KERN_WARNING"Data requested : %d\n",count);
 
 
-	char * data_buf = (char*) kmalloc(count * sizeof(char), GFP_KERNEL);	
-	circular_remove_n(p->c_buf, data_buf, count);
+	char * buf_r = (char*) kmalloc(count * sizeof(char), GFP_KERNEL);	//tampon local
+	
+	int i = 0;
+	/*while(i < count && p->num_data > 0){
+		data_buf[i] = circular_remove(p->c_buf);
+		i++
+	} */
 	//memcpy(data_buf, , 1);
-	printk(KERN_WARNING"Data to send  : %c\n", data_buf);
+	printk(KERN_WARNING"Data to send  : %c\n", buf_r);
 
-	copy_to_user(buf, (void *)data_buf, count);
+	copy_to_user(buf, (void *)buf_r, count);
 
 	
 
