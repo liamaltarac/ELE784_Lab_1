@@ -68,9 +68,10 @@ struct serial_driver_struct{
 
 	char non_blocking;
 
-	kuid_t active_user;
+	uid_t active_user;
 	int active_mode;
 
+	bool mode_r, mode_w;
 
 	wait_queue_head_t wait_rx;
 
@@ -82,8 +83,14 @@ struct serial_driver_struct{
 
 };
 
-struct serial_driver_struct serial[NUM_DEVICES] = {{.active_mode = NULL,},
-												   {.active_mode = NULL,}};
+struct serial_driver_struct serial[NUM_DEVICES] = {{.active_mode = NULL,
+													.mode_r = 0,
+													.mode_w = 0
+												   },
+												   {.active_mode = NULL,													
+												   	.mode_r 	 = 0,
+													.mode_w 	 = 0
+												   }};
 
 char t_buf[20];
 static int __init serial_driver_init (void) {
@@ -144,7 +151,13 @@ static void __exit serial_driver_exit (void) {
 }
 
 
-/*  
+/* 
+"
+l’ouverture du Pilote est à usager unique. C’est-à-dire que dès
+qu’un usager ouvre le Pilote dans n’importe quel mode, lecture ou
+écriture ou les deux, le Pilote lui appartient et tous nouvel usager sera
+refusé avec un code d’erreur (ENOTTY). "
+
 -First operation performed on device file.
 -Should perform:
 	-Check for device specific errors (ex.: device not ready, harware probs etc.)
@@ -155,39 +168,39 @@ static void __exit serial_driver_exit (void) {
 static int serial_driver_open(struct inode *inode, struct file *flip){
 	
 	int port_num = iminor(inode);
+	int req_mode = flip->f_flags & O_ACCMODE; // requested mode
 
-	if(serial[port_num].active_mode == NULL){	//If file not yet opened
-
-		serial[port_num].active_user = current_cred()->uid;
-		serial[port_num].active_mode = flip->f_flags & O_ACCMODE;
-		flip -> private_data = &serial[port_num];
-		printk(KERN_WARNING"Opening Serial Driver %d in mode %d\n",port_num, serial[port_num].active_mode );
-		printk(KERN_WARNING"SerialDriver Opened by %d", serial[port_num].active_user);
-		return 0;
-
-	}  
+	/*"Toute nouvelle ouverture dans un 
+	   mode déjà ouvert sera refusée et un
+	   code d’erreur (ENOTTY) sera retourné au demandeur."*/
+	if((serial[port_num].mode_w == req_mode & O_WRONLY) ||
+	  (serial[port_num].mode_r == req_mode & O_RDONLY)) return -ENOTTY;	
 	
 
-	return -ENOTTY;
-	/*
-	static int count = 0;
-	struct serial_dev *dev;  // cette structure  contient ... ?
+	if(serial[port_num].active_user == NULL)	
+		serial[port_num].active_user = current_cred()->uid.val;
 	
+	
+	/*"L’ouverture du Pilote est à usager unique. C’est-à-dire que dès
+	   qu’un usager ouvre le Pilote dans n’importe quel mode, lecture ou
+	   écriture ou les deux, le Pilote lui appartient et tous nouvel usager sera
+	   refusé avec un code d’erreur (ENOTTY)" */
+	if(serial[port_num].active_user != current_cred()->uid.val)
+		return -ENOTTY;
 
+	serial[port_num].mode_w = req_mode & O_WRONLY;
+	serial[port_num].mode_r = req_mode & O_RDONLY;
 
-	if(inode->i_uid == current_user){
-		count++;
-		filp->private_data = &serial;
-		//Identifie l'unite-materiel
-		//Initilisation personnelle
+	flip -> private_data = &serial[port_num];
 
-		//if(flip->f_flags & O_ACCMODE){
-			//Si flip->f_flags est en mode O_RDONLY our O_RDWR, le port Série doit être placé en mode Réception
-		//} 
-		return 0;
+	/*TODO : si le mode d’ouverture O_RDONLY ou O_RDWR est choisi par
+			 l’usager, alors le Port Série doit être placé en mode Réception (active
+  			 l’interruption de réception) afin de commencer à recevoir des données
+   			 immédiatement. */
 
-	}
-	*/
+	printk(KERN_WARNING"Opening Serial Driver %d in mode %d\n",port_num, serial[port_num].active_mode );
+	printk(KERN_WARNING"SerialDriver Opened by %d", serial[port_num].active_user);
+	return 0;
 
 }
 
@@ -199,7 +212,9 @@ static int serial_driver_release(struct inode *inode, struct file *flip){
 	printk(KERN_WARNING"Releasing Serial Driver %d!\n", port_num);
 	
 	//serial.active_user = NULL;
-	serial[port_num].active_mode = NULL;
+	//serial[port_num].active_mode = NULL;
+	serial[port_num].mode_r = 0;
+	serial[port_num].mode_w = 0;
 
 	//clear_bit(serial.not_available);  
 	return 0;
