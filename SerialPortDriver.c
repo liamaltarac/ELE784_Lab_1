@@ -99,7 +99,6 @@ struct serial_driver_struct{
 	int PortAddr;
 	int PortIRQ;
 
-	int IRQStatus;
 
 	bool mode_r, mode_w;
 
@@ -114,9 +113,6 @@ struct serial_driver_struct{
 
 
 };
-
-unsigned long read_spin_flags;
-unsigned long write_spin_flags;
 
 struct serial_driver_struct serial[NUM_DEVICES] = {{.active_user = NULL,
 													.mode_r = 0,
@@ -144,7 +140,6 @@ static int __init serial_driver_init (void) {
 		
 		printk(KERN_WARNING"PORT %d ADDR : %d \n", i, serial[i].PortAddr);
 		printk(KERN_WARNING"PORT %d IRQ : %d \n", i,  serial[i].PortIRQ);
-		
 
 		snprintf(t_buf, 20, "Serial%d", i);
 		if(request_region(serial[i].PortAddr, 8, t_buf) == NULL){
@@ -169,18 +164,12 @@ static int __init serial_driver_init (void) {
 		serial[i].tx_buf = circular_init(10);
 		serial[i].rx_buf = circular_init(10);
 
-		printk(KERN_WARNING"Requesting IRQ (%d) \n", serial[i].PortIRQ);
-		snprintf(t_buf, 20, "serial_irq_%d", i);
-		serial[i].IRQStatus = -1;
-		serial[i].IRQStatus = request_irq(serial[i].PortIRQ, serial_driver_irq, IRQF_SHARED, t_buf, &serial[i]);  // == IRQ_NONE){
-		printk(KERN_WARNING"Request IRQ Status (%d) \n", serial[i].IRQStatus);
-
 		init_waitqueue_head(&(serial[i].wait_rx));
 		init_waitqueue_head(&(serial[i].wait_tx));
 
 		spin_lock_init(&(serial[i].rx_buf_lock));
 		spin_lock_init(&(serial[i].tx_buf_lock));
-		
+
 
 
 		printk(KERN_WARNING"Adding Serial Driver %d (err. %d)\n", i, err);
@@ -209,7 +198,9 @@ static int __init serial_driver_init (void) {
 		//unsigned char IER = inb(serial[i].PortAddr + 1);
 		//outb(IER | 0x03, serial[i].PortAddr + 3); 
 		//wmb();
+		printk(KERN_WARNING"Requesting IRQ (%d) \n", serial[i].PortIRQ);
 
+		request_irq(serial[i].PortIRQ, serial_driver_irq, IRQF_SHARED, "serial_irq", &serial[i]);  // == IRQ_NONE){
 		/*	printk(KERN_WARNING"request IRQ not working (%d) \n", serial[i].PortIRQ);
 			
 			release_region(serial[i].PortAddr, 8);
@@ -233,40 +224,15 @@ static int __init serial_driver_init (void) {
 		serialcomm_set_word_len(serial[i].comm, 8);
 		serialcomm_set_parity(serial[i].comm, NO_PARITY);
 
-
-		serialcomm_write_reg(serial[i].comm, IER, 0);
-
 		//Set RCVR trigger level to 1 byte and enable FIFOEN
-		//uint8_t val = serialcomm_read_reg(serial[i].comm, FCR);
-		//printk(KERN_WARNING"Before FCR val %u\n", val);
+		uint8_t val = serialcomm_read_reg(serial[i].comm, FCR);
+		serialcomm_write_reg(serial[i].comm, FCR, (val & 0x03) | 0x03);
 
-		//Set RCVR trigger level at 1 Byte (bit[7:8] = 0b00)
-		serialcomm_write_reg(serial[i].comm, FCR, 0x03);
-
-		//val = serialcomm_read_reg(serial[i].comm, FCR);
-		//rmb();
-
-		//printk(KERN_WARNING"After FCR val %u\n", val);
+		serialcomm_set_bit(serial[i].comm, IER, 0); 	//Set ETBEI (enable read int.)
+		serialcomm_set_bit(serial[i].comm, IER, 1); 	//Set ERBFI (enable write int.)
 
 
-		//serialcomm_set_bit(serial[i].comm, IER, 0); 	//Set ETBEI (enable read int.)
-		//serialcomm_set_bit(serial[i].comm, IER, 0); 	//Set ERBFI (enable write int.)
-		serialcomm_write_reg(serial[i].comm, SCR, 0);
-		uint8_t test = serialcomm_read_reg(serial[i].comm, SCR);
-		printk(KERN_WARNING"Before SCR %u\n", SCR);
 
-		serialcomm_set_bit(serial[i].comm, SCR, 7);
-		test = serialcomm_read_reg(serial[i].comm, SCR);
-		printk(KERN_WARNING"After SCR %u\n", SCR);
-
-		//Enable Parity
-		serialcomm_set_bit(serial[i].comm, LCR, 3);
-		// Parity even
-		serialcomm_set_bit(serial[i].comm, LCR, 4);
-		// 2 stop bit 
-		serialcomm_set_bit(serial[i].comm, LCR, 2);
-		//Set loopback
-		//serialcomm_set_bit(serial[i].comm, MCR, 4);
 
 	}
 
@@ -284,12 +250,7 @@ static void __exit serial_driver_exit (void) {
 	int i = 0;
 	for(i = 0; i < NUM_DEVICES; i++){
 
-		serialcomm_write_reg(serial[i].comm, IER, 0);
 
-
-		if(!serial[i].IRQStatus){
-			free_irq(serial[i].PortIRQ, &serial[i]);
-		}
 
 		release_region(serial[i].PortAddr, 8);
 
@@ -298,6 +259,7 @@ static void __exit serial_driver_exit (void) {
 
 		circular_destroy(serial[i].tx_buf);
 		circular_destroy(serial[i].rx_buf);
+		free_irq(serial[i].PortIRQ, NULL);
 
 		serialcomm_deinit(serial[i].comm);
 
@@ -355,19 +317,13 @@ static int serial_driver_open(struct inode *inode, struct file *flip){
 
 	flip -> private_data = &serial[port_num];
 
-
-	/*
-	si le mode d'ouverture O_RDONLY ou O_RDWR est choisi par
-	l'usager, alors le Port Serie doit être place en mode Reception (active
-  	l'interruption de reception) afin de commencer a recevoir des donnees
-   	immediatement. */
-	if (serial[port_num].mode_r)
-		serialcomm_set_bit(serial[port_num].comm, IER ,0);
+	/*TODO : si le mode d'ouverture O_RDONLY ou O_RDWR est choisi par
+			 l'usager, alors le Port Serie doit être place en mode Reception (active
+  			 l'interruption de reception) afin de commencer a recevoir des donnees
+   			 immediatement. */
 
 	printk(KERN_WARNING"Opening Serial Driver %d ! Current mode_r = %d, mode_w= %d\n", port_num,serial[port_num].mode_r, serial[port_num].mode_w);
-	printk(KERN_WARNING"SerialDriver Opened by %d\n", serial[port_num].active_user);
-	
-
+	printk(KERN_WARNING"SerialDriver Opened by %d", serial[port_num].active_user);
 	return 0;
 
 }
@@ -377,16 +333,12 @@ static int serial_driver_release(struct inode *inode, struct file *flip){
 	int port_num = iminor(inode);
 
 	int req_mode = flip->f_flags & O_ACCMODE; // requested mode
-		
+
+	
 	serial[port_num].active_user = NULL;
 	//serial[port_num].active_mode = NULL;
 	serial[port_num].mode_w &= ~((req_mode == O_WRONLY) || (req_mode == O_RDWR));
 	serial[port_num].mode_r &= ~((req_mode == O_RDONLY) || (req_mode == O_RDWR));
-
-	if(!serial[port_num].mode_w)
-		serialcomm_rst_bit(serial[port_num].comm, IER, 1);
-	if(!serial[port_num].mode_r)
-		serialcomm_rst_bit(serial[port_num].comm, IER, 0);
 
 	printk(KERN_WARNING"Releasing Serial Driver %d! Current mode_r = %d, mode_w= %d (%d)\n", port_num,serial[port_num].mode_r, serial[port_num].mode_w, req_mode);
 
@@ -411,7 +363,7 @@ static ssize_t serial_driver_read(struct file *filp, char __user *buf, size_t co
 	
 	//int port_num = iminor(inode);
 
-	printk(KERN_ALERT"Reading SerialDriver !\n");
+	printk(KERN_WARNING"Reading SerialDriver !\n");
 	struct serial_driver_struct * p = (struct serial_driver_struct *) filp->private_data;
 	printk(KERN_WARNING"Data in rx_buf : %s\n",p->rx_buf->buffer);
 	printk(KERN_WARNING"Data requested : %d\n",count);
@@ -419,17 +371,13 @@ static ssize_t serial_driver_read(struct file *filp, char __user *buf, size_t co
 
 	char * buf_r = (char*) kmalloc(count * sizeof(char), GFP_KERNEL);	//tampon local
 
-
+	spin_lock_irq(&p->rx_buf_lock);
 
 	int i = 0;
 
-	spin_lock_irq(&p->rx_buf_lock );
-
 waitForDataInBuf:	
-	
-
 	while(p->rx_buf->num_data == 0){
-		spin_unlock_irq(&p->rx_buf_lock );
+		spin_unlock_irq(&p->rx_buf_lock);
 
 		/*
 		O_NONBLOCK:
@@ -437,16 +385,13 @@ waitForDataInBuf:
 		retourne immediatement en indiquant que (0) 
 		données ont ete fournies a l'usager.
 		*/
-		if(filp->f_flags & O_NONBLOCK){
+		if(filp->f_flags & O_NONBLOCK) {
 			return 0;
 		}
 
-		printk(KERN_WARNING"No data in read buffer, going to sleep (%d) \n", p->rx_buf->num_data );
-		
-		//serialcomm_set_bit(p->comm, IER, 0);
-
+		printk(KERN_WARNING"No data in read buffer, going to sleep \n");
 		wait_event_interruptible(p->wait_rx, p->rx_buf->num_data > 0);
-		spin_lock_irq(&p->rx_buf_lock );
+		spin_lock_irq(&p->rx_buf_lock);
 	}
 	
 	printk(KERN_WARNING"New data in read buffer, Waking up\n");
@@ -455,7 +400,7 @@ waitForDataInBuf:
 		printk(KERN_WARNING"buf size: %d\n",p->rx_buf->num_data);
 		buf_r[i] = circular_remove(p->rx_buf);
 		i++;
-	} 		
+	} 
 
 	if((i < count) && !(filp->f_flags & O_NONBLOCK))
 		goto waitForDataInBuf;
@@ -463,7 +408,7 @@ waitForDataInBuf:
 	//memcpy(data_buf, , 1);
 	spin_unlock_irq(&p->rx_buf_lock);
 
-	printk(KERN_WARNING"Data to send : %s\n", buf_r);
+	printk(KERN_WARNING"Data to send  : %s\n", buf_r);
 	copy_to_user(buf, (void *)buf_r, count);
 
 	kfree(buf_r);
@@ -474,13 +419,14 @@ waitForDataInBuf:
 
 /*
 
+
 returns:
 	-ret val = count     if the requested # of bytes has been transfered
 	-0 < ret val < count if only part of the data has been transfered
 	-ret val = 0		 if nothing was written (not an error)
 	-ret val < 0		 if an error has occurred (linux/errno.h)	
 */
-static ssize_t  serial_driver_write(struct file * filp, const char __user *buf, size_t count,
+static ssize_t serial_driver_write(struct file * filp, const char __user *buf, size_t count,
 							   loff_t *f_pos){
 
 	//int port_num = iminor(inode);
@@ -491,56 +437,32 @@ static ssize_t  serial_driver_write(struct file * filp, const char __user *buf, 
 
 	char * buf_w = (char*) kmalloc(count * sizeof(char), GFP_KERNEL);	
 	copy_from_user((void*)buf_w, buf, count);
-	
-	uint8_t val;
-	
 
-	
-
+	spin_lock_irq(&p->tx_buf_lock);
 	int i = 0;
-
-spin_lock_irq(&p->tx_buf_lock );
-
 waitForRoomInBuf:
-	
-	val = serialcomm_read_reg(p->comm, IER);
-	printk(KERN_WARNING"Write , Before IER %u\n", val);
-
-
-	serialcomm_set_bit(p->comm, IER, 1); 
-	
-	val = serialcomm_read_reg(p->comm, IER);
-	printk(KERN_WARNING"Write , After IER %u\n", val);
-
 	while(p->tx_buf->num_data == p->tx_buf->size){
-
-		//serialcomm_set_bit(p->comm, IER, 1);   //Enable transmitter holding register empty 
-
-		spin_unlock_irq(&p->tx_buf_lock );
+		spin_unlock_irq(&p->tx_buf_lock);
 		if(filp->f_flags & O_NONBLOCK)
 			return 0;		//0 donnees ont ete tranferees.
 		printk(KERN_WARNING"No room in tx buffer, going to sleep \n");
- 
 		wait_event_interruptible(p->wait_tx, p->tx_buf->num_data < p->tx_buf->size);
-		spin_lock_irq(&p->tx_buf_lock );
-	
+		spin_lock_irq(&p->tx_buf_lock);
 	}
 
 	printk(KERN_WARNING"Space available in tx buffer, Waking up\n");
 
-	char v;
-	uint8_t ret = 0 ;
 	while(i < count && p->tx_buf->num_data < p->tx_buf->size){
 		printk(KERN_WARNING"buf size: %d\n",p->tx_buf->num_data);
 		circular_add(p->tx_buf, buf_w[i]);
 		i++;
 	} 
-	
+
 	if((i < count) && !(filp->f_flags & O_NONBLOCK))
 		goto waitForRoomInBuf;
 
 	//memcpy(data_buf, , 1);
-	spin_unlock_irq(&p->tx_buf_lock );
+	spin_unlock_irq(&p->tx_buf_lock);
 	
 	//circular_display(p->c_buf);
 	kfree(buf_w);
@@ -549,57 +471,39 @@ waitForRoomInBuf:
 
 irqreturn_t serial_driver_irq(int irq, void *dev_id){
 
-	printk(KERN_WARNING"Entering IRQ\n");
+	//printk(KERN_WARNING"Entering IRQ\n");
 
 	struct serial_driver_struct * p = (struct serial_driver_struct *) dev_id; //structure perso
 	char data;
 
-	uint8_t LSR_val = serialcomm_read_reg(p->comm, LSR);
-	printk(KERN_WARNING"LSR VAL %u\n", LSR_val);
-	uint8_t IER_val = serialcomm_read_reg(p->comm, IER);
-	printk(KERN_WARNING"IER VAL %u\n", IER_val);
+	uint8_t val = serialcomm_read_reg(p->comm, LSR);
 
-	//If Transmitter empty  and is ready to send data
-	if((LSR_val & 0x20) && (IER_val & 0x02) ){
-		printk(KERN_WARNING"IRQ ready to send\n");
-
-
+	//If Transmitter empty  and is ready to receive new data
+	if((val & 0x40) && (val & 0x20)){
 		spin_lock(&p->tx_buf_lock);
 		
 		data = circular_remove(p->tx_buf);
 		serialcomm_write_reg(p->comm, THR, data);
-		
-		//Si on a plus de donnees a envoyer, on a plus besoin de generer des interruptions TEMT
-		if(p->tx_buf->num_data == 0)		
-			serialcomm_rst_bit(p->comm, IER, 1);
-		
-		wake_up_interruptible(&p->wait_tx);
+
 		spin_unlock(&p->tx_buf_lock);
+		wake_up(&p->wait_tx);
 		return IRQ_HANDLED;
 	}
 	//If a data has arrived
-	if((LSR_val & 0x01) && (IER_val & 0x01)){
-		printk(KERN_WARNING"IRQ ready to recieve\n");
-
+	if(val & 0x01){
 		spin_lock(&p->rx_buf_lock);
-		if(p->rx_buf->num_data < p->rx_buf->size){
-			//si il y a de la place dans le tampon circulaire 
-			data = serialcomm_read_reg(p->comm, RBR);
-
-			printk(KERN_WARNING"RBR Buff Data %c\n", data);
-
-			circular_add(p->rx_buf, data);
-			//serialcomm_rst_bit(p->comm, FCR, 1); //FIFO de reception Reset<
-
-		}
-		//serialcomm_rst_bit(p->comm, IER, 0);
-		wake_up_interruptible(&p->wait_rx);
+		
+		data = serialcomm_read_reg(p->comm, RBR);;
+		circular_add(p->rx_buf, data);
+		
 		spin_unlock(&(p->rx_buf_lock));
+		wake_up(&p->wait_rx);
 		return IRQ_HANDLED;
 
 	}
-	printk(KERN_WARNING"Exiting IRQ\n");
-	return IRQ_HANDLED;
+	//printk(KERN_WARNING"Exiting IRQ\n");
+
+	return IRQ_NONE;
 }
 
 

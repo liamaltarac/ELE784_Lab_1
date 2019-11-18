@@ -63,6 +63,7 @@ char  circular_remove(circular * c){
 		//printk("Tail : %d (%c)", c->tail, c->buffer[c->tail]);
 		c->buffer[c->tail] = NULL;
 		c->tail = (c->tail+1) % c->size;
+		c->num_data -= 1;
 	}
 	return removed_data;
 }

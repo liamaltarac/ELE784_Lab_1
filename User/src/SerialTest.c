@@ -22,7 +22,7 @@
 
 #include <ctype.h>
 
-char buffer[1024];
+char buffer[5];
 int main(int argc, char *argv[]) {
 
 	int fd = 1;
@@ -79,12 +79,13 @@ int main(int argc, char *argv[]) {
 				printf("Cannot open Node %s.\n", node);
 				return -1;
 			}
+			printf("Opened write mode : %d\n", fd);
+
 			if(continuous){
 				printf(">>>\t");
 				fflush(stdout);
 				scanf("%s", data);
 			}
-			size = strlen(data);
 			printf("\tWriting %d bytes to %s\n", (int)strlen(data), node);
 			err = write(fd, strcat(data, "\n"), size);
 			close(fd);
@@ -107,17 +108,21 @@ int main(int argc, char *argv[]) {
 		//data = malloc(tramSize);
 		char data = 0;
 		//while(data != '\n'){
-			printf("OK\n");
-			if((fd = open(node, O_RDONLY | O_NONBLOCK)) == -1){
+			printf("OK %d, %s\n", tramSize, node);
+			fd = open(node, O_RDWR );
+			if(fd == -1){
 					printf("Cannot open Node %s.\n\n", node);
 					return -1;
 			}
-			data = read(fd, buffer, tramSize);
+			//sleep(2);
+			printf("Opened read mode : %d\n", fd);
+
+			read(fd, buffer, tramSize);
 			//printf("Non blocking %ul\n" ,(int)O_NONBLOCK);
 			//printf("%s, %d\n",buffer, 1);
 
 			//int x = read(fd, buffer, 1024);
-			printf("%s\n",buffer);
+			printf("Message : %s\n",buffer);
 			//lseek(fd, 0, SEEK_SET);
 
 
