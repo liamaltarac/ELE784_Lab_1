@@ -28,6 +28,7 @@ serialcomm * serialcomm_init(int base_addr){
 
 	s->current_dlab = -1;
 	s->base_addr = base_addr;
+	//serialcomm_set_baud(s, 9600);
 	return s;
 }
 
@@ -98,7 +99,7 @@ uint8_t serialcomm_read_reg(serialcomm * s, uint8_t adresse, int dlab, uint8_t a
 		rmb();
 		outb((ret & ~(1 << 7)) | (dlab << 7), s->base_addr + LCR_ADDR); //toggle DLAB to 1
 	}
-	printk(KERN_WARNING"Base ADDR : %d ", s->base_addr);
+	//printk(KERN_WARNING"Base ADDR : %d ", s->base_addr);
 	ret = inb(s->base_addr + adresse);
 	rmb();
 

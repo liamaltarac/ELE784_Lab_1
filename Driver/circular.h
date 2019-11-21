@@ -22,5 +22,5 @@ void   circular_remove_n(circular * c, char * removed_data, int n);
 
 void   circular_reset(circular * c);
 void   circular_destroy(circular * c);
-
+void circular_display(circular * c);
 
