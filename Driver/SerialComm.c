@@ -28,14 +28,19 @@ serialcomm * serialcomm_init(int base_addr){
 
 	s->current_dlab = -1;
 	s->base_addr = base_addr;
+	//serialcomm_set_baud(s, 9600);
 	return s;
 }
 
 //returns baud rate that was set
 int serialcomm_set_baud(serialcomm * s, int baud_rate){
 	uint16_t div = FCLK / (16 * baud_rate);
-	serialcomm_write_reg(s, DLM, div > 8);		//set dlm to upper 8 bits of div
+	serialcomm_write_reg(s, DLM, div >> 8);		//set dlm to upper 8 bits of div
 	serialcomm_write_reg(s, DLL, div & 0x0F);	//set dlm to lower 8 bits of div 
+	uint8_t dll_val = serialcomm_read_reg(s, DLL);
+	uint8_t dlm_val = serialcomm_read_reg(s, DLM);
+	printk(KERN_WARNING"DLL VAL %u", dll_val);
+	printk(KERN_WARNING"DLM VAL %u", dlm_val);
 	return  FCLK / (16 * div);
 
 }
@@ -98,7 +103,7 @@ uint8_t serialcomm_read_reg(serialcomm * s, uint8_t adresse, int dlab, uint8_t a
 		rmb();
 		outb((ret & ~(1 << 7)) | (dlab << 7), s->base_addr + LCR_ADDR); //toggle DLAB to 1
 	}
-	printk(KERN_WARNING"Base ADDR : %d ", s->base_addr);
+	//printk(KERN_WARNING"Base ADDR : %d ", s->base_addr);
 	ret = inb(s->base_addr + adresse);
 	rmb();
 

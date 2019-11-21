@@ -36,7 +36,7 @@ circular * circular_init(int buffer_size){
 
 void circular_add(circular * c, char data){
 	if(c->buffer[c->head] != NULL){
-		//printf("here\n");
+		printk(KERN_WARNING"Not adding to Circ. buff");
 		return;
 	}
 	c->buffer[c->head] = data;
@@ -85,6 +85,7 @@ void  circular_reset(circular * c){
 	}
 	c->head = 0;
 	c->tail = 0;
+	c->num_data = 0;
 	return;
 }
 
@@ -95,17 +96,40 @@ void circular_destroy(circular * c){
 	return;
 }
 
-/*void circular_display(circular * c){
+char b[10];
+
+void circular_display(circular * c){
 	//char * val;
 	int i = 0;
-	while(i < c->num_data){
+
+	printk(KERN_WARNING"(head, %d et tail, %d (tail),", c->head, c->tail);
+
+	while(i < c->num_data+1){
 		//val = 
-		if(c->buffer[i] == NULL)
-			//printk(KERN_WARNING" NULL ");
-		else
-			//printk(KERN_WARNING"%c (%p1) ,", c->buffer[i], &c->buffer[i]);
+		if(c->buffer[i] == NULL){
+			if(i == c->tail)
+				printk(KERN_WARNING"(%d) NULL (tail),", i);
+			else if(i == c->head)
+				printk(KERN_WARNING"(%d) NULL (head),", i);
+			else if(i == c->head && i == c->tail)
+				printk(KERN_WARNING"(%d) NULL (head), (tail)", i);
+			else 
+				printk(KERN_WARNING"(%d) NULL", i);
+			//snprintf(b, 5, "NULL");
+		}
+		else{
+			if(i == c->tail)
+				printk(KERN_WARNING"(%d) %c (tail),", i, c->buffer[i]);
+			else if(i == c->head)
+				printk(KERN_WARNING"(%d) %c (head),", i, c->buffer[i]);
+			else if(i == c->head && i == c->tail)
+				printk(KERN_WARNING"(%d) %c (head), (tail)", i);
+			else 
+				printk(KERN_WARNING"(%d) %c,", i, c->buffer[i]);
+		}
+
 		i++;
 	} 
 	//printk(KERN_WARNING"head: %d, tail: %d\n", c->head, c->tail);
 	return;
-} */
+} 
