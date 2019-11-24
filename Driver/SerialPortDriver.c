@@ -45,8 +45,8 @@ static ssize_t serial_driver_read(struct file *filp, char __user *buf, size_t co
 static ssize_t serial_driver_write(struct file * filp, const char __user *buf, size_t count,
                                    loff_t *f_pos);
 irqreturn_t serial_driver_irq(int irq, void *dev_id);
-static int serial_driver_ioctl (struct inode *inode, struct file *filp,
-		unsigned int cmd, unsigned long arg);
+static long serial_driver_ioctl (struct file *filp,
+                                unsigned int cmd, unsigned long arg);
 
 
 struct file_operations 	serial_fops = {
@@ -55,7 +55,7 @@ struct file_operations 	serial_fops = {
 	.release = serial_driver_release,
 	.read 	 = serial_driver_read,
 	.write 	 = serial_driver_write,
-	.ioctl	 = serial_driver_ioctl
+	.unlocked_ioctl	 = serial_driver_ioctl
 };
 
 
@@ -92,9 +92,7 @@ MODULE_PARM_DESC(Port1IRQ  , "Serial Port 1 IRQ Number");
 struct serial_driver_struct {
 
 	int size;
-	struct cdev * cdev;
 
-	struct class * dev_class;
 
 	char non_blocking;
 
@@ -117,9 +115,13 @@ struct serial_driver_struct {
 
 	serialcomm * comm;
 
-
 };
 
+
+struct Driver_Info{
+	struct cdev cdev;
+	struct class * dev_class;
+}driver_info;
 
 unsigned long read_spin_flags;
 unsigned long write_spin_flags;
@@ -146,12 +148,6 @@ static int __init serial_driver_init (void) {
 
 	printk(KERN_WARNING"Starting \n");
 
-	//Allocation dynamique d`un numero d`unite-materiel
-	if (alloc_chrdev_region(&dev, 0, NUM_DEVICES, "SerialDriver") < 0) {
-		printk(KERN_WARNING"alloc_chrdev_region failed \n");
-		return -EAGAIN;
-	}
-
 	int i = 0;
 	for (i = 0; i < NUM_DEVICES; i++) {
 
@@ -166,42 +162,23 @@ static int __init serial_driver_init (void) {
 			//return -EAGAIN;
 		}
 
-		serial[i].dev = MKDEV(MAJOR(dev), MINOR(dev) + i);
+//		serial[i].dev = MKDEV(MAJOR(dev), MINOR(dev) + i);
 
-		serial[i].cdev = cdev_alloc();
-		if (serial[i].cdev == NULL) {
-			printk(KERN_WARNING"cdev_alloc FAIL");
-			goto fail_cdev_alloc;
-		}
-		serial[i].cdev->ops = &serial_fops;
 
-		snprintf(t_buf, 20, "Serial Driver %d", i);
-		serial[i].dev_class = class_create(THIS_MODULE, t_buf);
 
-		device_create(serial[i].dev_class, NULL,
-		              serial[i].dev,
-		              NULL, "SerialDev%d", i);
-
-		cdev_init(serial[i].cdev, &serial_fops);
-
-		if (cdev_add(serial[i].cdev, serial[i].dev, 1) < 0) {
-			printk(KERN_WARNING"device_create FAIL");
-			goto fail_cdev_add;
-			return -EAGAIN;
-		}
-
-		serial[i].tx_buf = circular_init(8);
-		serial[i].rx_buf = circular_init(8);
 
 		printk(KERN_WARNING"Requesting IRQ (%d) \n", serial[i].PortIRQ);
 		snprintf(t_buf, 20, "serial_irq_%d", i);
 
 		serial[i].IRQStatus = -1;
 		serial[i].IRQStatus = request_irq(serial[i].PortIRQ, serial_driver_irq, IRQF_SHARED, t_buf, &serial[i]);  // == IRQ_NONE){
-		if (serial[i].IRQStatus < 0)
-			goto fail_request_irq;
-
 		printk(KERN_WARNING"Request IRQ Status (%d) \n", serial[i].IRQStatus);
+		if (serial[i].IRQStatus < 0)
+			goto fail_request_irq; 
+
+		serial[i].tx_buf = circular_init(8);
+		serial[i].rx_buf = circular_init(8);
+
 
 		init_waitqueue_head(&(serial[i].wait_rx));
 		init_waitqueue_head(&(serial[i].wait_tx));
@@ -252,11 +229,54 @@ static int __init serial_driver_init (void) {
 		num_devices_installed++;
 	}
 
+		//Allocation dynamique d`un numero d`unite-materiel
+				printk(KERN_WARNING"Alloc chrdev");
+
+	if (alloc_chrdev_region(&dev, 0, NUM_DEVICES, "SerialDriver") < 0) {
+		printk(KERN_WARNING"alloc_chrdev_region failed \n");
+		return -EAGAIN;
+	}
+
+
+/*	driver_info.cdev = cdev_alloc();
+	if (driver_info.cdev == NULL) {
+		printk(KERN_WARNING"cdev_alloc FAIL");
+		goto fail_cdev_alloc;
+	}*/
+
+
+	//snprintf(t_buf, 20, "Serial Driver %d", i);
+					printk(KERN_WARNING"class crate");
+
+	driver_info.dev_class = class_create(THIS_MODULE, "Serial Driver");
+	// i=0;
+						printk(KERN_WARNING"dev create");
+
+		for(i = 0 ; i < NUM_DEVICES; i++){
+			serial[i].dev = MKDEV(MAJOR(dev), MINOR(dev) + i);
+			device_create(driver_info.dev_class, NULL,
+		              serial[i].dev,
+		              NULL, "SerialDev%d", i);
+			printk(KERN_WARNING"Creating Device SerialDev%d\n", i);
+
+		}
+
+	cdev_init(&driver_info.cdev, &serial_fops);
+	driver_info.cdev.ops = &serial_fops;
+	driver_info.cdev.owner = THIS_MODULE;
+
+	if (cdev_add(&driver_info.cdev, serial[0].dev, NUM_DEVICES) < 0) {
+		printk(KERN_WARNING"device_create FAIL");
+		goto fail_cdev_add;
+	}
+
+
+
 	return 0;
 
 fail_request_irq:
-fail_cdev_add:	 	 device_destroy(serial[i].dev_class, serial[i].dev);
-					 class_destroy(serial[i].dev_class);
+fail_cdev_add:	 	 device_destroy(driver_info.dev_class, serial[i].dev);
+					 class_destroy(driver_info.dev_class);
 fail_cdev_alloc:     release_region(serial[i].PortAddr, 8);
 fail_request_region: return -EAGAIN;
 
@@ -272,19 +292,23 @@ static void __exit serial_driver_exit (void) {
 
 	printk(KERN_WARNING"Exiting\n");
 	int i = 0;
+
+	cdev_del(&driver_info.cdev);
+	for (i = 0; i < num_devices_installed; i++){
+		device_destroy(driver_info.dev_class, serial[i].dev);
+	}
+	class_destroy(driver_info.dev_class);
+
+	unregister_chrdev_region(serial[0].dev, NUM_DEVICES);
+
 	for (i = 0; i < num_devices_installed; i++) {
 
 		serialcomm_write_reg(serial[i].comm, IER, 0);
-
-
+		
 		if (!serial[i].IRQStatus) {
 			free_irq(serial[i].PortIRQ, &serial[i]);
 		}
-
-		device_destroy(serial[i].dev_class, serial[i].dev);
-		class_destroy(serial[i].dev_class);
 		release_region(serial[i].PortAddr, 8);
-
 
 		circular_destroy(serial[i].tx_buf);
 		circular_destroy(serial[i].rx_buf);
@@ -295,7 +319,6 @@ static void __exit serial_driver_exit (void) {
 
 	}
 
-	unregister_chrdev_region(dev, NUM_DEVICES);
 
 
 	return;
@@ -358,6 +381,7 @@ static int serial_driver_open(struct inode *inode, struct file *flip) {
 	if (serial[port_num].mode_r)
 		serialcomm_set_bit(serial[port_num].comm, IER , 0);
 
+
 	printk(KERN_WARNING"Opening Serial Driver %d ! Current mode_r = %d, mode_w= %d\n", port_num, serial[port_num].mode_r, serial[port_num].mode_w);
 	printk(KERN_WARNING"SerialDriver Opened by %d\n", serial[port_num].active_user);
 
@@ -381,7 +405,10 @@ static int serial_driver_release(struct inode *inode, struct file *flip) {
 	//	serialcomm_rst_bit(serial[port_num].comm, IER, 1);
 	if (!serial[port_num].mode_r)
 		serialcomm_rst_bit(serial[port_num].comm, IER, 0);
-
+	
+	/*if (!serial[port_num].IRQStatus) {
+		free_irq(serial[port_num].PortIRQ, &serial[port_num]);
+	} */
 	printk(KERN_WARNING"Releasing Serial Driver %d! Current mode_r = %d, mode_w= %d (%d)\n", port_num, serial[port_num].mode_r, serial[port_num].mode_w, req_mode);
 
 	//clear_bit(serial.not_available);
@@ -579,7 +606,7 @@ irqreturn_t serial_driver_irq(int irq, void *dev_id) {
 	uint8_t LSR_val = serialcomm_read_reg(p->comm, LSR);
 	printk(KERN_WARNING"LSR VAL %u\n", LSR_val);
 	uint8_t IER_val = serialcomm_read_reg(p->comm, IER);
-	//printk(KERN_WARNING"IER VAL %u\n", IER_val);
+	printk(KERN_WARNING"IER VAL %u\n", IER_val);
 
 	//If Transmitter empty  and is ready to send data
 	if ((LSR_val & 0x20) && (IER_val & 0x02) ) {
@@ -635,6 +662,7 @@ irqreturn_t serial_driver_irq(int irq, void *dev_id) {
 
 	}
 	if (IER_val >= 0x4) {
+		//serialcomm_write_reg(p->comm, FCR, 0x03);
 		serialcomm_rst_bit(p->comm, IER , 2);
 		serialcomm_rst_bit(p->comm, IER , 3);
 	}
@@ -643,57 +671,64 @@ irqreturn_t serial_driver_irq(int irq, void *dev_id) {
 	return IRQ_HANDLED;
 }
 
-static int serial_driver_ioctl (struct inode *inode, struct file *filp,
-					unsigned int cmd, unsigned long arg){
+static long serial_driver_ioctl (struct file *filp,
+                                unsigned int cmd, unsigned long arg) {
 	int retval = 0;
-	int user_data= 0;
+	int user_data = 0;
+
+	//printk(KERN_ALERT"IOCTL %d, arg %d \n", cmd, arg);	
+
 	struct serial_driver_struct * p = (struct serial_driver_struct *) filp->private_data;
-	switch(cmd){
+	switch (cmd) {
 	case SERIAL_DRIVER_SET_BAUD_RATE:
-		get_user(user_data, (int __user *) arg);
-		if (user_data>=50 && user_data<=115200){
-			serialcomm_set_baud(serial[iminor(inode)].comm, user_data);
+		get_user(user_data, (int *) arg);
+		printk(KERN_ALERT"IOCTL baud %d\n", user_data);	
+
+		if (user_data >= 50 && user_data <= 115200) {
+			serialcomm_set_baud(p->comm, user_data);
 			retval = user_data;
 		}
 		else return -ENOTTY;
 
 		break;
-	case SERIAL_DRIVER_SET_DATA_SIZE:
-		get_user(user_data, (int __user *) arg);
-		if (user_data>=5 && user_data<=8){
-			serialcomm_set_word_len(serial[iminor(inode)].comm, user_data);
-			retval = user_data;
-		}
-		else return -ENOTTY;
+		/*case SERIAL_DRIVER_SET_DATA_SIZE:
+			get_user(user_data, (int __user *) arg);
+			if (user_data>=5 && user_data<=8){
+				serialcomm_set_word_len(serial[iminor(inode)].comm, user_data);
+				retval = user_data;
+			}
+			else return -ENOTTY;
 
-		break;
-	case SERIAL_DRIVER_SET_PARITY:
-		get_user(user_data, (int __user *) arg);
-		if (user_data>=0 && user_data<=2){
-			serialcomm_set_parity(serial[iminor(inode)].comm, user_data);
-			retval = user_data;
-		}
-		else return -ENOTTY;
+			break;
+		case SERIAL_DRIVER_SET_PARITY:
+			get_user(user_data, (int __user *) arg);
+			if (user_data>=0 && user_data<=2){
+				serialcomm_set_parity(serial[iminor(inode)].comm, user_data);
+				retval = user_data;
+			}
+			else return -ENOTTY;
 
-		break;
-	case SERIAL_DRIVER_GET_BUF_SIZE:
-		retval = put_user(serial[iminor(inode)].size,(int __user *)arg);
+			break;
+		case SERIAL_DRIVER_GET_BUF_SIZE:
+			retval = put_user(serial[iminor(inode)].size,(int __user *)arg);
+				return -ENOTTY;
+			break;
+		case SERIAL_DRIVER_SET_BUF_SIZE:
+			if(!capable(CAP_SYS_ADMIN)) return -EPERM;
+			get_user(user_data, (int __user *) arg);
+			spin_lock(&p->tx_buf_lock);
+			spin_lock(&p->rx_buf_lock);
+			if(user_data<0 && user_data>p->rx_buf->num_data && user_data>p->tx_buf->num_data)
+				return -ENOTTY;
+			// ON GOING!!!
+
+
+			break;
+		default:
 			return -ENOTTY;
-		break;
-	case SERIAL_DRIVER_SET_BUF_SIZE:
-		if(!capable(CAP_SYS_ADMIN)) return -EPERM;
-		get_user(user_data, (int __user *) arg);
-		spin_lock(&p->tx_buf_lock);
-		spin_lock(&p->rx_buf_lock);
-		if(user_data<0 && user_data>p->rx_buf->num_data && user_data>p->tx_buf->num_data)
-			return -ENOTTY;
-		// ON GOING!!!
-
-		re
-		break;
-	default:
-		return -ENOTTY;
+		*/
 	}
+
 	return retval;
 }
 module_init(serial_driver_init);

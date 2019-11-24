@@ -16,11 +16,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include <sys/ioctl.h>      
 #include <unistd.h>
 #include <fcntl.h>
 
 #include <ctype.h>
+#include "serial_driver_ioctl.h"
 
 char buffer[5];
 int main(int argc, char *argv[]) {
@@ -35,6 +36,7 @@ int main(int argc, char *argv[]) {
 	char continuous = 0;
 	int tramSize = 1;
 	int nonBlocking = O_NONBLOCK;
+	int baud = 9600;
 	/*Extraire les arguments : -w pour ecrire (write)
 							   -r pour lire (read) en continu
 							   -d pour data   (en mode ecriture)
@@ -56,14 +58,14 @@ int main(int argc, char *argv[]) {
 		if(!strcmp(argv[i], "-c") || !strcmp(argv[i], "-C"))
 			continuous = 1;
 		if(!strcmp(argv[i], "-b") || !strcmp(argv[i], "-B"))
-			nonBlocking = 0;
+			baud = atoi(argv[i+1]);
 		if(!strcmp(argv[i], "-?") ){
 			printf("usage: ./%s <noeud> {-R|-W} [-d donnnées] [-s taille] [-cb?]\n\n", PROGRAM);
 			printf("\tnoeud : Emplacement du noeud. Ex.: /dev/pts/1\n");
 			printf("\tR : Mode lecture  (Read) (DEFAULT)\n");
-			printf("\tW : Mode ecriture (Write)\n");
+			printf("\tW : Mde ecriture (Write)\n");
 			printf("\tc : Pour envoyer des données en continu\n");
-			printf("\tb : Lecture/Ectriture se fait en mode bloquant\n");
+			printf("\tb : Baud Rate\n");
 			printf("\t? : Pour avoir de l'aide avec les arguments\n\n");
 			printf("\td donnnées : Données a envoyer si non en continu (en string)\n");
 			printf("\ts taille : Taille (en bytes) de la trame a lire\n\n");
@@ -79,7 +81,8 @@ int main(int argc, char *argv[]) {
 				printf("Cannot open Node %s.\n", node);
 				return -1;
 			}
-			printf("Opened write mode : %d\n", fd);
+			ioctl(fd, SERIAL_DRIVER_SET_BAUD_RATE, &baud);
+			printf("Opened write mode : %d at baud :  %d\n", fd, baud);
 
 			if(continuous){
 				printf(">>>\t");
@@ -114,6 +117,7 @@ int main(int argc, char *argv[]) {
 					printf("Cannot open Node %s.\n\n", node);
 					return -1;
 			}
+			ioctl(fd, SERIAL_DRIVER_SET_BAUD_RATE, &baud);
 			//sleep(2);
 			printf("Opened read mode : %d\n", fd);
 

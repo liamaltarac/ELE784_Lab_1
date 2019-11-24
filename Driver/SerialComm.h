@@ -26,6 +26,8 @@
 #define SCR_ADDR 0x07
 
 
+
+
 //Reg_name   address,dlab,permission(r/w)
 #define RBR RBR_ADDR,  0, R
 #define THR THR_ADDR,  0 ,W

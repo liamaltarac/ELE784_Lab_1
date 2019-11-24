@@ -1,0 +1,3468 @@
+[    0.000000] microcode: microcode updated early to revision 0x21, date = 2019-02-13
+[    0.000000] Linux version 4.15.18 (root@ele-a2459-04) (gcc version 7.4.0 (Ubuntu 7.4.0-1ubuntu1~18.04.1)) #2 SMP PREEMPT Fri Oct 25 11:32:16 EDT 2019 (Ubuntu 4.15.0-23.25-generic 4.15.18)
+[    0.000000] Command line: BOOT_IMAGE=/boot/vmlinuz-4.15.18 root=UUID=08f513db-4ecd-40da-a6f2-bfe581a76ff5 ro quiet splash vt.handoff=1
+[    0.000000] KERNEL supported cpus:
+[    0.000000]   Intel GenuineIntel
+[    0.000000]   AMD AuthenticAMD
+[    0.000000]   Centaur CentaurHauls
+[    0.000000] x86/fpu: Supporting XSAVE feature 0x001: 'x87 floating point registers'
+[    0.000000] x86/fpu: Supporting XSAVE feature 0x002: 'SSE registers'
+[    0.000000] x86/fpu: Supporting XSAVE feature 0x004: 'AVX registers'
+[    0.000000] x86/fpu: xstate_offset[2]:  576, xstate_sizes[2]:  256
+[    0.000000] x86/fpu: Enabled xstate features 0x7, context size is 832 bytes, using 'standard' format.
+[    0.000000] e820: BIOS-provided physical RAM map:
+[    0.000000] BIOS-e820: [mem 0x0000000000000000-0x000000000009f7ff] usable
+[    0.000000] BIOS-e820: [mem 0x000000000009f800-0x000000000009ffff] reserved
+[    0.000000] BIOS-e820: [mem 0x00000000000e0000-0x00000000000fffff] reserved
+[    0.000000] BIOS-e820: [mem 0x0000000000100000-0x00000000de357fff] usable
+[    0.000000] BIOS-e820: [mem 0x00000000de358000-0x00000000de93afff] reserved
+[    0.000000] BIOS-e820: [mem 0x00000000de93b000-0x00000000deb69fff] ACPI NVS
+[    0.000000] BIOS-e820: [mem 0x00000000deb6a000-0x00000000deb7bfff] ACPI data
+[    0.000000] BIOS-e820: [mem 0x00000000deb7c000-0x00000000debbafff] ACPI NVS
+[    0.000000] BIOS-e820: [mem 0x00000000debbb000-0x00000000debbffff] ACPI data
+[    0.000000] BIOS-e820: [mem 0x00000000debc0000-0x00000000dec02fff] ACPI NVS
+[    0.000000] BIOS-e820: [mem 0x00000000dec03000-0x00000000deffffff] usable
+[    0.000000] BIOS-e820: [mem 0x00000000f8000000-0x00000000fbffffff] reserved
+[    0.000000] BIOS-e820: [mem 0x00000000fec00000-0x00000000fec00fff] reserved
+[    0.000000] BIOS-e820: [mem 0x00000000fed00000-0x00000000fed03fff] reserved
+[    0.000000] BIOS-e820: [mem 0x00000000fed1c000-0x00000000fed44fff] reserved
+[    0.000000] BIOS-e820: [mem 0x00000000fed90000-0x00000000fed93fff] reserved
+[    0.000000] BIOS-e820: [mem 0x00000000fee00000-0x00000000fee00fff] reserved
+[    0.000000] BIOS-e820: [mem 0x00000000ff000000-0x00000000ffffffff] reserved
+[    0.000000] BIOS-e820: [mem 0x0000000100000000-0x000000021dffffff] usable
+[    0.000000] NX (Execute Disable) protection: active
+[    0.000000] random: fast init done
+[    0.000000] SMBIOS 2.7 present.
+[    0.000000] DMI: Hewlett-Packard HP Compaq Elite 8300 CMT/3396, BIOS K01 v02.05 05/07/2012
+[    0.000000] e820: update [mem 0x00000000-0x00000fff] usable ==> reserved
+[    0.000000] e820: remove [mem 0x000a0000-0x000fffff] usable
+[    0.000000] e820: last_pfn = 0x21e000 max_arch_pfn = 0x400000000
+[    0.000000] MTRR default type: uncachable
+[    0.000000] MTRR fixed ranges enabled:
+[    0.000000]   00000-9FFFF write-back
+[    0.000000]   A0000-BFFFF uncachable
+[    0.000000]   C0000-D3FFF write-protect
+[    0.000000]   D4000-E7FFF uncachable
+[    0.000000]   E8000-FFFFF write-protect
+[    0.000000] MTRR variable ranges enabled:
+[    0.000000]   0 base 000000000 mask E00000000 write-back
+[    0.000000]   1 base 200000000 mask FE0000000 write-back
+[    0.000000]   2 base 0E0000000 mask FE0000000 uncachable
+[    0.000000]   3 base 21E000000 mask FFE000000 uncachable
+[    0.000000]   4 disabled
+[    0.000000]   5 disabled
+[    0.000000]   6 disabled
+[    0.000000]   7 disabled
+[    0.000000]   8 disabled
+[    0.000000]   9 disabled
+[    0.000000] x86/PAT: Configuration [0-7]: WB  WC  UC- UC  WB  WP  UC- WT  
+[    0.000000] total RAM covered: 8160M
+[    0.000000] Found optimal setting for mtrr clean up
+[    0.000000]  gran_size: 64K 	chunk_size: 64M 	num_reg: 6  	lose cover RAM: 0G
+[    0.000000] e820: update [mem 0xe0000000-0xffffffff] usable ==> reserved
+[    0.000000] e820: last_pfn = 0xdf000 max_arch_pfn = 0x400000000
+[    0.000000] found SMP MP-table at [mem 0x000f4cd0-0x000f4cdf] mapped at [        (ptrval)]
+[    0.000000] Scanning 1 areas for low memory corruption
+[    0.000000] Base memory trampoline at [        (ptrval)] 99000 size 24576
+[    0.000000] BRK [0x134b45000, 0x134b45fff] PGTABLE
+[    0.000000] BRK [0x134b46000, 0x134b46fff] PGTABLE
+[    0.000000] BRK [0x134b47000, 0x134b47fff] PGTABLE
+[    0.000000] BRK [0x134b48000, 0x134b48fff] PGTABLE
+[    0.000000] BRK [0x134b49000, 0x134b49fff] PGTABLE
+[    0.000000] BRK [0x134b4a000, 0x134b4afff] PGTABLE
+[    0.000000] BRK [0x134b4b000, 0x134b4bfff] PGTABLE
+[    0.000000] BRK [0x134b4c000, 0x134b4cfff] PGTABLE
+[    0.000000] BRK [0x134b4d000, 0x134b4dfff] PGTABLE
+[    0.000000] BRK [0x134b4e000, 0x134b4efff] PGTABLE
+[    0.000000] BRK [0x134b4f000, 0x134b4ffff] PGTABLE
+[    0.000000] RAMDISK: [mem 0x311d1000-0x348dffff]
+[    0.000000] ACPI: Early table checksum verification disabled
+[    0.000000] ACPI: RSDP 0x00000000000F9810 000024 (v02 HPQOEM)
+[    0.000000] ACPI: XSDT 0x00000000DEB6A080 00007C (v01 HPQOEM SLIC-BPC 01072009 AMI  00010013)
+[    0.000000] ACPI: FACP 0x00000000DEB73FD8 0000F4 (v04 HPQOEM SLIC-BPC 01072009 AMI  00010013)
+[    0.000000] ACPI: DSDT 0x00000000DEB6A188 009E4A (v02 HPQOEM SLIC-BPC 00000017 INTL 20051117)
+[    0.000000] ACPI: FACS 0x00000000DEBB2F80 000040
+[    0.000000] ACPI: APIC 0x00000000DEB740D0 0000BC (v03 HPQOEM SLIC-BPC 01072009 AMI  00010013)
+[    0.000000] ACPI: MCFG 0x00000000DEB74190 00003C (v01 HPQOEM SLIC-BPC 01072009 MSFT 00000097)
+[    0.000000] ACPI: HPET 0x00000000DEB741D0 000038 (v01 HPQOEM SLIC-BPC 01072009 AMI. 00000005)
+[    0.000000] ACPI: SSDT 0x00000000DEB74208 000460 (v01 IdeRef IdeTable 00001000 INTL 20091112)
+[    0.000000] ACPI: SSDT 0x00000000DEB74668 00544C (v01 COMPAQ WMI      00000001 MSFT 03000001)
+[    0.000000] ACPI: SSDT 0x00000000DEB79AB8 0009AA (v01 PmRef  Cpu0Ist  00003000 INTL 20051117)
+[    0.000000] ACPI: SSDT 0x00000000DEB7A468 000A92 (v01 PmRef  CpuPm    00003000 INTL 20051117)
+[    0.000000] ACPI: TCPA 0x00000000DEB7AF00 000032 (v02 APTIO4 NAPAASF  00000001 MSFT 01000013)
+[    0.000000] ACPI: ASF! 0x00000000DEB7AF38 0000A5 (v32 INTEL   HCG     00000001 TFSM 000F4240)
+[    0.000000] ACPI: BGRT 0x00000000DEB7AFE0 00003C (v00 HPQOEM SLIC-BPC 01072009 AMI  00010013)
+[    0.000000] ACPI: Local APIC address 0xfee00000
+[    0.000000] No NUMA configuration found
+[    0.000000] Faking a node at [mem 0x0000000000000000-0x000000021dffffff]
+[    0.000000] NODE_DATA(0) allocated [mem 0x21dfd2000-0x21dffcfff]
+[    0.000000] tsc: Fast TSC calibration using PIT
+[    0.000000] Zone ranges:
+[    0.000000]   DMA      [mem 0x0000000000001000-0x0000000000ffffff]
+[    0.000000]   DMA32    [mem 0x0000000001000000-0x00000000ffffffff]
+[    0.000000]   Normal   [mem 0x0000000100000000-0x000000021dffffff]
+[    0.000000]   Device   empty
+[    0.000000] Movable zone start for each node
+[    0.000000] Early memory node ranges
+[    0.000000]   node   0: [mem 0x0000000000001000-0x000000000009efff]
+[    0.000000]   node   0: [mem 0x0000000000100000-0x00000000de357fff]
+[    0.000000]   node   0: [mem 0x00000000dec03000-0x00000000deffffff]
+[    0.000000]   node   0: [mem 0x0000000100000000-0x000000021dffffff]
+[    0.000000] Initmem setup node 0 [mem 0x0000000000001000-0x000000021dffffff]
+[    0.000000] On node 0 totalpages: 2082547
+[    0.000000]   DMA zone: 64 pages used for memmap
+[    0.000000]   DMA zone: 21 pages reserved
+[    0.000000]   DMA zone: 3998 pages, LIFO batch:0
+[    0.000000]   DMA32 zone: 14174 pages used for memmap
+[    0.000000]   DMA32 zone: 907093 pages, LIFO batch:31
+[    0.000000]   Normal zone: 18304 pages used for memmap
+[    0.000000]   Normal zone: 1171456 pages, LIFO batch:31
+[    0.000000] Reserved but unavailable: 98 pages
+[    0.000000] ACPI: PM-Timer IO Port: 0x408
+[    0.000000] ACPI: Local APIC address 0xfee00000
+[    0.000000] ACPI: LAPIC_NMI (acpi_id[0x00] high edge lint[0x1])
+[    0.000000] ACPI: LAPIC_NMI (acpi_id[0x02] high edge lint[0x1])
+[    0.000000] ACPI: LAPIC_NMI (acpi_id[0x04] high edge lint[0x1])
+[    0.000000] ACPI: LAPIC_NMI (acpi_id[0x06] high edge lint[0x1])
+[    0.000000] ACPI: LAPIC_NMI (acpi_id[0x01] high edge lint[0x1])
+[    0.000000] ACPI: LAPIC_NMI (acpi_id[0x03] high edge lint[0x1])
+[    0.000000] ACPI: LAPIC_NMI (acpi_id[0x05] high edge lint[0x1])
+[    0.000000] ACPI: LAPIC_NMI (acpi_id[0x07] high edge lint[0x1])
+[    0.000000] IOAPIC[0]: apic_id 2, version 32, address 0xfec00000, GSI 0-23
+[    0.000000] ACPI: INT_SRC_OVR (bus 0 bus_irq 0 global_irq 2 dfl dfl)
+[    0.000000] ACPI: INT_SRC_OVR (bus 0 bus_irq 9 global_irq 9 high level)
+[    0.000000] ACPI: IRQ0 used by override.
+[    0.000000] ACPI: IRQ9 used by override.
+[    0.000000] Using ACPI (MADT) for SMP configuration information
+[    0.000000] ACPI: HPET id: 0x8086a701 base: 0xfed00000
+[    0.000000] smpboot: Allowing 8 CPUs, 0 hotplug CPUs
+[    0.000000] PM: Registered nosave memory: [mem 0x00000000-0x00000fff]
+[    0.000000] PM: Registered nosave memory: [mem 0x0009f000-0x0009ffff]
+[    0.000000] PM: Registered nosave memory: [mem 0x000a0000-0x000dffff]
+[    0.000000] PM: Registered nosave memory: [mem 0x000e0000-0x000fffff]
+[    0.000000] PM: Registered nosave memory: [mem 0xde358000-0xde93afff]
+[    0.000000] PM: Registered nosave memory: [mem 0xde93b000-0xdeb69fff]
+[    0.000000] PM: Registered nosave memory: [mem 0xdeb6a000-0xdeb7bfff]
+[    0.000000] PM: Registered nosave memory: [mem 0xdeb7c000-0xdebbafff]
+[    0.000000] PM: Registered nosave memory: [mem 0xdebbb000-0xdebbffff]
+[    0.000000] PM: Registered nosave memory: [mem 0xdebc0000-0xdec02fff]
+[    0.000000] PM: Registered nosave memory: [mem 0xdf000000-0xf7ffffff]
+[    0.000000] PM: Registered nosave memory: [mem 0xf8000000-0xfbffffff]
+[    0.000000] PM: Registered nosave memory: [mem 0xfc000000-0xfebfffff]
+[    0.000000] PM: Registered nosave memory: [mem 0xfec00000-0xfec00fff]
+[    0.000000] PM: Registered nosave memory: [mem 0xfec01000-0xfecfffff]
+[    0.000000] PM: Registered nosave memory: [mem 0xfed00000-0xfed03fff]
+[    0.000000] PM: Registered nosave memory: [mem 0xfed04000-0xfed1bfff]
+[    0.000000] PM: Registered nosave memory: [mem 0xfed1c000-0xfed44fff]
+[    0.000000] PM: Registered nosave memory: [mem 0xfed45000-0xfed8ffff]
+[    0.000000] PM: Registered nosave memory: [mem 0xfed90000-0xfed93fff]
+[    0.000000] PM: Registered nosave memory: [mem 0xfed94000-0xfedfffff]
+[    0.000000] PM: Registered nosave memory: [mem 0xfee00000-0xfee00fff]
+[    0.000000] PM: Registered nosave memory: [mem 0xfee01000-0xfeffffff]
+[    0.000000] PM: Registered nosave memory: [mem 0xff000000-0xffffffff]
+[    0.000000] e820: [mem 0xdf000000-0xf7ffffff] available for PCI devices
+[    0.000000] Booting paravirtualized kernel on bare hardware
+[    0.000000] clocksource: refined-jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 1910969940391419 ns
+[    0.000000] setup_percpu: NR_CPUS:8192 nr_cpumask_bits:8 nr_cpu_ids:8 nr_node_ids:1
+[    0.000000] percpu: Embedded 494 pages/cpu @        (ptrval) s1986560 r8192 d28672 u2097152
+[    0.000000] pcpu-alloc: s1986560 r8192 d28672 u2097152 alloc=1*2097152
+[    0.000000] pcpu-alloc: [0] 0 [0] 1 [0] 2 [0] 3 [0] 4 [0] 5 [0] 6 [0] 7 
+[    0.000000] Built 1 zonelists, mobility grouping on.  Total pages: 2049984
+[    0.000000] Policy zone: Normal
+[    0.000000] Kernel command line: BOOT_IMAGE=/boot/vmlinuz-4.15.18 root=UUID=08f513db-4ecd-40da-a6f2-bfe581a76ff5 ro quiet splash vt.handoff=1
+[    0.000000] Calgary: detecting Calgary via BIOS EBDA area
+[    0.000000] Calgary: Unable to locate Rio Grande table in EBDA - bailing!
+[    0.000000] Memory: 8014244K/8330188K available (14348K kernel code, 4153K rwdata, 4332K rodata, 4208K init, 15328K bss, 315944K reserved, 0K cma-reserved)
+[    0.000000] SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=8, Nodes=1
+[    0.000000] Kernel/User page tables isolation: enabled
+[    0.000000] ftrace: allocating 39000 entries in 153 pages
+[    0.000000] kmemleak: Kernel memory leak detector disabled
+[    0.000000] Running RCU self tests
+[    0.000000] Preemptible hierarchical RCU implementation.
+[    0.000000] 	RCU lockdep checking is enabled.
+[    0.000000] 	RCU restricting CPUs from NR_CPUS=8192 to nr_cpu_ids=8.
+[    0.000000] 	Tasks RCU enabled.
+[    0.000000] RCU: Adjusting geometry for rcu_fanout_leaf=16, nr_cpu_ids=8
+[    0.000000] NR_IRQS: 524544, nr_irqs: 488, preallocated irqs: 16
+[    0.000000] vt handoff: transparent VT on vt#1
+[    0.000000] Console: colour dummy device 80x25
+[    0.000000] console [tty0] enabled
+[    0.000000] Lock dependency validator: Copyright (c) 2006 Red Hat, Inc., Ingo Molnar
+[    0.000000] ... MAX_LOCKDEP_SUBCLASSES:  8
+[    0.000000] ... MAX_LOCK_DEPTH:          48
+[    0.000000] ... MAX_LOCKDEP_KEYS:        8191
+[    0.000000] ... CLASSHASH_SIZE:          4096
+[    0.000000] ... MAX_LOCKDEP_ENTRIES:     32768
+[    0.000000] ... MAX_LOCKDEP_CHAINS:      65536
+[    0.000000] ... CHAINHASH_SIZE:          32768
+[    0.000000]  memory used by lock dependency info: 7903 kB
+[    0.000000]  per task-struct memory footprint: 2688 bytes
+[    0.000000] kmemleak: Early log buffer exceeded (2258), please increase DEBUG_KMEMLEAK_EARLY_LOG_SIZE
+[    0.000000] ACPI: Core revision 20170831
+[    0.000000] ACPI: 5 ACPI AML tables successfully acquired and loaded
+[    0.000000] clocksource: hpet: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 133484882848 ns
+[    0.000000] hpet clockevent registered
+[    0.000000] APIC: Switch to symmetric I/O mode setup
+[    0.000000] x2apic: IRQ remapping doesn't support X2APIC mode
+[    0.000000] ..TIMER: vector=0x30 apic1=0 pin1=2 apic2=-1 pin2=-1
+[    0.005000] tsc: Fast TSC calibration using PIT
+[    0.006000] tsc: Detected 3392.209 MHz processor
+[    0.006000] Calibrating delay loop (skipped), value calculated using timer frequency.. 6784.41 BogoMIPS (lpj=3392209)
+[    0.007003] pid_max: default: 32768 minimum: 301
+[    0.007055] Security Framework initialized
+[    0.007058] Yama: becoming mindful.
+[    0.007087] AppArmor: AppArmor initialized
+[    0.008370] Dentry cache hash table entries: 1048576 (order: 11, 8388608 bytes)
+[    0.009009] Inode-cache hash table entries: 524288 (order: 10, 4194304 bytes)
+[    0.009044] Mount-cache hash table entries: 16384 (order: 5, 131072 bytes)
+[    0.009066] Mountpoint-cache hash table entries: 16384 (order: 5, 131072 bytes)
+[    0.009512] CPU: Physical Processor ID: 0
+[    0.009513] CPU: Processor Core ID: 0
+[    0.009519] ENERGY_PERF_BIAS: Set to 'normal', was 'performance'
+[    0.009521] ENERGY_PERF_BIAS: View and update with x86_energy_perf_policy(8)
+[    0.009525] mce: CPU supports 9 MCE banks
+[    0.009539] CPU0: Thermal monitoring enabled (TM1)
+[    0.009551] process: using mwait in idle threads
+[    0.009555] Last level iTLB entries: 4KB 512, 2MB 8, 4MB 8
+[    0.009557] Last level dTLB entries: 4KB 512, 2MB 32, 4MB 32, 1GB 0
+[    0.009559] Spectre V2 : Mitigation: Full generic retpoline
+[    0.009561] Spectre V2 : Spectre v2 mitigation: Enabling Indirect Branch Prediction Barrier
+[    0.009563] Spectre V2 : Enabling Restricted Speculation for firmware calls
+[    0.009565] Speculative Store Bypass: Mitigation: Speculative Store Bypass disabled via prctl and seccomp
+[    0.009716] Freeing SMP alternatives memory: 36K
+[    0.010660] TSC deadline timer enabled
+[    0.010667] smpboot: CPU0: Intel(R) Core(TM) i7-3770 CPU @ 3.40GHz (family: 0x6, model: 0x3a, stepping: 0x9)
+[    0.014053] Performance Events: PEBS fmt1+, IvyBridge events, 16-deep LBR, full-width counters, Intel PMU driver.
+[    0.014082] ... version:                3
+[    0.014084] ... bit width:              48
+[    0.014086] ... generic registers:      4
+[    0.014088] ... value mask:             0000ffffffffffff
+[    0.014089] ... max period:             00007fffffffffff
+[    0.014091] ... fixed-purpose events:   3
+[    0.014093] ... event mask:             000000070000000f
+[    0.016017] Hierarchical SRCU implementation.
+[    0.020343] NMI watchdog: Enabled. Permanently consumes one hw-PMU counter.
+[    0.022016] smp: Bringing up secondary CPUs ...
+[    0.030079] x86: Booting SMP configuration:
+[    0.030084] .... node  #0, CPUs:      #1 #2 #3 #4 #5 #6 #7
+[    0.086111] smp: Brought up 1 node, 8 CPUs
+[    0.086115] smpboot: Max logical packages: 1
+[    0.086118] smpboot: Total of 8 processors activated (54275.34 BogoMIPS)
+[    0.087867] devtmpfs: initialized
+[    0.088057] x86/mm: Memory block size: 128MB
+[    0.090683] evm: security.selinux
+[    0.090686] evm: security.SMACK64
+[    0.090687] evm: security.SMACK64EXEC
+[    0.090689] evm: security.SMACK64TRANSMUTE
+[    0.090691] evm: security.SMACK64MMAP
+[    0.090692] evm: security.apparmor
+[    0.090694] evm: security.ima
+[    0.090696] evm: security.capability
+[    0.090829] PM: Registering ACPI NVS region [mem 0xde93b000-0xdeb69fff] (2289664 bytes)
+[    0.091012] PM: Registering ACPI NVS region [mem 0xdeb7c000-0xdebbafff] (258048 bytes)
+[    0.091034] PM: Registering ACPI NVS region [mem 0xdebc0000-0xdec02fff] (274432 bytes)
+[    0.091065] reboot: HP Compaq Laptop series board detected. Selecting BIOS-method for reboots.
+[    0.091923] clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 1911260446275000 ns
+[    0.091951] futex hash table entries: 2048 (order: 6, 262144 bytes)
+[    0.092249] pinctrl core: initialized pinctrl subsystem
+[    0.092592] RTC time: 20:27:37, date: 11/23/19
+[    0.092860] NET: Registered protocol family 16
+[    0.093123] audit: initializing netlink subsys (disabled)
+[    0.093180] audit: type=2000 audit(1574540857.093:1): state=initialized audit_enabled=0 res=1
+[    0.093585] cpuidle: using governor ladder
+[    0.093672] ACPI FADT declares the system doesn't support PCIe ASPM, so disable it
+[    0.093680] ACPI: bus type PCI registered
+[    0.093682] acpiphp: ACPI Hot Plug PCI Controller Driver version: 0.5
+[    0.093829] PCI: MMCONFIG for domain 0000 [bus 00-3f] at [mem 0xf8000000-0xfbffffff] (base 0xf8000000)
+[    0.093834] PCI: MMCONFIG at [mem 0xf8000000-0xfbffffff] reserved in E820
+[    0.093849] PCI: Using configuration type 1 for base access
+[    0.093967] core: PMU erratum BJ122, BV98, HSD29 worked around, HT is on
+[    0.099225] HugeTLB registered 2.00 MiB page size, pre-allocated 0 pages
+[    0.100098] ACPI: Added _OSI(Module Device)
+[    0.100098] ACPI: Added _OSI(Processor Device)
+[    0.100098] ACPI: Added _OSI(3.0 _SCP Extensions)
+[    0.100098] ACPI: Added _OSI(Processor Aggregator Device)
+[    0.100098] ACPI: Executed 1 blocks of module-level executable AML code
+[    0.122984] ACPI: Dynamic OEM Table Load:
+[    0.123005] ACPI: SSDT 0xFFFF8CF312983000 00083B (v01 PmRef  Cpu0Cst  00003001 INTL 20051117)
+[    0.123956] ACPI: Dynamic OEM Table Load:
+[    0.123971] ACPI: SSDT 0xFFFF8CF31297F400 000303 (v01 PmRef  ApIst    00003000 INTL 20051117)
+[    0.124674] ACPI: Dynamic OEM Table Load:
+[    0.124689] ACPI: SSDT 0xFFFF8CF312C6CC00 000119 (v01 PmRef  ApCst    00003000 INTL 20051117)
+[    0.130392] ACPI: Interpreter enabled
+[    0.130439] ACPI: (supports S0 S3 S4 S5)
+[    0.130442] ACPI: Using IOAPIC for interrupt routing
+[    0.130500] PCI: Using host bridge windows from ACPI; if necessary, use "pci=nocrs" and report a bug
+[    0.131453] ACPI: Enabled 14 GPEs in block 00 to 3F
+[    0.162508] ACPI: Power Resource [FN00] (off)
+[    0.162816] ACPI: Power Resource [FN01] (off)
+[    0.163109] ACPI: Power Resource [FN02] (off)
+[    0.163392] ACPI: Power Resource [FN03] (off)
+[    0.163673] ACPI: Power Resource [FN04] (off)
+[    0.166439] ACPI: PCI Root Bridge [PCI0] (domain 0000 [bus 00-3e])
+[    0.166448] acpi PNP0A08:00: _OSC: OS supports [ExtendedConfig ASPM ClockPM Segments MSI]
+[    0.167246] acpi PNP0A08:00: _OSC: platform does not support [PCIeHotplug PME]
+[    0.167773] acpi PNP0A08:00: _OSC: OS now controls [AER PCIeCapability]
+[    0.167775] acpi PNP0A08:00: FADT indicates ASPM is unsupported, using BIOS configuration
+[    0.169541] PCI host bridge to bus 0000:00
+[    0.169545] pci_bus 0000:00: root bus resource [io  0x0000-0x0cf7 window]
+[    0.169548] pci_bus 0000:00: root bus resource [io  0x0d00-0xffff window]
+[    0.169551] pci_bus 0000:00: root bus resource [mem 0x000a0000-0x000bffff window]
+[    0.169553] pci_bus 0000:00: root bus resource [mem 0x000d4000-0x000d7fff window]
+[    0.169556] pci_bus 0000:00: root bus resource [mem 0x000d8000-0x000dbfff window]
+[    0.169559] pci_bus 0000:00: root bus resource [mem 0x000dc000-0x000dffff window]
+[    0.169561] pci_bus 0000:00: root bus resource [mem 0x000e0000-0x000e3fff window]
+[    0.169564] pci_bus 0000:00: root bus resource [mem 0x000e4000-0x000e7fff window]
+[    0.169567] pci_bus 0000:00: root bus resource [mem 0xe0000000-0xfeafffff window]
+[    0.169570] pci_bus 0000:00: root bus resource [bus 00-3e]
+[    0.169591] pci 0000:00:00.0: [8086:0150] type 00 class 0x060000
+[    0.169924] pci 0000:00:01.0: [8086:0151] type 01 class 0x060400
+[    0.169981] pci 0000:00:01.0: PME# supported from D0 D3hot D3cold
+[    0.170378] pci 0000:00:14.0: [8086:1e31] type 00 class 0x0c0330
+[    0.170408] pci 0000:00:14.0: reg 0x10: [mem 0xf7f20000-0xf7f2ffff 64bit]
+[    0.170495] pci 0000:00:14.0: PME# supported from D3hot D3cold
+[    0.170796] pci 0000:00:16.0: [8086:1e3a] type 00 class 0x078000
+[    0.170826] pci 0000:00:16.0: reg 0x10: [mem 0xf7f3b000-0xf7f3b00f 64bit]
+[    0.170918] pci 0000:00:16.0: PME# supported from D0 D3hot D3cold
+[    0.171210] pci 0000:00:16.3: [8086:1e3d] type 00 class 0x070002
+[    0.171234] pci 0000:00:16.3: reg 0x10: [io  0xf100-0xf107]
+[    0.171246] pci 0000:00:16.3: reg 0x14: [mem 0xf7f39000-0xf7f39fff]
+[    0.171603] pci 0000:00:19.0: [8086:1502] type 00 class 0x020000
+[    0.171626] pci 0000:00:19.0: reg 0x10: [mem 0xf7f00000-0xf7f1ffff]
+[    0.171636] pci 0000:00:19.0: reg 0x14: [mem 0xf7f38000-0xf7f38fff]
+[    0.171647] pci 0000:00:19.0: reg 0x18: [io  0xf020-0xf03f]
+[    0.171724] pci 0000:00:19.0: PME# supported from D0 D3hot D3cold
+[    0.172026] pci 0000:00:1a.0: [8086:1e2d] type 00 class 0x0c0320
+[    0.172054] pci 0000:00:1a.0: reg 0x10: [mem 0xf7f37000-0xf7f373ff]
+[    0.172157] pci 0000:00:1a.0: PME# supported from D0 D3hot D3cold
+[    0.172455] pci 0000:00:1b.0: [8086:1e20] type 00 class 0x040300
+[    0.172482] pci 0000:00:1b.0: reg 0x10: [mem 0xf7f30000-0xf7f33fff 64bit]
+[    0.172576] pci 0000:00:1b.0: PME# supported from D0 D3hot D3cold
+[    0.172887] pci 0000:00:1c.0: [8086:1e10] type 01 class 0x060400
+[    0.173033] pci 0000:00:1c.0: PME# supported from D0 D3hot D3cold
+[    0.173356] pci 0000:00:1c.4: [8086:1e18] type 01 class 0x060400
+[    0.173460] pci 0000:00:1c.4: PME# supported from D0 D3hot D3cold
+[    0.173777] pci 0000:00:1d.0: [8086:1e26] type 00 class 0x0c0320
+[    0.173803] pci 0000:00:1d.0: reg 0x10: [mem 0xf7f36000-0xf7f363ff]
+[    0.173906] pci 0000:00:1d.0: PME# supported from D0 D3hot D3cold
+[    0.174207] pci 0000:00:1e.0: [8086:244e] type 01 class 0x060401
+[    0.174565] pci 0000:00:1f.0: [8086:1e47] type 00 class 0x060100
+[    0.174964] pci 0000:00:1f.2: [8086:1e00] type 00 class 0x01018f
+[    0.174985] pci 0000:00:1f.2: reg 0x10: [io  0xf0f0-0xf0f7]
+[    0.174995] pci 0000:00:1f.2: reg 0x14: [io  0xf0e0-0xf0e3]
+[    0.175007] pci 0000:00:1f.2: reg 0x18: [io  0xf0d0-0xf0d7]
+[    0.175017] pci 0000:00:1f.2: reg 0x1c: [io  0xf0c0-0xf0c3]
+[    0.175029] pci 0000:00:1f.2: reg 0x20: [io  0xf0b0-0xf0bf]
+[    0.175041] pci 0000:00:1f.2: reg 0x24: [io  0xf0a0-0xf0af]
+[    0.175358] pci 0000:00:1f.3: [8086:1e22] type 00 class 0x0c0500
+[    0.175381] pci 0000:00:1f.3: reg 0x10: [mem 0xf7f35000-0xf7f350ff 64bit]
+[    0.175406] pci 0000:00:1f.3: reg 0x20: [io  0xf000-0xf01f]
+[    0.175717] pci 0000:00:1f.5: [8086:1e08] type 00 class 0x010185
+[    0.175737] pci 0000:00:1f.5: reg 0x10: [io  0xf090-0xf097]
+[    0.175747] pci 0000:00:1f.5: reg 0x14: [io  0xf080-0xf083]
+[    0.175757] pci 0000:00:1f.5: reg 0x18: [io  0xf070-0xf077]
+[    0.175767] pci 0000:00:1f.5: reg 0x1c: [io  0xf060-0xf063]
+[    0.175776] pci 0000:00:1f.5: reg 0x20: [io  0xf050-0xf05f]
+[    0.175786] pci 0000:00:1f.5: reg 0x24: [io  0xf040-0xf04f]
+[    0.176230] pci 0000:01:00.0: [1002:677b] type 00 class 0x030000
+[    0.176255] pci 0000:01:00.0: reg 0x10: [mem 0xe0000000-0xefffffff 64bit pref]
+[    0.176268] pci 0000:01:00.0: reg 0x18: [mem 0xf7e20000-0xf7e3ffff 64bit]
+[    0.176277] pci 0000:01:00.0: reg 0x20: [io  0xe000-0xe0ff]
+[    0.176293] pci 0000:01:00.0: reg 0x30: [mem 0xf7e00000-0xf7e1ffff pref]
+[    0.176301] pci 0000:01:00.0: enabling Extended Tags
+[    0.176354] pci 0000:01:00.0: supports D1 D2
+[    0.176518] pci 0000:01:00.1: [1002:aa98] type 00 class 0x040300
+[    0.176543] pci 0000:01:00.1: reg 0x10: [mem 0xf7e40000-0xf7e43fff 64bit]
+[    0.176583] pci 0000:01:00.1: enabling Extended Tags
+[    0.176636] pci 0000:01:00.1: supports D1 D2
+[    0.179050] pci 0000:00:01.0: PCI bridge to [bus 01]
+[    0.179067] pci 0000:00:01.0:   bridge window [io  0xe000-0xefff]
+[    0.179071] pci 0000:00:01.0:   bridge window [mem 0xf7e00000-0xf7efffff]
+[    0.179075] pci 0000:00:01.0:   bridge window [mem 0xe0000000-0xefffffff 64bit pref]
+[    0.179204] pci 0000:00:1c.0: PCI bridge to [bus 02]
+[    0.179365] pci 0000:03:00.0: [8086:10d3] type 00 class 0x020000
+[    0.179427] pci 0000:03:00.0: reg 0x10: [mem 0xf7dc0000-0xf7ddffff]
+[    0.179453] pci 0000:03:00.0: reg 0x14: [mem 0xf7d00000-0xf7d7ffff]
+[    0.179479] pci 0000:03:00.0: reg 0x18: [io  0xd000-0xd01f]
+[    0.179506] pci 0000:03:00.0: reg 0x1c: [mem 0xf7de0000-0xf7de3fff]
+[    0.179577] pci 0000:03:00.0: reg 0x30: [mem 0xf7d80000-0xf7dbffff pref]
+[    0.179746] pci 0000:03:00.0: PME# supported from D0 D3hot D3cold
+[    0.183054] pci 0000:00:1c.4: PCI bridge to [bus 03]
+[    0.183070] pci 0000:00:1c.4:   bridge window [io  0xd000-0xdfff]
+[    0.183075] pci 0000:00:1c.4:   bridge window [mem 0xf7d00000-0xf7dfffff]
+[    0.183158] pci 0000:04:00.0: [9710:9865] type 00 class 0x070002
+[    0.183182] pci 0000:04:00.0: reg 0x10: [io  0xc030-0xc037]
+[    0.183194] pci 0000:04:00.0: reg 0x14: [mem 0xf7c05000-0xf7c05fff]
+[    0.183225] pci 0000:04:00.0: reg 0x20: [mem 0xf7c04000-0xf7c04fff]
+[    0.183288] pci 0000:04:00.0: supports D1 D2
+[    0.183291] pci 0000:04:00.0: PME# supported from D0 D1 D2 D3hot D3cold
+[    0.183385] pci 0000:04:00.1: [9710:9865] type 00 class 0x070002
+[    0.183410] pci 0000:04:00.1: reg 0x10: [io  0xc020-0xc027]
+[    0.183422] pci 0000:04:00.1: reg 0x14: [mem 0xf7c03000-0xf7c03fff]
+[    0.183452] pci 0000:04:00.1: reg 0x20: [mem 0xf7c02000-0xf7c02fff]
+[    0.183514] pci 0000:04:00.1: supports D1 D2
+[    0.183516] pci 0000:04:00.1: PME# supported from D0 D1 D2 D3hot D3cold
+[    0.183610] pci 0000:04:00.2: [ffff:9865] type 00 class 0x070103
+[    0.183634] pci 0000:04:00.2: reg 0x10: [io  0xc010-0xc017]
+[    0.183646] pci 0000:04:00.2: reg 0x14: [io  0xc000-0xc007]
+[    0.183658] pci 0000:04:00.2: reg 0x18: [mem 0xf7c01000-0xf7c01fff]
+[    0.183679] pci 0000:04:00.2: reg 0x20: [mem 0xf7c00000-0xf7c00fff]
+[    0.183741] pci 0000:04:00.2: supports D1 D2
+[    0.183743] pci 0000:04:00.2: PME# supported from D0 D1 D2 D3hot D3cold
+[    0.183884] pci 0000:00:1e.0: PCI bridge to [bus 04] (subtractive decode)
+[    0.183889] pci 0000:00:1e.0:   bridge window [io  0xc000-0xcfff]
+[    0.183894] pci 0000:00:1e.0:   bridge window [mem 0xf7c00000-0xf7cfffff]
+[    0.183902] pci 0000:00:1e.0:   bridge window [io  0x0000-0x0cf7 window] (subtractive decode)
+[    0.183904] pci 0000:00:1e.0:   bridge window [io  0x0d00-0xffff window] (subtractive decode)
+[    0.183907] pci 0000:00:1e.0:   bridge window [mem 0x000a0000-0x000bffff window] (subtractive decode)
+[    0.183910] pci 0000:00:1e.0:   bridge window [mem 0x000d4000-0x000d7fff window] (subtractive decode)
+[    0.183912] pci 0000:00:1e.0:   bridge window [mem 0x000d8000-0x000dbfff window] (subtractive decode)
+[    0.183915] pci 0000:00:1e.0:   bridge window [mem 0x000dc000-0x000dffff window] (subtractive decode)
+[    0.183918] pci 0000:00:1e.0:   bridge window [mem 0x000e0000-0x000e3fff window] (subtractive decode)
+[    0.183920] pci 0000:00:1e.0:   bridge window [mem 0x000e4000-0x000e7fff window] (subtractive decode)
+[    0.183923] pci 0000:00:1e.0:   bridge window [mem 0xe0000000-0xfeafffff window] (subtractive decode)
+[    0.186296] ACPI: PCI Interrupt Link [LNKA] (IRQs 3 4 5 6 10 *11 12 14 15)
+[    0.186483] ACPI: PCI Interrupt Link [LNKB] (IRQs 3 4 5 6 *10 11 12 14 15)
+[    0.186662] ACPI: PCI Interrupt Link [LNKC] (IRQs 3 4 5 6 *10 11 12 14 15)
+[    0.186842] ACPI: PCI Interrupt Link [LNKD] (IRQs 3 4 *5 6 10 11 12 14 15)
+[    0.187027] ACPI: PCI Interrupt Link [LNKE] (IRQs 3 4 5 6 10 *11 12 14 15)
+[    0.187209] ACPI: PCI Interrupt Link [LNKF] (IRQs 3 4 5 6 10 *11 12 14 15)
+[    0.187390] ACPI: PCI Interrupt Link [LNKG] (IRQs 3 4 5 6 *10 11 12 14 15)
+[    0.187571] ACPI: PCI Interrupt Link [LNKH] (IRQs 3 4 *5 6 10 11 12 14 15)
+[    0.189099] SCSI subsystem initialized
+[    0.189202] libata version 3.00 loaded.
+[    0.189355] pci 0000:01:00.0: vgaarb: setting as boot VGA device
+[    0.189359] pci 0000:01:00.0: vgaarb: VGA device added: decodes=io+mem,owns=io+mem,locks=none
+[    0.189365] pci 0000:01:00.0: vgaarb: bridge control possible
+[    0.189367] vgaarb: loaded
+[    0.189420] ACPI: bus type USB registered
+[    0.189466] usbcore: registered new interface driver usbfs
+[    0.189493] usbcore: registered new interface driver hub
+[    0.189561] usbcore: registered new device driver usb
+[    0.189736] EDAC MC: Ver: 3.0.0
+[    0.190080] PCI: Using ACPI for IRQ routing
+[    0.191969] PCI: pci_cache_line_size set to 64 bytes
+[    0.192051] e820: reserve RAM buffer [mem 0x0009f800-0x0009ffff]
+[    0.192057] e820: reserve RAM buffer [mem 0xde358000-0xdfffffff]
+[    0.192059] e820: reserve RAM buffer [mem 0xdf000000-0xdfffffff]
+[    0.192062] e820: reserve RAM buffer [mem 0x21e000000-0x21fffffff]
+[    0.192381] NetLabel: Initializing
+[    0.192383] NetLabel:  domain hash size = 128
+[    0.192385] NetLabel:  protocols = UNLABELED CIPSOv4 CALIPSO
+[    0.192419] NetLabel:  unlabeled traffic allowed by default
+[    0.193494] hpet0: at MMIO 0xfed00000, IRQs 2, 8, 0, 0, 0, 0, 0, 0
+[    0.193512] hpet0: 8 comparators, 64-bit 14.318180 MHz counter
+[    0.195085] clocksource: Switched to clocksource hpet
+[    0.243121] VFS: Disk quotas dquot_6.6.0
+[    0.243152] VFS: Dquot-cache hash table entries: 512 (order 0, 4096 bytes)
+[    0.243639] AppArmor: AppArmor Filesystem Enabled
+[    0.243700] pnp: PnP ACPI init
+[    0.243944] system 00:00: [mem 0xfed40000-0xfed44fff] has been reserved
+[    0.243963] system 00:00: Plug and Play ACPI device, IDs PNP0c01 (active)
+[    0.244200] system 00:01: [io  0x0680-0x069f] has been reserved
+[    0.244204] system 00:01: [io  0x0200-0x020f] has been reserved
+[    0.244208] system 00:01: [io  0xffff] has been reserved
+[    0.244211] system 00:01: [io  0xffff] has been reserved
+[    0.244215] system 00:01: [io  0x0400-0x0453] has been reserved
+[    0.244218] system 00:01: [io  0x0458-0x047f] has been reserved
+[    0.244222] system 00:01: [io  0x0500-0x057f] has been reserved
+[    0.244225] system 00:01: [io  0x164e-0x164f] has been reserved
+[    0.244235] system 00:01: Plug and Play ACPI device, IDs PNP0c02 (active)
+[    0.244300] pnp 00:02: Plug and Play ACPI device, IDs PNP0b00 (active)
+[    0.244458] system 00:03: [io  0x0454-0x0457] has been reserved
+[    0.244468] system 00:03: Plug and Play ACPI device, IDs INT3f0d PNP0c02 (active)
+[    0.244843] system 00:04: [io  0x0a20-0x0a3f] has been reserved
+[    0.244847] system 00:04: [io  0x0a10-0x0a1f] has been reserved
+[    0.244856] system 00:04: Plug and Play ACPI device, IDs PNP0c02 (active)
+[    0.244972] pnp 00:05: Plug and Play ACPI device, IDs PNP0303 PNP030b (active)
+[    0.245124] pnp 00:06: Plug and Play ACPI device, IDs PNP0f03 PNP0f13 (active)
+[    0.245273] system 00:07: [io  0x04d0-0x04d1] has been reserved
+[    0.245283] system 00:07: Plug and Play ACPI device, IDs PNP0c02 (active)
+[    0.245786] pnp 00:08: [dma 0 disabled]
+[    0.245913] pnp 00:08: Plug and Play ACPI device, IDs PNP0501 (active)
+[    0.246419] pnp 00:09: [dma 0 disabled]
+[    0.246543] pnp 00:09: Plug and Play ACPI device, IDs PNP0501 (active)
+[    0.246927] pnp 00:0a: Plug and Play ACPI device, IDs IFX0102 PNP0c31 (active)
+[    0.247665] system 00:0b: [mem 0xfed1c000-0xfed1ffff] has been reserved
+[    0.247669] system 00:0b: [mem 0xfed10000-0xfed17fff] has been reserved
+[    0.247673] system 00:0b: [mem 0xfed18000-0xfed18fff] has been reserved
+[    0.247676] system 00:0b: [mem 0xfed19000-0xfed19fff] has been reserved
+[    0.247680] system 00:0b: [mem 0xf8000000-0xfbffffff] has been reserved
+[    0.247683] system 00:0b: [mem 0xfed20000-0xfed3ffff] has been reserved
+[    0.247687] system 00:0b: [mem 0xfed90000-0xfed93fff] has been reserved
+[    0.247690] system 00:0b: [mem 0xfed45000-0xfed8ffff] has been reserved
+[    0.247694] system 00:0b: [mem 0xff000000-0xffffffff] has been reserved
+[    0.247698] system 00:0b: [mem 0xfee00000-0xfeefffff] could not be reserved
+[    0.247702] system 00:0b: [mem 0xf0000000-0xf0000fff] has been reserved
+[    0.247711] system 00:0b: Plug and Play ACPI device, IDs PNP0c02 (active)
+[    0.248180] pnp: PnP ACPI: found 12 devices
+[    0.256953] clocksource: acpi_pm: mask: 0xffffff max_cycles: 0xffffff, max_idle_ns: 2085701024 ns
+[    0.256996] pci 0000:00:01.0: PCI bridge to [bus 01]
+[    0.257000] pci 0000:00:01.0:   bridge window [io  0xe000-0xefff]
+[    0.257019] pci 0000:00:01.0:   bridge window [mem 0xf7e00000-0xf7efffff]
+[    0.257022] pci 0000:00:01.0:   bridge window [mem 0xe0000000-0xefffffff 64bit pref]
+[    0.257027] pci 0000:00:1c.0: PCI bridge to [bus 02]
+[    0.257046] pci 0000:00:1c.4: PCI bridge to [bus 03]
+[    0.257050] pci 0000:00:1c.4:   bridge window [io  0xd000-0xdfff]
+[    0.257056] pci 0000:00:1c.4:   bridge window [mem 0xf7d00000-0xf7dfffff]
+[    0.257066] pci 0000:00:1e.0: PCI bridge to [bus 04]
+[    0.257069] pci 0000:00:1e.0:   bridge window [io  0xc000-0xcfff]
+[    0.257075] pci 0000:00:1e.0:   bridge window [mem 0xf7c00000-0xf7cfffff]
+[    0.257085] pci_bus 0000:00: resource 4 [io  0x0000-0x0cf7 window]
+[    0.257088] pci_bus 0000:00: resource 5 [io  0x0d00-0xffff window]
+[    0.257090] pci_bus 0000:00: resource 6 [mem 0x000a0000-0x000bffff window]
+[    0.257093] pci_bus 0000:00: resource 7 [mem 0x000d4000-0x000d7fff window]
+[    0.257095] pci_bus 0000:00: resource 8 [mem 0x000d8000-0x000dbfff window]
+[    0.257098] pci_bus 0000:00: resource 9 [mem 0x000dc000-0x000dffff window]
+[    0.257100] pci_bus 0000:00: resource 10 [mem 0x000e0000-0x000e3fff window]
+[    0.257102] pci_bus 0000:00: resource 11 [mem 0x000e4000-0x000e7fff window]
+[    0.257105] pci_bus 0000:00: resource 12 [mem 0xe0000000-0xfeafffff window]
+[    0.257107] pci_bus 0000:01: resource 0 [io  0xe000-0xefff]
+[    0.257110] pci_bus 0000:01: resource 1 [mem 0xf7e00000-0xf7efffff]
+[    0.257112] pci_bus 0000:01: resource 2 [mem 0xe0000000-0xefffffff 64bit pref]
+[    0.257115] pci_bus 0000:03: resource 0 [io  0xd000-0xdfff]
+[    0.257117] pci_bus 0000:03: resource 1 [mem 0xf7d00000-0xf7dfffff]
+[    0.257120] pci_bus 0000:04: resource 0 [io  0xc000-0xcfff]
+[    0.257122] pci_bus 0000:04: resource 1 [mem 0xf7c00000-0xf7cfffff]
+[    0.257124] pci_bus 0000:04: resource 4 [io  0x0000-0x0cf7 window]
+[    0.257127] pci_bus 0000:04: resource 5 [io  0x0d00-0xffff window]
+[    0.257129] pci_bus 0000:04: resource 6 [mem 0x000a0000-0x000bffff window]
+[    0.257131] pci_bus 0000:04: resource 7 [mem 0x000d4000-0x000d7fff window]
+[    0.257134] pci_bus 0000:04: resource 8 [mem 0x000d8000-0x000dbfff window]
+[    0.257136] pci_bus 0000:04: resource 9 [mem 0x000dc000-0x000dffff window]
+[    0.257138] pci_bus 0000:04: resource 10 [mem 0x000e0000-0x000e3fff window]
+[    0.257141] pci_bus 0000:04: resource 11 [mem 0x000e4000-0x000e7fff window]
+[    0.257143] pci_bus 0000:04: resource 12 [mem 0xe0000000-0xfeafffff window]
+[    0.257474] NET: Registered protocol family 2
+[    0.257939] TCP established hash table entries: 65536 (order: 7, 524288 bytes)
+[    0.258353] TCP bind hash table entries: 65536 (order: 10, 5242880 bytes)
+[    0.261298] TCP: Hash tables configured (established 65536 bind 65536)
+[    0.261436] UDP hash table entries: 4096 (order: 7, 786432 bytes)
+[    0.261876] UDP-Lite hash table entries: 4096 (order: 7, 786432 bytes)
+[    0.262563] NET: Registered protocol family 1
+[    0.297401] pci 0000:01:00.0: Video device with shadowed ROM at [mem 0x000c0000-0x000dffff]
+[    0.297420] PCI: CLS 64 bytes, default 64
+[    0.297578] Unpacking initramfs...
+[    1.010761] Freeing initrd memory: 56380K
+[    1.010767] PCI-DMA: Using software bounce buffering for IO (SWIOTLB)
+[    1.010770] software IO TLB [mem 0xda358000-0xde358000] (64MB) mapped at [00000000e768ba7b-000000004eb10f0f]
+[    1.011368] Scanning for low memory corruption every 60 seconds
+[    1.011616] cryptomgr_test (83) used greatest stack depth: 14800 bytes left
+[    1.013261] Initialise system trusted keyrings
+[    1.013321] Key type blacklist registered
+[    1.013387] workingset: timestamp_bits=36 max_order=21 bucket_order=0
+[    1.018473] zbud: loaded
+[    1.019980] squashfs: version 4.0 (2009/01/31) Phillip Lougher
+[    1.020499] fuse init (API version 7.26)
+[    1.021069] cryptomgr_test (88) used greatest stack depth: 14696 bytes left
+[    1.022825] Key type asymmetric registered
+[    1.022836] Asymmetric key parser 'x509' registered
+[    1.022858] Block layer SCSI generic (bsg) driver version 0.4 loaded (major 246)
+[    1.022957] io scheduler noop registered
+[    1.022960] io scheduler deadline registered
+[    1.023065] io scheduler cfq registered (default)
+[    1.025149] vesafb: mode is 1400x1050x32, linelength=5632, pages=0
+[    1.025152] vesafb: scrolling: redraw
+[    1.025155] vesafb: Truecolor: size=0:8:8:8, shift=0:16:8:0
+[    1.025168] vesafb: framebuffer at 0xe0000000, mapped to 0x00000000e1c8ada7, using 5824k, total 5824k
+[    1.025458] Console: switching to colour frame buffer device 175x65
+[    1.025490] fb0: VESA VGA frame buffer device
+[    1.025522] intel_idle: MWAIT substates: 0x1120
+[    1.025524] intel_idle: v0.4.1 model 0x3A
+[    1.026301] intel_idle: lapic_timer_reliable_states 0xffffffff
+[    1.026610] input: Power Button as /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0C0C:00/input/input0
+[    1.026745] ACPI: Power Button [PWRB]
+[    1.026845] input: Power Button as /devices/LNXSYSTM:00/LNXPWRBN:00/input/input1
+[    1.026878] ACPI: Power Button [PWRF]
+[    1.029289] (NULL device *): hwmon_device_register() is deprecated. Please convert the driver to use hwmon_device_register_with_info().
+[    1.029832] thermal LNXTHERM:00: registered as thermal_zone0
+[    1.029834] ACPI: Thermal Zone [TZ00] (28 C)
+[    1.030763] thermal LNXTHERM:01: registered as thermal_zone1
+[    1.030766] ACPI: Thermal Zone [TZ01] (30 C)
+[    1.031601] Linux agpgart interface v0.103
+[    1.058455] tpm_tis 00:0a: 1.2 TPM (device-id 0xB, rev-id 16)
+[    1.175795] tpm tpm0: A TPM error (7) occurred attempting to read a pcr value
+[    1.175808] tpm tpm0: TPM is disabled/deactivated (0x7)
+[    1.183968] loop: module loaded
+[    1.184290] ata_piix 0000:00:1f.2: version 2.13
+[    1.184651] ata_piix 0000:00:1f.2: MAP [ P0 P2 P1 P3 ]
+[    1.337481] scsi host0: ata_piix
+[    1.337896] scsi host1: ata_piix
+[    1.338021] ata1: SATA max UDMA/133 cmd 0xf0f0 ctl 0xf0e0 bmdma 0xf0b0 irq 19
+[    1.338026] ata2: SATA max UDMA/133 cmd 0xf0d0 ctl 0xf0c0 bmdma 0xf0b8 irq 19
+[    1.338395] ata_piix 0000:00:1f.5: MAP [ P0 -- P1 -- ]
+[    1.496093] ata_piix 0000:00:1f.5: SCR access via SIDPR is available but doesn't work
+[    1.496950] scsi host2: ata_piix
+[    1.497266] scsi host3: ata_piix
+[    1.497365] ata3: SATA max UDMA/133 cmd 0xf090 ctl 0xf080 bmdma 0xf050 irq 19
+[    1.497367] ata4: SATA max UDMA/133 cmd 0xf070 ctl 0xf060 bmdma 0xf058 irq 19
+[    1.497647] libphy: Fixed MDIO Bus: probed
+[    1.497650] tun: Universal TUN/TAP device driver, 1.6
+[    1.497757] PPP generic driver version 2.4.2
+[    1.497888] ehci_hcd: USB 2.0 'Enhanced' Host Controller (EHCI) Driver
+[    1.497897] ehci-pci: EHCI PCI platform driver
+[    1.498342] ehci-pci 0000:00:1a.0: EHCI Host Controller
+[    1.498392] ehci-pci 0000:00:1a.0: new USB bus registered, assigned bus number 1
+[    1.498424] ehci-pci 0000:00:1a.0: debug port 2
+[    1.502349] ehci-pci 0000:00:1a.0: cache line size of 64 is not supported
+[    1.502390] ehci-pci 0000:00:1a.0: irq 16, io mem 0xf7f37000
+[    1.509094] ehci-pci 0000:00:1a.0: USB 2.0 started, EHCI 1.00
+[    1.509293] usb usb1: New USB device found, idVendor=1d6b, idProduct=0002
+[    1.509299] usb usb1: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+[    1.509302] usb usb1: Product: EHCI Host Controller
+[    1.509304] usb usb1: Manufacturer: Linux 4.15.18 ehci_hcd
+[    1.509306] usb usb1: SerialNumber: 0000:00:1a.0
+[    1.509791] hub 1-0:1.0: USB hub found
+[    1.509822] hub 1-0:1.0: 3 ports detected
+[    1.510843] ehci-pci 0000:00:1d.0: EHCI Host Controller
+[    1.510856] ehci-pci 0000:00:1d.0: new USB bus registered, assigned bus number 2
+[    1.510870] ehci-pci 0000:00:1d.0: debug port 2
+[    1.514770] ehci-pci 0000:00:1d.0: cache line size of 64 is not supported
+[    1.514798] ehci-pci 0000:00:1d.0: irq 23, io mem 0xf7f36000
+[    1.521082] ehci-pci 0000:00:1d.0: USB 2.0 started, EHCI 1.00
+[    1.521212] usb usb2: New USB device found, idVendor=1d6b, idProduct=0002
+[    1.521215] usb usb2: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+[    1.521218] usb usb2: Product: EHCI Host Controller
+[    1.521220] usb usb2: Manufacturer: Linux 4.15.18 ehci_hcd
+[    1.521223] usb usb2: SerialNumber: 0000:00:1d.0
+[    1.521571] hub 2-0:1.0: USB hub found
+[    1.521590] hub 2-0:1.0: 3 ports detected
+[    1.522080] ehci-platform: EHCI generic platform driver
+[    1.522101] ohci_hcd: USB 1.1 'Open' Host Controller (OHCI) Driver
+[    1.522110] ohci-pci: OHCI PCI platform driver
+[    1.522137] ohci-platform: OHCI generic platform driver
+[    1.522154] uhci_hcd: USB Universal Host Controller Interface driver
+[    1.522566] xhci_hcd 0000:00:14.0: xHCI Host Controller
+[    1.522578] xhci_hcd 0000:00:14.0: new USB bus registered, assigned bus number 3
+[    1.523692] xhci_hcd 0000:00:14.0: hcc params 0x20007181 hci version 0x100 quirks 0x0000b930
+[    1.523699] xhci_hcd 0000:00:14.0: cache line size of 64 is not supported
+[    1.524070] usb usb3: New USB device found, idVendor=1d6b, idProduct=0002
+[    1.524073] usb usb3: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+[    1.524076] usb usb3: Product: xHCI Host Controller
+[    1.524078] usb usb3: Manufacturer: Linux 4.15.18 xhci-hcd
+[    1.524081] usb usb3: SerialNumber: 0000:00:14.0
+[    1.524429] hub 3-0:1.0: USB hub found
+[    1.524464] hub 3-0:1.0: 4 ports detected
+[    1.525629] xhci_hcd 0000:00:14.0: xHCI Host Controller
+[    1.525638] xhci_hcd 0000:00:14.0: new USB bus registered, assigned bus number 4
+[    1.525767] usb usb4: New USB device found, idVendor=1d6b, idProduct=0003
+[    1.525771] usb usb4: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+[    1.525773] usb usb4: Product: xHCI Host Controller
+[    1.525776] usb usb4: Manufacturer: Linux 4.15.18 xhci-hcd
+[    1.525778] usb usb4: SerialNumber: 0000:00:14.0
+[    1.526145] hub 4-0:1.0: USB hub found
+[    1.526177] hub 4-0:1.0: 4 ports detected
+[    1.527458] i8042: PNP: PS/2 Controller [PNP0303:PS2K,PNP0f03:PS2M] at 0x60,0x64 irq 1,12
+[    1.530902] serio: i8042 KBD port at 0x60,0x64 irq 1
+[    1.531071] serio: i8042 AUX port at 0x60,0x64 irq 12
+[    1.531420] mousedev: PS/2 mouse device common for all mice
+[    1.531955] rtc_cmos 00:02: RTC can wake from S4
+[    1.532211] rtc_cmos 00:02: rtc core: registered rtc_cmos as rtc0
+[    1.532245] rtc_cmos 00:02: alarms up to one month, y3k, 242 bytes nvram, hpet irqs
+[    1.532263] i2c /dev entries driver
+[    1.532390] device-mapper: uevent: version 1.0.3
+[    1.532589] device-mapper: ioctl: 4.37.0-ioctl (2017-09-20) initialised: dm-devel@redhat.com
+[    1.532597] intel_pstate: Intel P-state driver initializing
+[    1.533580] ledtrig-cpu: registered to indicate activity on CPUs
+[    1.534479] NET: Registered protocol family 10
+[    1.536869] modprobe (146) used greatest stack depth: 13544 bytes left
+[    1.541625] Segment Routing with IPv6
+[    1.541645] NET: Registered protocol family 17
+[    1.541743] Key type dns_resolver registered
+[    1.542780] RAS: Correctable Errors collector initialized.
+[    1.542859] microcode: sig=0x306a9, pf=0x2, revision=0x21
+[    1.543093] microcode: Microcode Update Driver: v2.2.
+[    1.543120] sched_clock: Marking stable (1543084906, 0)->(1556542459, -13457553)
+[    1.543676] registered taskstats version 1
+[    1.543696] Loading compiled-in X.509 certificates
+[    1.546980] Loaded X.509 cert 'Build time autogenerated kernel key: a899a7beda85ddcaf0aa710b34b24e84bebd9499'
+[    1.547058] zswap: loaded using pool lzo/zbud
+[    1.549788] modprobe (160) used greatest stack depth: 13416 bytes left
+[    1.552603] Key type big_key registered
+[    1.552610] Key type trusted registered
+[    1.555280] Key type encrypted registered
+[    1.555284] AppArmor: AppArmor sha1 policy hashing enabled
+[    1.576749] tpm tpm0: A TPM error (7) occurred attempting to read a pcr value
+[    1.576766] ima: No TPM chip found, activating TPM-bypass! (rc=7)
+[    1.576833] evm: HMAC attrs: 0x1
+[    1.577394]   Magic number: 11:807:498
+[    1.577544] rtc_cmos 00:02: setting system clock to 2019-11-23 20:27:38 UTC (1574540858)
+[    1.577699] BIOS EDD facility v0.16 2004-Jun-25, 0 devices found
+[    1.577701] EDD information not available.
+[    1.834091] usb 1-1: new high-speed USB device number 2 using ehci-pci
+[    1.843063] usb 2-1: new high-speed USB device number 2 using ehci-pci
+[    1.850087] usb 3-1: new low-speed USB device number 2 using xhci_hcd
+[    1.962793] usb 1-1: New USB device found, idVendor=8087, idProduct=0024
+[    1.962798] usb 1-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
+[    1.963402] hub 1-1:1.0: USB hub found
+[    1.963678] hub 1-1:1.0: 6 ports detected
+[    1.972784] usb 2-1: New USB device found, idVendor=8087, idProduct=0024
+[    1.972787] usb 2-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
+[    1.973154] hub 2-1:1.0: USB hub found
+[    1.973362] hub 2-1:1.0: 8 ports detected
+[    1.981052] usb 3-1: New USB device found, idVendor=046d, idProduct=c077
+[    1.981055] usb 3-1: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+[    1.981057] usb 3-1: Product: USB Optical Mouse
+[    1.981059] usb 3-1: Manufacturer: Logitech
+[    2.016129] tsc: Refined TSC clocksource calibration: 3392.293 MHz
+[    2.016143] clocksource: tsc: mask: 0xffffffffffffffff max_cycles: 0x30e5de2a436, max_idle_ns: 440795285127 ns
+[    2.104146] ata1.00: SATA link up 6.0 Gbps (SStatus 133 SControl 330)
+[    2.104162] ata1.01: SATA link up 1.5 Gbps (SStatus 113 SControl 330)
+[    2.125867] ata1.00: ATA-9: WDC WD10EZEX-60ZF5A0, 80.00A80, max UDMA/100
+[    2.125870] ata1.00: 1953525168 sectors, multi 16: LBA48 NCQ (depth 0/32)
+[    2.125875] ata1.01: ATAPI: hp      DVD-RAM GH82N, R204, max UDMA/100
+[    2.128514] ata1.00: configured for UDMA/100
+[    2.151341] ata1.01: configured for UDMA/100
+[    2.157398] scsi 0:0:0:0: Direct-Access     ATA      WDC WD10EZEX-60Z 0A80 PQ: 0 ANSI: 5
+[    2.158326] sd 0:0:0:0: [sda] 1953525168 512-byte logical blocks: (1.00 TB/932 GiB)
+[    2.158337] sd 0:0:0:0: [sda] 4096-byte physical blocks
+[    2.158338] sd 0:0:0:0: Attached scsi generic sg0 type 0
+[    2.158399] sd 0:0:0:0: [sda] Write Protect is off
+[    2.158402] sd 0:0:0:0: [sda] Mode Sense: 00 3a 00 00
+[    2.158533] sd 0:0:0:0: [sda] Write cache: enabled, read cache: enabled, doesn't support DPO or FUA
+[    2.161922] scsi 0:0:1:0: CD-ROM            hp       DVD-RAM GH82N    R204 PQ: 0 ANSI: 5
+[    2.205889] sr 0:0:1:0: [sr0] scsi3-mmc drive: 40x/40x writer dvd-ram cd/rw xa/form2 cdda tray
+[    2.205896] cdrom: Uniform CD-ROM driver Revision: 3.20
+[    2.206457] sr 0:0:1:0: Attached scsi CD-ROM sr0
+[    2.206613] sr 0:0:1:0: Attached scsi generic sg1 type 5
+[    2.218755]  sda: sda1 sda2 sda3
+[    2.220690] sd 0:0:0:0: [sda] Attached SCSI disk
+[    2.241084] usb 1-1.5: new low-speed USB device number 3 using ehci-pci
+[    2.338627] usb 1-1.5: New USB device found, idVendor=03f0, idProduct=0024
+[    2.338635] usb 1-1.5: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+[    2.338640] usb 1-1.5: Product: HP Basic USB Keyboard
+[    2.338644] usb 1-1.5: Manufacturer: CHICONY
+[    2.377085] ata2.00: failed to resume link (SControl 30)
+[    2.404084] usb 1-1.6: new high-speed USB device number 4 using ehci-pci
+[    2.485983] usb 1-1.6: New USB device found, idVendor=05e3, idProduct=0610
+[    2.485990] usb 1-1.6: New USB device strings: Mfr=0, Product=1, SerialNumber=0
+[    2.485995] usb 1-1.6: Product: USB2.0 Hub
+[    2.486674] hub 1-1.6:1.0: USB hub found
+[    2.486949] hub 1-1.6:1.0: 4 ports detected
+[    2.761081] usb 1-1.6.1: new high-speed USB device number 5 using ehci-pci
+[    2.842979] usb 1-1.6.1: New USB device found, idVendor=05e3, idProduct=0610
+[    2.842986] usb 1-1.6.1: New USB device strings: Mfr=0, Product=1, SerialNumber=0
+[    2.842991] usb 1-1.6.1: Product: USB2.0 Hub
+[    2.843546] hub 1-1.6.1:1.0: USB hub found
+[    2.843822] hub 1-1.6.1:1.0: 4 ports detected
+[    2.911089] usb 1-1.6.3: new low-speed USB device number 6 using ehci-pci
+[    2.997353] usb 1-1.6.3: New USB device found, idVendor=0529, idProduct=0001
+[    2.997360] usb 1-1.6.3: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+[    2.997365] usb 1-1.6.3: Product: HASP HL 3.25
+[    2.997369] usb 1-1.6.3: Manufacturer: AKS
+[    3.025366] clocksource: Switched to clocksource tsc
+[    3.416078] ata2.01: failed to resume link (SControl 30)
+[    3.427344] ata2.00: SATA link down (SStatus 4 SControl 30)
+[    3.427357] ata2.01: SATA link down (SStatus 4 SControl 30)
+[    3.431696] Freeing unused kernel memory: 4208K
+[    3.431726] Write protecting the kernel read-only data: 22528k
+[    3.432902] Freeing unused kernel memory: 2008K
+[    3.436039] Freeing unused kernel memory: 1812K
+[    3.440994] x86/mm: Checked W+X mappings: passed, no W+X pages found.
+[    3.440996] x86/mm: Checking user space page tables
+[    3.445739] x86/mm: Checked W+X mappings: passed, no W+X pages found.
+[    3.452820] exe (186) used greatest stack depth: 13088 bytes left
+[    3.624594] ACPI: Video Device [PEG0] (multi-head: yes  rom: no  post: no)
+[    3.625591] input: Video Bus as /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A08:00/LNXVIDEO:00/input/input4
+[    3.627381] ACPI: Video Device [VGA] (multi-head: yes  rom: no  post: no)
+[    3.629766] acpi device:1a: registered as cooling_device13
+[    3.629965] input: Video Bus as /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A08:00/LNXVIDEO:00/LNXVIDEO:01/input/input5
+[    3.633118] [Firmware Bug]: Duplicate ACPI video bus devices for the same VGA controller, please try module parameter "video.allow_duplicates=1"if the current driver doesn't work.
+[    3.651968] pps_core: LinuxPPS API ver. 1 registered
+[    3.651972] pps_core: Software ver. 5.3.6 - Copyright 2005-2007 Rodolfo Giometti <giometti@linux.it>
+[    3.653473] PTP clock support registered
+[    3.659380] e1000e: Intel(R) PRO/1000 Network Driver - 3.2.6-k
+[    3.659383] e1000e: Copyright(c) 1999 - 2015 Intel Corporation.
+[    3.660188] e1000e 0000:00:19.0: Interrupt Throttling Rate (ints/sec) set to dynamic conservative mode
+[    3.682918] hidraw: raw HID events driver (C) Jiri Kosina
+[    3.694875] usbcore: registered new interface driver usbhid
+[    3.694879] usbhid: USB HID core driver
+[    3.700879] [drm] radeon kernel modesetting enabled.
+[    3.703066] checking generic (e0000000 5b0000) vs hw (e0000000 10000000)
+[    3.703070] fb: switching to radeondrmfb from VESA VGA
+[    3.703161] Console: switching to colour dummy device 80x25
+[    3.716984] [drm] initializing kernel modesetting (CAICOS 0x1002:0x677B 0x103C:0x90B7 0x00).
+[    3.717139] resource sanity check: requesting [mem 0x000c0000-0x000dffff], which spans more than PCI Bus 0000:00 [mem 0x000d4000-0x000d7fff window]
+[    3.717156] caller pci_map_rom+0x5d/0xf0 mapping multiple BARs
+[    3.717209] ATOM BIOS: HP
+[    3.717703] radeon 0000:01:00.0: VRAM: 1024M 0x0000000000000000 - 0x000000003FFFFFFF (1024M used)
+[    3.717708] radeon 0000:01:00.0: GTT: 1024M 0x0000000040000000 - 0x000000007FFFFFFF
+[    3.717716] [drm] Detected VRAM RAM=1024M, BAR=256M
+[    3.717719] [drm] RAM width 64bits DDR
+[    3.721150] [TTM] Zone  kernel: Available graphics memory: 4039344 kiB
+[    3.721158] [TTM] Zone   dma32: Available graphics memory: 2097152 kiB
+[    3.721161] [TTM] Initializing pool allocator
+[    3.721195] [TTM] Initializing DMA pool allocator
+[    3.721487] [drm] radeon: 1024M of VRAM memory ready
+[    3.721492] [drm] radeon: 1024M of GTT memory ready.
+[    3.721569] [drm] Loading CAICOS Microcode
+[    3.722094] [drm] Internal thermal controller with fan control
+[    3.726616] [drm] radeon: dpm initialized
+[    3.726869] [drm] GART: num cpu pages 262144, num gpu pages 262144
+[    3.728443] [drm] enabling PCIE gen 2 link speeds, disable with radeon.pcie_gen2=0
+[    3.742636] [drm] PCIE GART of 1024M enabled (table at 0x0000000000162000).
+[    3.742898] radeon 0000:01:00.0: WB enabled
+[    3.742905] radeon 0000:01:00.0: fence driver on ring 0 use gpu addr 0x0000000040000c00 and cpu addr 0x00000000c59f4b26
+[    3.742909] radeon 0000:01:00.0: fence driver on ring 3 use gpu addr 0x0000000040000c0c and cpu addr 0x0000000056817be0
+[    3.743902] radeon 0000:01:00.0: fence driver on ring 5 use gpu addr 0x0000000000072118 and cpu addr 0x000000001268a13c
+[    3.743914] [drm] Supports vblank timestamp caching Rev 2 (21.10.2013).
+[    3.743917] [drm] Driver supports precise vblank timestamp query.
+[    3.743921] radeon 0000:01:00.0: radeon: MSI limited to 32-bit
+[    3.744158] radeon 0000:01:00.0: radeon: using MSI.
+[    3.744284] [drm] radeon: irq initialized.
+[    3.744842] e1000e 0000:00:19.0 0000:00:19.0 (uninitialized): registered PHC clock
+[    3.761849] [drm] ring test on 0 succeeded in 2 usecs
+[    3.761863] [drm] ring test on 3 succeeded in 6 usecs
+[    3.785620] input: Logitech USB Optical Mouse as /devices/pci0000:00/0000:00:14.0/usb3/3-1/3-1:1.0/0003:046D:C077.0001/input/input7
+[    3.789298] hid-generic 0003:046D:C077.0001: input,hidraw0: USB HID v1.11 Mouse [Logitech USB Optical Mouse] on usb-0000:00:14.0-1/input0
+[    3.789713] input: CHICONY HP Basic USB Keyboard as /devices/pci0000:00/0000:00:1a.0/usb1/1-1/1-1.5/1-1.5:1.0/0003:03F0:0024.0002/input/input8
+[    3.828933] e1000e 0000:00:19.0 eth0: (PCI Express:2.5GT/s:Width x1) b4:b5:2f:c9:74:b9
+[    3.828977] e1000e 0000:00:19.0 eth0: Intel(R) PRO/1000 Network Connection
+[    3.829028] e1000e 0000:00:19.0 eth0: MAC: 10, PHY: 11, PBA No: 0100FF-0FF
+[    3.829406] e1000e 0000:03:00.0: Interrupt Throttling Rate (ints/sec) set to dynamic conservative mode
+[    3.841476] hid-generic 0003:03F0:0024.0002: input,hidraw1: USB HID v1.11 Keyboard [CHICONY HP Basic USB Keyboard] on usb-0000:00:1a.0-1.5/input0
+[    3.871787] e1000e 0000:03:00.0 0000:03:00.0 (uninitialized): registered PHC clock
+[    3.919831] e1000e 0000:03:00.0 eth1: (PCI Express:2.5GT/s:Width x1) 68:05:ca:0e:df:da
+[    3.919836] e1000e 0000:03:00.0 eth1: Intel(R) PRO/1000 Network Connection
+[    3.919898] e1000e 0000:03:00.0 eth1: MAC: 3, PHY: 8, PBA No: G17304-005
+[    3.922995] e1000e 0000:00:19.0 eno1: renamed from eth0
+[    3.931893] e1000e 0000:03:00.0 enp3s0: renamed from eth1
+[    3.939260] [drm] ring test on 5 succeeded in 2 usecs
+[    3.939272] [drm] UVD initialized successfully.
+[    3.940367] [drm] ib test on ring 0 succeeded in 0 usecs
+[    3.940458] [drm] ib test on ring 3 succeeded in 0 usecs
+[    4.592251] [drm] ib test on ring 5 succeeded
+[    4.595166] [drm] Radeon Display Connectors
+[    4.595169] [drm] Connector 0:
+[    4.595170] [drm]   DP-1
+[    4.595172] [drm]   HPD2
+[    4.595174] [drm]   DDC: 0x6460 0x6460 0x6464 0x6464 0x6468 0x6468 0x646c 0x646c
+[    4.595176] [drm]   Encoders:
+[    4.595177] [drm]     DFP1: INTERNAL_UNIPHY1
+[    4.595179] [drm] Connector 1:
+[    4.595180] [drm]   DVI-I-1
+[    4.595182] [drm]   HPD4
+[    4.595184] [drm]   DDC: 0x6450 0x6450 0x6454 0x6454 0x6458 0x6458 0x645c 0x645c
+[    4.595185] [drm]   Encoders:
+[    4.595187] [drm]     DFP2: INTERNAL_UNIPHY
+[    4.595188] [drm]     CRT1: INTERNAL_KLDSCP_DAC1
+[    4.662913] [drm] fb mappable at 0xE0363000
+[    4.662920] [drm] vram apper at 0xE0000000
+[    4.662921] [drm] size 8294400
+[    4.662923] [drm] fb depth is 24
+[    4.662924] [drm]    pitch is 7680
+[    4.663238] fbcon: radeondrmfb (fb0) is primary device
+[    4.663413] Console: switching to colour frame buffer device 240x67
+[    4.663441] radeon 0000:01:00.0: fb0: radeondrmfb frame buffer device
+[    4.669261] [drm] Initialized radeon 2.50.0 20080528 for 0000:01:00.0 on minor 0
+[    4.704216] systemd-udevd (220) used greatest stack depth: 11712 bytes left
+[    5.346330] random: crng init done
+[    7.107758] EXT4-fs (sda3): mounted filesystem with ordered data mode. Opts: (null)
+[    8.228268] ip_tables: (C) 2000-2006 Netfilter Core Team
+[    8.266234] systemd[1]: systemd 237 running in system mode. (+PAM +AUDIT +SELINUX +IMA +APPARMOR +SMACK +SYSVINIT +UTMP +LIBCRYPTSETUP +GCRYPT +GNUTLS +ACL +XZ +LZ4 +SECCOMP +BLKID +ELFUTILS +KMOD -IDN2 +IDN -PCRE2 default-hierarchy=hybrid)
+[    8.278387] systemd[1]: Detected architecture x86-64.
+[    8.287785] systemd[1]: Set hostname to <ele-a2459-16>.
+[    9.891916] systemd[1]: Started Forward Password Requests to Wall Directory Watch.
+[    9.891972] systemd[1]: Reached target System Time Synchronized.
+[    9.891983] systemd[1]: Reached target User and Group Name Lookups.
+[    9.892504] systemd[1]: Set up automount Arbitrary Executable File Formats File System Automount Point.
+[    9.893083] systemd[1]: Created slice User and Session Slice.
+[    9.893422] systemd[1]: Created slice System Slice.
+[    9.893682] systemd[1]: Listening on Journal Socket.
+[   10.463275] EXT4-fs (sda3): re-mounted. Opts: errors=remount-ro
+[   10.732361] systemd-journald[307]: Received request to flush runtime journal from PID 1
+[   10.774405] lp: driver loaded but no devices found
+[   10.872158] Adding 2097148k swap on /swapfile.  Priority:-2 extents:6 across:2260988k FS
+[   10.877617] RPC: Registered named UNIX socket transport module.
+[   10.877623] RPC: Registered udp transport module.
+[   10.877625] RPC: Registered tcp transport module.
+[   10.877627] RPC: Registered tcp NFSv4.1 backchannel transport module.
+[   10.968683] ppdev: user-space parallel port driver
+[   10.988774] PCI parallel port detected: 9710:9865, I/O at 0xc030(0x0), IRQ 20
+[   10.989109] PCI parallel port detected: 9710:9865, I/O at 0xc020(0x0), IRQ 21
+[   12.489200] systemd-journald[307]: File /var/log/journal/b976318a295f4b52967604b3214ff620/system.journal corrupted or uncleanly shut down, renaming and replacing.
+[   21.185792] audit: type=1400 audit(1574540878.106:2): apparmor="STATUS" operation="profile_load" profile="unconfined" name="libreoffice-oopslash" pid=475 comm="apparmor_parser"
+[   21.186780] audit: type=1400 audit(1574540878.107:3): apparmor="STATUS" operation="profile_load" profile="unconfined" name="/usr/bin/man" pid=474 comm="apparmor_parser"
+[   21.186793] audit: type=1400 audit(1574540878.107:4): apparmor="STATUS" operation="profile_load" profile="unconfined" name="man_filter" pid=474 comm="apparmor_parser"
+[   21.186804] audit: type=1400 audit(1574540878.107:5): apparmor="STATUS" operation="profile_load" profile="unconfined" name="man_groff" pid=474 comm="apparmor_parser"
+[   21.188206] audit: type=1400 audit(1574540878.109:6): apparmor="STATUS" operation="profile_load" profile="unconfined" name="libreoffice-senddoc" pid=476 comm="apparmor_parser"
+[   21.189549] audit: type=1400 audit(1574540878.110:7): apparmor="STATUS" operation="profile_load" profile="unconfined" name="/sbin/dhclient" pid=471 comm="apparmor_parser"
+[   21.189562] audit: type=1400 audit(1574540878.110:8): apparmor="STATUS" operation="profile_load" profile="unconfined" name="/usr/lib/NetworkManager/nm-dhcp-client.action" pid=471 comm="apparmor_parser"
+[   21.189573] audit: type=1400 audit(1574540878.110:9): apparmor="STATUS" operation="profile_load" profile="unconfined" name="/usr/lib/NetworkManager/nm-dhcp-helper" pid=471 comm="apparmor_parser"
+[   21.189584] audit: type=1400 audit(1574540878.110:10): apparmor="STATUS" operation="profile_load" profile="unconfined" name="/usr/lib/connman/scripts/dhclient-script" pid=471 comm="apparmor_parser"
+[   21.191168] audit: type=1400 audit(1574540878.112:11): apparmor="STATUS" operation="profile_load" profile="unconfined" name="libreoffice-soffice" pid=477 comm="apparmor_parser"
+[   21.239139] shpchp: Standard Hot Plug PCI Controller Driver version: 0.4
+[   21.256436] Serial: 8250/16550 driver, 32 ports, IRQ sharing enabled
+[   21.277603] 00:08: ttyS0 at I/O 0x3f8 (irq = 4, base_baud = 115200) is a 16550A
+[   21.299194] 00:09: ttyS1 at I/O 0x2f8 (irq = 3, base_baud = 115200) is a 16550A
+[   21.345322] 0000:00:16.3: ttyS4 at I/O 0xf100 (irq = 19, base_baud = 115200) is a 16550A
+[   21.367600] 0000:04:00.0: ttyS5 at I/O 0xc030 (irq = 20, base_baud = 115200) is a ST16650V2
+[   21.400042] 0000:04:00.1: ttyS6 at I/O 0xc020 (irq = 21, base_baud = 115200) is a ST16650V2
+[   21.414395] ACPI Warning: SystemIO range 0x0000000000000428-0x000000000000042F conflicts with OpRegion 0x0000000000000400-0x000000000000047F (\PMIO) (20170831/utaddress-247)
+[   21.414415] ACPI: If an ACPI driver is available for this device, you should use it instead of the native driver
+[   21.414422] ACPI Warning: SystemIO range 0x0000000000000540-0x000000000000054F conflicts with OpRegion 0x0000000000000500-0x0000000000000563 (\GPIO) (20170831/utaddress-247)
+[   21.414437] ACPI: If an ACPI driver is available for this device, you should use it instead of the native driver
+[   21.414442] ACPI Warning: SystemIO range 0x0000000000000530-0x000000000000053F conflicts with OpRegion 0x0000000000000500-0x0000000000000563 (\GPIO) (20170831/utaddress-247)
+[   21.414456] ACPI: If an ACPI driver is available for this device, you should use it instead of the native driver
+[   21.414462] ACPI Warning: SystemIO range 0x0000000000000500-0x000000000000052F conflicts with OpRegion 0x0000000000000500-0x0000000000000563 (\GPIO) (20170831/utaddress-247)
+[   21.414476] ACPI: If an ACPI driver is available for this device, you should use it instead of the native driver
+[   21.414478] lpc_ich: Resource conflict(s) found affecting gpio_ich
+[   21.423586] snd_hda_intel 0000:01:00.1: Handle vga_switcheroo audio client
+[   21.435064] radeon_dp_aux_transfer_native: 74 callbacks suppressed
+[   21.440053] input: HDA ATI HDMI HDMI/DP,pcm=3 as /devices/pci0000:00/0000:00:01.0/0000:01:00.1/sound/card1/input9
+[   21.450029] snd_hda_codec_realtek hdaudioC0D0: ALC221: SKU not ready 0x411111f0
+[   21.450375] snd_hda_codec_realtek hdaudioC0D0: autoconfig for ALC221: line_outs=1 (0x14/0x0/0x0/0x0/0x0) type:line
+[   21.450378] snd_hda_codec_realtek hdaudioC0D0:    speaker_outs=1 (0x17/0x0/0x0/0x0/0x0)
+[   21.450380] snd_hda_codec_realtek hdaudioC0D0:    hp_outs=1 (0x21/0x0/0x0/0x0/0x0)
+[   21.450382] snd_hda_codec_realtek hdaudioC0D0:    mono: mono_out=0x0
+[   21.450384] snd_hda_codec_realtek hdaudioC0D0:    inputs:
+[   21.450387] snd_hda_codec_realtek hdaudioC0D0:      Mic=0x1a
+[   21.450389] snd_hda_codec_realtek hdaudioC0D0:      Line=0x1b
+[   21.491997] RAPL PMU: API unit is 2^-32 Joules, 3 fixed counters, 163840 ms ovfl timer
+[   21.492002] RAPL PMU: hw unit of domain pp0-core 2^-16 Joules
+[   21.492005] RAPL PMU: hw unit of domain package 2^-16 Joules
+[   21.492008] RAPL PMU: hw unit of domain pp1-gpu 2^-16 Joules
+[   21.493562] input: HDA Intel PCH Mic as /devices/pci0000:00/0000:00:1b.0/sound/card0/input10
+[   21.493932] input: HDA Intel PCH Line as /devices/pci0000:00/0000:00:1b.0/sound/card0/input11
+[   21.500931] input: HDA Intel PCH Line Out as /devices/pci0000:00/0000:00:1b.0/sound/card0/input12
+[   21.501320] input: HDA Intel PCH Front Headphone as /devices/pci0000:00/0000:00:1b.0/sound/card0/input13
+[   21.506779] AVX version of gcm_enc/dec engaged.
+[   21.506781] AES CTR mode by8 optimization enabled
+[   21.572882] intel_rapl: Found RAPL domain package
+[   21.572894] intel_rapl: Found RAPL domain core
+[   21.572899] intel_rapl: RAPL package 0 domain package locked by BIOS
+[   21.848606] input: HP WMI hotkeys as /devices/virtual/input/input14
+[   28.151716] systemd-udevd (453) used greatest stack depth: 11360 bytes left
+[   28.289322] IPv6: ADDRCONF(NETDEV_UP): eno1: link is not ready
+[   28.504567] IPv6: ADDRCONF(NETDEV_UP): eno1: link is not ready
+[   28.509124] IPv6: ADDRCONF(NETDEV_UP): enp3s0: link is not ready
+[   28.569768] IPv6: ADDRCONF(NETDEV_UP): enp3s0: link is not ready
+[   30.703044] radeon_dp_aux_transfer_native: 32 callbacks suppressed
+[   32.075192] e1000e: eno1 NIC Link is Up 1000 Mbps Full Duplex, Flow Control: None
+[   32.075280] IPv6: ADDRCONF(NETDEV_CHANGE): eno1: link becomes ready
+[   39.846144] FS-Cache: Loaded
+[   39.888715] FS-Cache: Netfs 'nfs' registered for caching
+[   39.918541] NFS: Registering the id_resolver key type
+[   39.918557] Key type id_resolver registered
+[   39.918560] Key type id_legacy registered
+[   40.021822] mount.nfs (1433) used greatest stack depth: 10696 bytes left
+[   41.185871] radeon_dp_aux_transfer_native: 32 callbacks suppressed
+[   47.542112] rfkill: input handler disabled
+[   47.625770] radeon_dp_aux_transfer_native: 116 callbacks suppressed
+[   59.003050] mount.nfs (1986) used greatest stack depth: 10480 bytes left
+[  165.994324] serial 00:09: disabled
+[  165.995505] serial 00:08: disabled
+[  169.555757] SerialDriver: loading out-of-tree module taints kernel.
+[  169.555837] SerialDriver: module verification failed: signature and/or required key missing - tainting kernel
+[  169.556700] Starting 
+[  169.556704] PORT 0 ADDR : 49184 
+[  169.556705] PORT 0 IRQ : 21 
+[  169.556909] Requesting IRQ (21) 
+[  169.556927] Request IRQ Status (0) 
+[  169.556930] Adding Serial Driver 0 (err. 0)
+[  169.556938] DLL VAL 12
+[  169.556939] DLM VAL 0
+[  169.556951] Before SCR 7
+[  169.556956] After SCR 7
+[  169.556964] PORT 1 ADDR : 49200 
+[  169.556966] PORT 1 IRQ : 20 
+[  169.557110] Requesting IRQ (20) 
+[  169.557130] Request IRQ Status (0) 
+[  169.557135] Adding Serial Driver 1 (err. 0)
+[  169.557145] DLL VAL 12
+[  169.557148] DLM VAL 0
+[  169.557162] Before SCR 7
+[  169.557168] After SCR 7
+[  205.327141] Opening Serial Driver 0 ! Current mode_r = 1, mode_w= 1
+[  205.327148] SerialDriver Opened by 2376
+[  205.327157] IOCTL baud 9600
+[  205.327174] DLL VAL 0
+[  205.327177] DLM VAL 0
+[  205.327200] Entering Reading c020
+[  205.327302] No data in read buffer, going to sleep (0) 
+[  212.734746] Opening Serial Driver 1 ! Current mode_r = 0, mode_w= 1
+[  212.734753] SerialDriver Opened by 2376
+[  212.734763] IOCTL baud 9600
+[  212.734779] DLL VAL 0
+[  212.734783] DLM VAL 0
+[  212.734834] Entering Writing c030
+[  212.734955] Space available in tx buffer
+[  212.734956] Enter IRQ
+[  212.734964] Write, going back to writeNextChunk
+[  212.734966] LSR VAL 96
+[  212.734970] IER VAL 2
+[  212.734975] Entering IRQ (send). Called by Port c030
+[  212.734980] No room in tx buffer, going to sleep 
+[  212.735039] TX circ Buff Data H
+[  212.735060] IER VAL 2
+[  212.735069] Space available in tx buffer
+[  212.735073] Leaving IRQ
+[  212.735076] Write, going back to WAITFORROOMINBUF
+[  212.735084] No room in tx buffer, going to sleep 
+[  212.735092] Enter IRQ
+[  212.735100] LSR VAL 32
+[  212.735107] IER VAL 2
+[  212.735112] Entering IRQ (send). Called by Port c030
+[  212.735117] TX circ Buff Data E
+[  212.735123] IER VAL 2
+[  212.735454] Leaving IRQ
+[  212.735483] Enter IRQ
+[  212.735495] LSR VAL 0
+[  212.735502] IER VAL 2
+[  212.735514] Enter IRQ
+[  212.735523] LSR VAL 0
+[  212.735530] IER VAL 2
+[  212.735543] Enter IRQ
+[  212.735551] LSR VAL 0
+[  212.735558] IER VAL 2
+[  212.735575] Enter IRQ
+[  212.735582] LSR VAL 0
+[  212.735589] IER VAL 2
+[  212.735600] Enter IRQ
+[  212.735608] LSR VAL 0
+[  212.735615] IER VAL 2
+[  212.735625] Enter IRQ
+[  212.735632] LSR VAL 0
+[  212.735640] IER VAL 2
+[  212.735649] Space available in tx buffer
+[  212.735654] Write, going back to WAITFORROOMINBUF
+[  212.735668] Enter IRQ
+[  212.735676] LSR VAL 0
+[  212.735683] IER VAL 2
+[  212.735691] No room in tx buffer, going to sleep 
+[  212.735695] Enter IRQ
+[  212.735702] LSR VAL 0
+[  212.735709] IER VAL 2
+[  212.735720] Enter IRQ
+[  212.735724] LSR VAL 0
+[  212.735728] IER VAL 2
+[  212.735738] Enter IRQ
+[  212.735745] LSR VAL 0
+[  212.735752] IER VAL 2
+[  212.735796] Enter IRQ
+[  212.735803] LSR VAL 0
+[  212.735811] IER VAL 2
+[  212.735824] Enter IRQ
+[  212.735831] LSR VAL 0
+[  212.735838] IER VAL 2
+[  212.735848] Enter IRQ
+[  212.735856] LSR VAL 0
+[  212.735864] IER VAL 2
+[  212.735875] Enter IRQ
+[  212.735882] LSR VAL 0
+[  212.735889] IER VAL 2
+[  212.735902] Enter IRQ
+[  212.735909] LSR VAL 0
+[  212.735916] IER VAL 2
+[  212.735927] Enter IRQ
+[  212.735935] LSR VAL 0
+[  212.735942] IER VAL 2
+[  212.735953] Enter IRQ
+[  212.735960] LSR VAL 0
+[  212.735967] IER VAL 2
+[  212.735979] Enter IRQ
+[  212.735988] LSR VAL 0
+[  212.735995] IER VAL 2
+[  212.736006] Enter IRQ
+[  212.736013] LSR VAL 0
+[  212.736020] IER VAL 2
+[  212.736031] Enter IRQ
+[  212.736040] LSR VAL 0
+[  212.736047] IER VAL 2
+[  212.736057] Enter IRQ
+[  212.736065] LSR VAL 0
+[  212.736072] IER VAL 2
+[  212.736083] Enter IRQ
+[  212.736090] LSR VAL 0
+[  212.736097] IER VAL 2
+[  212.736107] Enter IRQ
+[  212.736114] LSR VAL 0
+[  212.736121] IER VAL 2
+[  212.736134] Enter IRQ
+[  212.736142] LSR VAL 0
+[  212.736149] IER VAL 2
+[  212.736160] Enter IRQ
+[  212.736167] LSR VAL 0
+[  212.736174] IER VAL 2
+[  212.736187] Enter IRQ
+[  212.736194] LSR VAL 0
+[  212.736201] IER VAL 2
+[  212.736227] Enter IRQ
+[  212.736235] LSR VAL 97
+[  212.736242] IER VAL 1
+[  212.736243] Enter IRQ
+[  212.736250] LSR VAL 0
+[  212.736255] Entering IRQ (recieve). Called by Port c020
+[  212.736263] IER VAL 2
+[  212.736277] Enter IRQ
+[  212.736286] LSR VAL 0
+[  212.736289] RBR Buff Data H
+[  212.736295] IER VAL 2
+[  212.736306] Enter IRQ
+[  212.736315] LSR VAL 0
+[  212.736327] IER VAL 2
+[  212.736340] Enter IRQ
+[  212.736349] LSR VAL 96
+[  212.736361] IER VAL 2
+[  212.736370] Entering IRQ (send). Called by Port c030
+[  212.736452] Leaving IRQ
+[  212.736454] TX circ Buff Data L
+[  212.736461] New data in read buffer
+[  212.736463] IER VAL 2
+[  212.736470] i 1, count 10, flags 8002, block 0
+[  212.736479] No data in read buffer, going to sleep (0) 
+[  212.736506] Leaving IRQ
+[  212.736514] Space available in tx buffer
+[  212.736525] Enter IRQ
+[  212.736530] LSR VAL 0
+[  212.736532] Write, going back to WAITFORROOMINBUF
+[  212.736540] IER VAL 2
+[  212.736543] No room in tx buffer, going to sleep 
+[  212.736557] Enter IRQ
+[  212.736565] LSR VAL 0
+[  212.736573] IER VAL 2
+[  212.736586] Enter IRQ
+[  212.736596] LSR VAL 0
+[  212.736604] IER VAL 2
+[  212.736617] Enter IRQ
+[  212.736625] LSR VAL 0
+[  212.736634] IER VAL 2
+[  212.736646] Enter IRQ
+[  212.736654] LSR VAL 0
+[  212.736661] IER VAL 2
+[  212.736671] Enter IRQ
+[  212.736680] LSR VAL 0
+[  212.736687] IER VAL 2
+[  212.736699] Enter IRQ
+[  212.736706] LSR VAL 0
+[  212.736714] IER VAL 2
+[  212.736724] Enter IRQ
+[  212.736731] LSR VAL 0
+[  212.736738] IER VAL 2
+[  212.736749] Enter IRQ
+[  212.736761] LSR VAL 0
+[  212.736768] IER VAL 2
+[  212.736782] Enter IRQ
+[  212.736790] LSR VAL 0
+[  212.736798] IER VAL 2
+[  212.736811] Enter IRQ
+[  212.736819] LSR VAL 0
+[  212.736826] IER VAL 2
+[  212.736838] Enter IRQ
+[  212.736845] LSR VAL 0
+[  212.736854] IER VAL 2
+[  212.736866] Enter IRQ
+[  212.736873] LSR VAL 0
+[  212.736882] IER VAL 2
+[  212.736895] Enter IRQ
+[  212.736903] LSR VAL 0
+[  212.736910] IER VAL 2
+[  212.736922] Enter IRQ
+[  212.736929] LSR VAL 0
+[  212.736936] IER VAL 2
+[  212.736948] Enter IRQ
+[  212.736955] LSR VAL 0
+[  212.736963] IER VAL 2
+[  212.736974] Enter IRQ
+[  212.736982] LSR VAL 0
+[  212.736989] IER VAL 2
+[  212.737000] Enter IRQ
+[  212.737008] LSR VAL 0
+[  212.737015] IER VAL 2
+[  212.737026] Enter IRQ
+[  212.737033] LSR VAL 0
+[  212.737041] IER VAL 2
+[  212.737052] Enter IRQ
+[  212.737060] LSR VAL 0
+[  212.737067] IER VAL 2
+[  212.737078] Enter IRQ
+[  212.737087] LSR VAL 0
+[  212.737094] IER VAL 2
+[  212.737105] Enter IRQ
+[  212.737112] LSR VAL 0
+[  212.737121] IER VAL 2
+[  212.737133] Enter IRQ
+[  212.737140] LSR VAL 0
+[  212.737147] IER VAL 2
+[  212.737159] Enter IRQ
+[  212.737166] LSR VAL 0
+[  212.737174] IER VAL 2
+[  212.737185] Enter IRQ
+[  212.737192] LSR VAL 0
+[  212.737200] IER VAL 2
+[  212.737235] Enter IRQ
+[  212.737243] LSR VAL 0
+[  212.737254] IER VAL 2
+[  212.737268] Enter IRQ
+[  212.737276] LSR VAL 0
+[  212.737284] IER VAL 2
+[  212.737296] Enter IRQ
+[  212.737304] LSR VAL 0
+[  212.737314] IER VAL 2
+[  212.737325] Enter IRQ
+[  212.737333] LSR VAL 0
+[  212.737342] IER VAL 2
+[  212.737353] Enter IRQ
+[  212.737361] LSR VAL 0
+[  212.737369] IER VAL 2
+[  212.737380] Enter IRQ
+[  212.737388] LSR VAL 0
+[  212.737395] IER VAL 2
+[  212.737405] Enter IRQ
+[  212.737413] LSR VAL 0
+[  212.737420] IER VAL 2
+[  212.737432] Enter IRQ
+[  212.737440] LSR VAL 0
+[  212.737449] IER VAL 2
+[  212.737464] Enter IRQ
+[  212.737472] Enter IRQ
+[  212.737474] LSR VAL 0
+[  212.737479] IER VAL 2
+[  212.737482] LSR VAL 97
+[  212.737489] IER VAL 1
+[  212.737495] Enter IRQ
+[  212.737499] Entering IRQ (recieve). Called by Port c020
+[  212.737509] RBR Buff Data E
+[  212.737516] LSR VAL 0
+[  212.737523] IER VAL 2
+[  212.737536] Enter IRQ
+[  212.737544] LSR VAL 0
+[  212.737551] IER VAL 2
+[  212.737562] Enter IRQ
+[  212.737570] LSR VAL 0
+[  212.737577] IER VAL 2
+[  212.737589] Enter IRQ
+[  212.737596] LSR VAL 0
+[  212.737603] IER VAL 2
+[  212.737613] Enter IRQ
+[  212.737621] LSR VAL 32
+[  212.737628] IER VAL 2
+[  212.737634] Entering IRQ (send). Called by Port c030
+[  212.737636] Leaving IRQ
+[  212.737645] TX circ Buff Data L
+[  212.737655] New data in read buffer
+[  212.737658] IER VAL 2
+[  212.737669] i 2, count 10, flags 8002, block 0
+[  212.737673] Leaving IRQ
+[  212.737677] No data in read buffer, going to sleep (0) 
+[  212.737678] Space available in tx buffer
+[  212.737680] Write, going back to WAITFORROOMINBUF
+[  212.737689] Enter IRQ
+[  212.737691] No room in tx buffer, going to sleep 
+[  212.737697] LSR VAL 0
+[  212.737705] IER VAL 2
+[  212.737717] Enter IRQ
+[  212.737725] LSR VAL 0
+[  212.737732] IER VAL 2
+[  212.737744] Enter IRQ
+[  212.737751] LSR VAL 0
+[  212.737758] IER VAL 2
+[  212.737769] Enter IRQ
+[  212.737777] LSR VAL 0
+[  212.737784] IER VAL 2
+[  212.737797] Enter IRQ
+[  212.737804] LSR VAL 0
+[  212.737811] IER VAL 2
+[  212.737822] Enter IRQ
+[  212.737829] LSR VAL 0
+[  212.737837] IER VAL 2
+[  212.737848] Enter IRQ
+[  212.737855] LSR VAL 0
+[  212.737863] IER VAL 2
+[  212.737874] Enter IRQ
+[  212.737881] LSR VAL 0
+[  212.737888] IER VAL 2
+[  212.737900] Enter IRQ
+[  212.737908] LSR VAL 0
+[  212.737915] IER VAL 2
+[  212.737926] Enter IRQ
+[  212.737933] LSR VAL 0
+[  212.737940] IER VAL 2
+[  212.737953] Enter IRQ
+[  212.737960] LSR VAL 0
+[  212.737967] IER VAL 2
+[  212.737980] Enter IRQ
+[  212.737987] LSR VAL 0
+[  212.737994] IER VAL 2
+[  212.738005] Enter IRQ
+[  212.738013] LSR VAL 0
+[  212.738021] IER VAL 2
+[  212.738032] Enter IRQ
+[  212.738039] LSR VAL 0
+[  212.738046] IER VAL 2
+[  212.738058] Enter IRQ
+[  212.738065] LSR VAL 0
+[  212.738072] IER VAL 2
+[  212.738082] Enter IRQ
+[  212.738091] LSR VAL 0
+[  212.738098] IER VAL 2
+[  212.738108] Enter IRQ
+[  212.738116] LSR VAL 0
+[  212.738123] IER VAL 2
+[  212.738134] Enter IRQ
+[  212.738141] LSR VAL 0
+[  212.738148] IER VAL 2
+[  212.738159] Enter IRQ
+[  212.738166] LSR VAL 0
+[  212.738174] IER VAL 2
+[  212.738185] Enter IRQ
+[  212.738193] LSR VAL 0
+[  212.738200] IER VAL 2
+[  212.738234] Enter IRQ
+[  212.738242] LSR VAL 0
+[  212.738256] IER VAL 2
+[  212.738272] Enter IRQ
+[  212.738283] LSR VAL 0
+[  212.738296] IER VAL 2
+[  212.738312] Enter IRQ
+[  212.738324] LSR VAL 0
+[  212.738336] IER VAL 2
+[  212.738350] Enter IRQ
+[  212.738359] LSR VAL 0
+[  212.738371] IER VAL 2
+[  212.738387] Enter IRQ
+[  212.738399] LSR VAL 0
+[  212.738412] IER VAL 2
+[  212.738427] Enter IRQ
+[  212.738441] LSR VAL 0
+[  212.738451] IER VAL 2
+[  212.738464] Enter IRQ
+[  212.738478] LSR VAL 0
+[  212.738490] IER VAL 2
+[  212.738504] Enter IRQ
+[  212.738515] LSR VAL 0
+[  212.738525] IER VAL 2
+[  212.738537] Enter IRQ
+[  212.738549] LSR VAL 0
+[  212.738560] IER VAL 2
+[  212.738575] Enter IRQ
+[  212.738587] LSR VAL 0
+[  212.738599] IER VAL 2
+[  212.738613] Enter IRQ
+[  212.738626] LSR VAL 0
+[  212.738636] IER VAL 2
+[  212.738649] Enter IRQ
+[  212.738661] LSR VAL 0
+[  212.738673] IER VAL 2
+[  212.738687] Enter IRQ
+[  212.738697] LSR VAL 0
+[  212.738704] IER VAL 2
+[  212.738716] Enter IRQ
+[  212.738724] LSR VAL 0
+[  212.738727] Enter IRQ
+[  212.738732] IER VAL 2
+[  212.738739] LSR VAL 97
+[  212.738744] Enter IRQ
+[  212.738749] IER VAL 1
+[  212.738754] LSR VAL 0
+[  212.738759] Entering IRQ (recieve). Called by Port c020
+[  212.738765] IER VAL 2
+[  212.738772] Enter IRQ
+[  212.738777] RBR Buff Data L
+[  212.738782] LSR VAL 0
+[  212.738789] IER VAL 2
+[  212.738799] Enter IRQ
+[  212.738801] Leaving IRQ
+[  212.738807] New data in read buffer
+[  212.738808] LSR VAL 0
+[  212.738813] IER VAL 2
+[  212.738818] i 3, count 10, flags 8002, block 0
+[  212.738822] No data in read buffer, going to sleep (0) 
+[  212.738826] Enter IRQ
+[  212.738834] LSR VAL 0
+[  212.738843] IER VAL 2
+[  212.738855] Enter IRQ
+[  212.738863] LSR VAL 96
+[  212.738870] IER VAL 2
+[  212.738878] Entering IRQ (send). Called by Port c030
+[  212.738888] TX circ Buff Data O
+[  212.738897] IER VAL 2
+[  212.738916] Leaving IRQ
+[  212.738926] Enter IRQ
+[  212.738935] Space available in tx buffer
+[  212.738937] LSR VAL 0
+[  212.738940] Write, going back to WAITFORROOMINBUF
+[  212.738942] IER VAL 2
+[  212.738949] Enter IRQ
+[  212.738950] No room in tx buffer, going to sleep 
+[  212.738957] LSR VAL 0
+[  212.738964] IER VAL 2
+[  212.738977] Enter IRQ
+[  212.738985] LSR VAL 0
+[  212.738992] IER VAL 2
+[  212.739003] Enter IRQ
+[  212.739013] LSR VAL 0
+[  212.739025] IER VAL 2
+[  212.739039] Enter IRQ
+[  212.739048] LSR VAL 0
+[  212.739060] IER VAL 2
+[  212.739072] Enter IRQ
+[  212.739084] LSR VAL 0
+[  212.739097] IER VAL 2
+[  212.739112] Enter IRQ
+[  212.739123] LSR VAL 0
+[  212.739136] IER VAL 2
+[  212.739150] Enter IRQ
+[  212.739161] LSR VAL 0
+[  212.739173] IER VAL 2
+[  212.739188] Enter IRQ
+[  212.739200] LSR VAL 0
+[  212.739207] IER VAL 2
+[  212.739240] Enter IRQ
+[  212.739253] LSR VAL 0
+[  212.739262] IER VAL 2
+[  212.739277] Enter IRQ
+[  212.739287] LSR VAL 0
+[  212.739295] IER VAL 2
+[  212.739307] Enter IRQ
+[  212.739315] LSR VAL 0
+[  212.739322] IER VAL 2
+[  212.739335] Enter IRQ
+[  212.739343] LSR VAL 0
+[  212.739350] IER VAL 2
+[  212.739361] Enter IRQ
+[  212.739369] LSR VAL 0
+[  212.739376] IER VAL 2
+[  212.739388] Enter IRQ
+[  212.739395] LSR VAL 0
+[  212.739403] IER VAL 2
+[  212.739414] Enter IRQ
+[  212.739421] LSR VAL 0
+[  212.739428] IER VAL 2
+[  212.739447] Enter IRQ
+[  212.739453] LSR VAL 0
+[  212.739458] IER VAL 2
+[  212.739467] Enter IRQ
+[  212.739472] LSR VAL 0
+[  212.739478] IER VAL 2
+[  212.739487] Enter IRQ
+[  212.739493] LSR VAL 0
+[  212.739498] IER VAL 2
+[  212.739510] Enter IRQ
+[  212.739516] LSR VAL 0
+[  212.739521] IER VAL 2
+[  212.739531] Enter IRQ
+[  212.739538] LSR VAL 0
+[  212.739543] IER VAL 2
+[  212.739552] Enter IRQ
+[  212.739557] LSR VAL 0
+[  212.739566] IER VAL 2
+[  212.739578] Enter IRQ
+[  212.739586] LSR VAL 0
+[  212.739595] IER VAL 2
+[  212.739606] Enter IRQ
+[  212.739615] LSR VAL 0
+[  212.739625] IER VAL 2
+[  212.739634] Enter IRQ
+[  212.739651] LSR VAL 0
+[  212.739661] IER VAL 2
+[  212.739673] Enter IRQ
+[  212.739682] LSR VAL 0
+[  212.739690] IER VAL 2
+[  212.739706] Enter IRQ
+[  212.739721] LSR VAL 0
+[  212.739727] IER VAL 2
+[  212.739735] Enter IRQ
+[  212.739741] LSR VAL 0
+[  212.739746] IER VAL 2
+[  212.739755] Enter IRQ
+[  212.739761] LSR VAL 0
+[  212.739767] IER VAL 2
+[  212.739775] Enter IRQ
+[  212.739781] LSR VAL 0
+[  212.739791] IER VAL 2
+[  212.739802] Enter IRQ
+[  212.739818] LSR VAL 0
+[  212.739833] IER VAL 2
+[  212.739841] Enter IRQ
+[  212.739845] LSR VAL 0
+[  212.739849] IER VAL 2
+[  212.739855] Enter IRQ
+[  212.739861] LSR VAL 0
+[  212.739864] IER VAL 2
+[  212.739871] Enter IRQ
+[  212.739875] LSR VAL 0
+[  212.739880] IER VAL 2
+[  212.739886] Enter IRQ
+[  212.739890] LSR VAL 0
+[  212.739894] IER VAL 2
+[  212.739902] Enter IRQ
+[  212.739906] LSR VAL 0
+[  212.739909] IER VAL 2
+[  212.739916] Enter IRQ
+[  212.739920] LSR VAL 0
+[  212.739924] IER VAL 2
+[  212.739930] Enter IRQ
+[  212.739933] LSR VAL 0
+[  212.739937] IER VAL 2
+[  212.739943] Enter IRQ
+[  212.739947] LSR VAL 0
+[  212.739951] IER VAL 2
+[  212.739956] Enter IRQ
+[  212.739960] LSR VAL 0
+[  212.739965] IER VAL 2
+[  212.739970] Enter IRQ
+[  212.739974] LSR VAL 0
+[  212.739978] IER VAL 2
+[  212.739983] Enter IRQ
+[  212.739984] Enter IRQ
+[  212.739987] LSR VAL 0
+[  212.739989] LSR VAL 97
+[  212.739992] IER VAL 2
+[  212.739995] IER VAL 1
+[  212.739998] Entering IRQ (recieve). Called by Port c020
+[  212.740000] Enter IRQ
+[  212.740003] LSR VAL 0
+[  212.740008] RBR Buff Data L
+[  212.740009] IER VAL 2
+[  212.740013] Enter IRQ
+[  212.740017] Leaving IRQ
+[  212.740018] LSR VAL 0
+[  212.740020] IER VAL 2
+[  212.740025] Enter IRQ
+[  212.740029] New data in read buffer
+[  212.740029] LSR VAL 0
+[  212.740032] i 4, count 10, flags 8002, block 0
+[  212.740033] IER VAL 2
+[  212.740035] No data in read buffer, going to sleep (0) 
+[  212.740038] Enter IRQ
+[  212.740042] LSR VAL 0
+[  212.740045] IER VAL 2
+[  212.740051] Enter IRQ
+[  212.740055] LSR VAL 0
+[  212.740058] IER VAL 2
+[  212.740064] Enter IRQ
+[  212.740068] LSR VAL 0
+[  212.740071] IER VAL 2
+[  212.740078] Enter IRQ
+[  212.740081] LSR VAL 0
+[  212.740085] IER VAL 2
+[  212.740091] Enter IRQ
+[  212.740094] LSR VAL 0
+[  212.740099] IER VAL 2
+[  212.740106] Enter IRQ
+[  212.740109] LSR VAL 0
+[  212.740113] IER VAL 2
+[  212.740119] Enter IRQ
+[  212.740122] LSR VAL 96
+[  212.740126] IER VAL 2
+[  212.740129] Entering IRQ (send). Called by Port c030
+[  212.740133] TX circ Buff Data  
+[  212.740139] IER VAL 2
+[  212.740161] Leaving IRQ
+[  212.740168] Space available in tx buffer
+[  212.740173] Enter IRQ
+[  212.740177] Write, going back to WAITFORROOMINBUF
+[  212.740178] LSR VAL 0
+[  212.740183] IER VAL 2
+[  212.740187] No room in tx buffer, going to sleep 
+[  212.740195] Enter IRQ
+[  212.740203] LSR VAL 0
+[  212.740210] IER VAL 2
+[  212.740240] Enter IRQ
+[  212.740249] LSR VAL 0
+[  212.740260] IER VAL 2
+[  212.740274] Enter IRQ
+[  212.740282] LSR VAL 0
+[  212.740290] IER VAL 2
+[  212.740305] Enter IRQ
+[  212.740313] LSR VAL 0
+[  212.740321] IER VAL 2
+[  212.740334] Enter IRQ
+[  212.740342] LSR VAL 0
+[  212.740350] IER VAL 2
+[  212.740362] Enter IRQ
+[  212.740370] LSR VAL 0
+[  212.740380] IER VAL 2
+[  212.740391] Enter IRQ
+[  212.740399] LSR VAL 0
+[  212.740407] IER VAL 2
+[  212.740419] Enter IRQ
+[  212.740427] LSR VAL 0
+[  212.740435] IER VAL 2
+[  212.740447] Enter IRQ
+[  212.740458] LSR VAL 0
+[  212.740469] IER VAL 2
+[  212.740484] Enter IRQ
+[  212.740493] LSR VAL 0
+[  212.740507] IER VAL 2
+[  212.740521] Enter IRQ
+[  212.740533] LSR VAL 0
+[  212.740540] IER VAL 2
+[  212.740554] Enter IRQ
+[  212.740561] LSR VAL 0
+[  212.740569] IER VAL 2
+[  212.740580] Enter IRQ
+[  212.740587] LSR VAL 0
+[  212.740595] IER VAL 2
+[  212.740606] Enter IRQ
+[  212.740613] LSR VAL 0
+[  212.740622] IER VAL 2
+[  212.740640] Enter IRQ
+[  212.740644] LSR VAL 0
+[  212.740648] IER VAL 2
+[  212.740654] Enter IRQ
+[  212.740658] LSR VAL 0
+[  212.740662] IER VAL 2
+[  212.740669] Enter IRQ
+[  212.740672] LSR VAL 0
+[  212.740676] IER VAL 2
+[  212.740683] Enter IRQ
+[  212.740687] LSR VAL 0
+[  212.740690] IER VAL 2
+[  212.740698] Enter IRQ
+[  212.740703] LSR VAL 0
+[  212.740707] IER VAL 2
+[  212.740714] Enter IRQ
+[  212.740719] LSR VAL 0
+[  212.740723] IER VAL 2
+[  212.740730] Enter IRQ
+[  212.740734] LSR VAL 0
+[  212.740738] IER VAL 2
+[  212.740744] Enter IRQ
+[  212.740748] LSR VAL 0
+[  212.740752] IER VAL 2
+[  212.740759] Enter IRQ
+[  212.740764] LSR VAL 0
+[  212.740769] IER VAL 2
+[  212.740777] Enter IRQ
+[  212.740781] LSR VAL 0
+[  212.740785] IER VAL 2
+[  212.740792] Enter IRQ
+[  212.740796] LSR VAL 0
+[  212.740800] IER VAL 2
+[  212.740806] Enter IRQ
+[  212.740810] LSR VAL 0
+[  212.740813] IER VAL 2
+[  212.740820] Enter IRQ
+[  212.740825] LSR VAL 0
+[  212.740828] IER VAL 2
+[  212.740834] Enter IRQ
+[  212.740838] LSR VAL 0
+[  212.740842] IER VAL 2
+[  212.740849] Enter IRQ
+[  212.740853] LSR VAL 0
+[  212.740857] IER VAL 2
+[  212.740863] Enter IRQ
+[  212.740867] LSR VAL 0
+[  212.740871] IER VAL 2
+[  212.740878] Enter IRQ
+[  212.740882] LSR VAL 0
+[  212.740885] IER VAL 2
+[  212.740892] Enter IRQ
+[  212.740896] LSR VAL 0
+[  212.740900] IER VAL 2
+[  212.740907] Enter IRQ
+[  212.740911] LSR VAL 0
+[  212.740914] IER VAL 2
+[  212.740921] Enter IRQ
+[  212.740925] LSR VAL 0
+[  212.740939] IER VAL 2
+[  212.740950] Enter IRQ
+[  212.740957] LSR VAL 0
+[  212.740964] IER VAL 2
+[  212.740975] Enter IRQ
+[  212.740984] LSR VAL 0
+[  212.740992] IER VAL 2
+[  212.741003] Enter IRQ
+[  212.741010] LSR VAL 0
+[  212.741017] IER VAL 2
+[  212.741027] Enter IRQ
+[  212.741034] LSR VAL 0
+[  212.741042] IER VAL 2
+[  212.741052] Enter IRQ
+[  212.741059] LSR VAL 0
+[  212.741067] IER VAL 2
+[  212.741078] Enter IRQ
+[  212.741085] LSR VAL 0
+[  212.741092] IER VAL 2
+[  212.741102] Enter IRQ
+[  212.741110] LSR VAL 0
+[  212.741117] IER VAL 2
+[  212.741130] Enter IRQ
+[  212.741138] LSR VAL 0
+[  212.741145] IER VAL 2
+[  212.741156] Enter IRQ
+[  212.741163] LSR VAL 0
+[  212.741170] IER VAL 2
+[  212.741181] Enter IRQ
+[  212.741190] LSR VAL 0
+[  212.741197] IER VAL 2
+[  212.741239] Enter IRQ
+[  212.741242] Enter IRQ
+[  212.741249] LSR VAL 97
+[  212.741253] LSR VAL 0
+[  212.741258] IER VAL 2
+[  212.741266] IER VAL 1
+[  212.741271] Enter IRQ
+[  212.741274] Entering IRQ (recieve). Called by Port c020
+[  212.741282] RBR Buff Data O
+[  212.741288] LSR VAL 0
+[  212.741298] IER VAL 2
+[  212.741300] Leaving IRQ
+[  212.741311] New data in read buffer
+[  212.741313] Enter IRQ
+[  212.741319] LSR VAL 0
+[  212.741325] i 5, count 10, flags 8002, block 0
+[  212.741340] IER VAL 2
+[  212.741342] No data in read buffer, going to sleep (0) 
+[  212.741352] Enter IRQ
+[  212.741359] LSR VAL 0
+[  212.741376] IER VAL 2
+[  212.741389] Enter IRQ
+[  212.741399] LSR VAL 32
+[  212.741408] IER VAL 2
+[  212.741416] Entering IRQ (send). Called by Port c030
+[  212.741427] TX circ Buff Data W
+[  212.741439] IER VAL 2
+[  212.741465] Leaving IRQ
+[  212.741475] Space available in tx buffer
+[  212.741482] Enter IRQ
+[  212.741488] LSR VAL 0
+[  212.741489] (head, 7 et tail, 7 (tail),
+[  212.741492] (0) R,
+[  212.741498] IER VAL 2
+[  212.741502] (1) L,
+[  212.741510] (2) D,
+[  212.741513] Enter IRQ
+[  212.741517] LSR VAL 0
+[  212.741519] (3)  ,
+[  212.741521] (4) 1,
+[  212.741526] (5) 2,
+[  212.741527] IER VAL 2
+[  212.741532] (6) 3,
+[  212.741536] Enter IRQ
+[  212.741540] (7) O (tail),
+[  212.741546] LSR VAL 0
+[  212.741550] (8) .,
+[  212.741554] IER VAL 2
+[  212.741559] Leaving Writing c030
+[  212.741568] Enter IRQ
+[  212.741586] LSR VAL 0
+[  212.741587] Releasing Serial Driver 1! Current mode_r = 0, mode_w= 0 (1)
+[  212.741591] IER VAL 2
+[  212.741598] Enter IRQ
+[  212.741603] LSR VAL 0
+[  212.741608] IER VAL 2
+[  212.741615] Enter IRQ
+[  212.741620] LSR VAL 0
+[  212.741624] IER VAL 2
+[  212.741630] Enter IRQ
+[  212.741634] LSR VAL 0
+[  212.741638] IER VAL 2
+[  212.741644] Enter IRQ
+[  212.741648] LSR VAL 0
+[  212.741653] IER VAL 2
+[  212.741660] Enter IRQ
+[  212.741663] LSR VAL 0
+[  212.741667] IER VAL 2
+[  212.741674] Enter IRQ
+[  212.741678] LSR VAL 0
+[  212.741682] IER VAL 2
+[  212.741688] Enter IRQ
+[  212.741692] LSR VAL 0
+[  212.741695] IER VAL 2
+[  212.741701] Enter IRQ
+[  212.741705] LSR VAL 0
+[  212.741709] IER VAL 2
+[  212.741714] Enter IRQ
+[  212.741718] LSR VAL 0
+[  212.741722] IER VAL 2
+[  212.741727] Enter IRQ
+[  212.741731] LSR VAL 0
+[  212.741735] IER VAL 2
+[  212.741742] Enter IRQ
+[  212.741746] LSR VAL 0
+[  212.741750] IER VAL 2
+[  212.741757] Enter IRQ
+[  212.741761] LSR VAL 0
+[  212.741764] IER VAL 2
+[  212.741770] Enter IRQ
+[  212.741774] LSR VAL 0
+[  212.741778] IER VAL 2
+[  212.741784] Enter IRQ
+[  212.741788] LSR VAL 0
+[  212.741791] IER VAL 2
+[  212.741807] Enter IRQ
+[  212.741814] LSR VAL 0
+[  212.741821] IER VAL 2
+[  212.741833] Enter IRQ
+[  212.741840] LSR VAL 0
+[  212.741848] IER VAL 2
+[  212.741859] Enter IRQ
+[  212.741866] LSR VAL 0
+[  212.741873] IER VAL 2
+[  212.741893] Enter IRQ
+[  212.741899] LSR VAL 0
+[  212.741904] IER VAL 2
+[  212.741913] Enter IRQ
+[  212.741919] LSR VAL 0
+[  212.741925] IER VAL 2
+[  212.741934] Enter IRQ
+[  212.741940] LSR VAL 0
+[  212.741945] IER VAL 2
+[  212.741954] Enter IRQ
+[  212.741960] LSR VAL 0
+[  212.741966] IER VAL 2
+[  212.741976] Enter IRQ
+[  212.741981] LSR VAL 0
+[  212.741987] IER VAL 2
+[  212.741995] Enter IRQ
+[  212.742001] LSR VAL 0
+[  212.742006] IER VAL 2
+[  212.742014] Enter IRQ
+[  212.742020] LSR VAL 0
+[  212.742025] IER VAL 2
+[  212.742035] Enter IRQ
+[  212.742040] LSR VAL 0
+[  212.742046] IER VAL 2
+[  212.742055] Enter IRQ
+[  212.742061] LSR VAL 0
+[  212.742066] IER VAL 2
+[  212.742075] Enter IRQ
+[  212.742081] LSR VAL 0
+[  212.742086] IER VAL 2
+[  212.742096] Enter IRQ
+[  212.742102] LSR VAL 0
+[  212.742107] IER VAL 2
+[  212.742116] Enter IRQ
+[  212.742121] LSR VAL 0
+[  212.742127] IER VAL 2
+[  212.742136] Enter IRQ
+[  212.742142] LSR VAL 0
+[  212.742148] IER VAL 2
+[  212.742157] Enter IRQ
+[  212.742162] LSR VAL 0
+[  212.742168] IER VAL 2
+[  212.742176] Enter IRQ
+[  212.742182] LSR VAL 0
+[  212.742188] IER VAL 2
+[  212.742196] Enter IRQ
+[  212.742201] LSR VAL 0
+[  212.742207] IER VAL 2
+[  212.742230] Enter IRQ
+[  212.742236] LSR VAL 0
+[  212.742242] IER VAL 2
+[  212.742251] Enter IRQ
+[  212.742260] LSR VAL 0
+[  212.742267] IER VAL 2
+[  212.742278] Enter IRQ
+[  212.742285] LSR VAL 0
+[  212.742292] IER VAL 2
+[  212.742303] Enter IRQ
+[  212.742311] LSR VAL 0
+[  212.742318] IER VAL 2
+[  212.742329] Enter IRQ
+[  212.742336] LSR VAL 0
+[  212.742343] IER VAL 2
+[  212.742353] Enter IRQ
+[  212.742360] LSR VAL 0
+[  212.742367] IER VAL 2
+[  212.742379] Enter IRQ
+[  212.742387] LSR VAL 0
+[  212.742394] IER VAL 2
+[  212.742406] Enter IRQ
+[  212.742415] LSR VAL 0
+[  212.742422] IER VAL 2
+[  212.742437] Enter IRQ
+[  212.742444] LSR VAL 0
+[  212.742451] IER VAL 2
+[  212.742463] Enter IRQ
+[  212.742471] LSR VAL 0
+[  212.742478] IER VAL 2
+[  212.742489] Enter IRQ
+[  212.742498] LSR VAL 0
+[  212.742500] Enter IRQ
+[  212.742504] LSR VAL 97
+[  212.742506] IER VAL 2
+[  212.742513] Enter IRQ
+[  212.742514] IER VAL 1
+[  212.742517] Entering IRQ (recieve). Called by Port c020
+[  212.742523] LSR VAL 0
+[  212.742530] IER VAL 2
+[  212.742533] RBR Buff Data  
+[  212.742539] Leaving IRQ
+[  212.742542] Enter IRQ
+[  212.742551] LSR VAL 0
+[  212.742556] IER VAL 2
+[  212.742559] New data in read buffer
+[  212.742563] i 6, count 10, flags 8002, block 0
+[  212.742567] Enter IRQ
+[  212.742568] No data in read buffer, going to sleep (0) 
+[  212.742573] LSR VAL 0
+[  212.742578] IER VAL 2
+[  212.742586] Enter IRQ
+[  212.742592] LSR VAL 0
+[  212.742598] IER VAL 2
+[  212.742608] Enter IRQ
+[  212.742614] LSR VAL 0
+[  212.742619] IER VAL 2
+[  212.742628] Enter IRQ
+[  212.742634] LSR VAL 96
+[  212.742647] IER VAL 2
+[  212.742650] Entering IRQ (send). Called by Port c030
+[  212.742654] TX circ Buff Data O
+[  212.742660] IER VAL 2
+[  212.742664] Leaving IRQ
+[  212.742670] Enter IRQ
+[  212.742675] LSR VAL 0
+[  212.742679] IER VAL 2
+[  212.742686] Enter IRQ
+[  212.742690] LSR VAL 0
+[  212.742694] IER VAL 2
+[  212.742701] Enter IRQ
+[  212.742707] LSR VAL 0
+[  212.742711] IER VAL 2
+[  212.742721] Enter IRQ
+[  212.742725] LSR VAL 0
+[  212.742731] IER VAL 2
+[  212.742738] Enter IRQ
+[  212.742743] LSR VAL 0
+[  212.742749] IER VAL 2
+[  212.742756] Enter IRQ
+[  212.742760] LSR VAL 0
+[  212.742764] IER VAL 2
+[  212.742772] Enter IRQ
+[  212.742775] LSR VAL 0
+[  212.742780] IER VAL 2
+[  212.742785] Enter IRQ
+[  212.742789] LSR VAL 0
+[  212.742794] IER VAL 2
+[  212.742802] Enter IRQ
+[  212.742806] LSR VAL 0
+[  212.742810] IER VAL 2
+[  212.742817] Enter IRQ
+[  212.742821] LSR VAL 0
+[  212.742825] IER VAL 2
+[  212.742833] Enter IRQ
+[  212.742837] LSR VAL 0
+[  212.742841] IER VAL 2
+[  212.742848] Enter IRQ
+[  212.742852] LSR VAL 0
+[  212.742856] IER VAL 2
+[  212.742865] Enter IRQ
+[  212.742869] LSR VAL 0
+[  212.742873] IER VAL 2
+[  212.742880] Enter IRQ
+[  212.742884] LSR VAL 0
+[  212.742889] IER VAL 2
+[  212.742896] Enter IRQ
+[  212.742900] LSR VAL 0
+[  212.742904] IER VAL 2
+[  212.742911] Enter IRQ
+[  212.742915] LSR VAL 0
+[  212.742919] IER VAL 2
+[  212.742925] Enter IRQ
+[  212.742929] LSR VAL 0
+[  212.742933] IER VAL 2
+[  212.742939] Enter IRQ
+[  212.742943] LSR VAL 0
+[  212.742947] IER VAL 2
+[  212.742953] Enter IRQ
+[  212.742957] LSR VAL 0
+[  212.742961] IER VAL 2
+[  212.742966] Enter IRQ
+[  212.742980] LSR VAL 0
+[  212.742987] IER VAL 2
+[  212.742998] Enter IRQ
+[  212.743005] LSR VAL 0
+[  212.743013] IER VAL 2
+[  212.743024] Enter IRQ
+[  212.743032] LSR VAL 0
+[  212.743039] IER VAL 2
+[  212.743051] Enter IRQ
+[  212.743058] LSR VAL 0
+[  212.743065] IER VAL 2
+[  212.743075] Enter IRQ
+[  212.743084] LSR VAL 0
+[  212.743091] IER VAL 2
+[  212.743104] Enter IRQ
+[  212.743111] LSR VAL 0
+[  212.743118] IER VAL 2
+[  212.743130] Enter IRQ
+[  212.743137] LSR VAL 0
+[  212.743144] IER VAL 2
+[  212.743154] Enter IRQ
+[  212.743161] LSR VAL 0
+[  212.743168] IER VAL 2
+[  212.743179] Enter IRQ
+[  212.743186] LSR VAL 0
+[  212.743193] IER VAL 2
+[  212.743236] Enter IRQ
+[  212.743244] LSR VAL 0
+[  212.743256] IER VAL 2
+[  212.743269] Enter IRQ
+[  212.743279] LSR VAL 0
+[  212.743288] IER VAL 2
+[  212.743301] Enter IRQ
+[  212.743309] LSR VAL 0
+[  212.743319] IER VAL 2
+[  212.743332] Enter IRQ
+[  212.743340] LSR VAL 0
+[  212.743348] IER VAL 2
+[  212.743361] Enter IRQ
+[  212.743370] LSR VAL 0
+[  212.743378] IER VAL 2
+[  212.743391] Enter IRQ
+[  212.743398] LSR VAL 0
+[  212.743405] IER VAL 2
+[  212.743417] Enter IRQ
+[  212.743424] LSR VAL 0
+[  212.743432] IER VAL 2
+[  212.743444] Enter IRQ
+[  212.743451] LSR VAL 0
+[  212.743458] IER VAL 2
+[  212.743469] Enter IRQ
+[  212.743479] LSR VAL 0
+[  212.743488] IER VAL 2
+[  212.743508] Enter IRQ
+[  212.743513] LSR VAL 0
+[  212.743517] IER VAL 2
+[  212.743524] Enter IRQ
+[  212.743528] LSR VAL 0
+[  212.743533] IER VAL 2
+[  212.743539] Enter IRQ
+[  212.743543] LSR VAL 0
+[  212.743546] IER VAL 2
+[  212.743553] Enter IRQ
+[  212.743557] LSR VAL 0
+[  212.743561] IER VAL 2
+[  212.743567] Enter IRQ
+[  212.743571] LSR VAL 0
+[  212.743575] IER VAL 2
+[  212.743582] Enter IRQ
+[  212.743586] LSR VAL 0
+[  212.743590] IER VAL 2
+[  212.743596] Enter IRQ
+[  212.743600] LSR VAL 0
+[  212.743603] IER VAL 2
+[  212.743610] Enter IRQ
+[  212.743614] LSR VAL 0
+[  212.743618] IER VAL 2
+[  212.743625] Enter IRQ
+[  212.743641] LSR VAL 0
+[  212.743648] IER VAL 2
+[  212.743659] Enter IRQ
+[  212.743666] LSR VAL 0
+[  212.743674] IER VAL 2
+[  212.743684] Enter IRQ
+[  212.743691] LSR VAL 0
+[  212.743698] IER VAL 2
+[  212.743708] Enter IRQ
+[  212.743715] LSR VAL 0
+[  212.743723] IER VAL 2
+[  212.743734] Enter IRQ
+[  212.743742] LSR VAL 0
+[  212.743749] IER VAL 2
+[  212.743760] Enter IRQ
+[  212.743768] LSR VAL 0
+[  212.743774] Enter IRQ
+[  212.743776] IER VAL 2
+[  212.743781] LSR VAL 97
+[  212.743785] Enter IRQ
+[  212.743789] IER VAL 1
+[  212.743802] LSR VAL 0
+[  212.743803] Entering IRQ (recieve). Called by Port c020
+[  212.743810] RBR Buff Data W
+[  212.743812] IER VAL 2
+[  212.743820] Enter IRQ
+[  212.743826] LSR VAL 0
+[  212.743831] IER VAL 2
+[  212.743840] Enter IRQ
+[  212.743845] LSR VAL 0
+[  212.743850] IER VAL 2
+[  212.743858] Enter IRQ
+[  212.743864] LSR VAL 0
+[  212.743870] IER VAL 2
+[  212.743882] Enter IRQ
+[  212.743888] LSR VAL 0
+[  212.743893] IER VAL 2
+[  212.743902] Enter IRQ
+[  212.743909] LSR VAL 32
+[  212.743914] IER VAL 2
+[  212.743919] Entering IRQ (send). Called by Port c030
+[  212.743923] Leaving IRQ
+[  212.743926] TX circ Buff Data R
+[  212.743935] IER VAL 2
+[  212.743936] New data in read buffer
+[  212.743940] i 7, count 10, flags 8002, block 0
+[  212.743941] No data in read buffer, going to sleep (0) 
+[  212.743944] Leaving IRQ
+[  212.743953] Enter IRQ
+[  212.743961] LSR VAL 0
+[  212.743966] IER VAL 2
+[  212.743976] Enter IRQ
+[  212.743992] LSR VAL 0
+[  212.744000] IER VAL 2
+[  212.744011] Enter IRQ
+[  212.744018] LSR VAL 0
+[  212.744027] IER VAL 2
+[  212.744037] Enter IRQ
+[  212.744045] LSR VAL 0
+[  212.744052] IER VAL 2
+[  212.744062] Enter IRQ
+[  212.744070] LSR VAL 0
+[  212.744078] IER VAL 2
+[  212.744089] Enter IRQ
+[  212.744096] LSR VAL 0
+[  212.744103] IER VAL 2
+[  212.744115] Enter IRQ
+[  212.744123] LSR VAL 0
+[  212.744130] IER VAL 2
+[  212.744141] Enter IRQ
+[  212.744149] LSR VAL 0
+[  212.744158] IER VAL 2
+[  212.744168] Enter IRQ
+[  212.744175] LSR VAL 0
+[  212.744182] IER VAL 2
+[  212.744196] Enter IRQ
+[  212.744203] LSR VAL 0
+[  212.744210] IER VAL 2
+[  212.744242] Enter IRQ
+[  212.744250] LSR VAL 0
+[  212.744261] IER VAL 2
+[  212.744278] Enter IRQ
+[  212.744287] LSR VAL 0
+[  212.744304] IER VAL 2
+[  212.744314] Enter IRQ
+[  212.744321] LSR VAL 0
+[  212.744329] IER VAL 2
+[  212.744339] Enter IRQ
+[  212.744346] LSR VAL 0
+[  212.744355] IER VAL 2
+[  212.744366] Enter IRQ
+[  212.744373] LSR VAL 0
+[  212.744382] IER VAL 2
+[  212.744390] Enter IRQ
+[  212.744396] LSR VAL 0
+[  212.744404] IER VAL 2
+[  212.744413] Enter IRQ
+[  212.744421] LSR VAL 0
+[  212.744428] IER VAL 2
+[  212.744437] Enter IRQ
+[  212.744444] LSR VAL 0
+[  212.744451] IER VAL 2
+[  212.744463] Enter IRQ
+[  212.744471] LSR VAL 0
+[  212.744477] IER VAL 2
+[  212.744487] Enter IRQ
+[  212.744494] LSR VAL 0
+[  212.744502] IER VAL 2
+[  212.744511] Enter IRQ
+[  212.744516] LSR VAL 0
+[  212.744522] IER VAL 2
+[  212.744532] Enter IRQ
+[  212.744538] LSR VAL 0
+[  212.744543] IER VAL 2
+[  212.744553] Enter IRQ
+[  212.744558] LSR VAL 0
+[  212.744564] IER VAL 2
+[  212.744573] Enter IRQ
+[  212.744578] LSR VAL 0
+[  212.744584] IER VAL 2
+[  212.744592] Enter IRQ
+[  212.744606] LSR VAL 0
+[  212.744610] IER VAL 2
+[  212.744618] Enter IRQ
+[  212.744622] LSR VAL 0
+[  212.744625] IER VAL 2
+[  212.744632] Enter IRQ
+[  212.744636] LSR VAL 0
+[  212.744640] IER VAL 2
+[  212.744647] Enter IRQ
+[  212.744650] LSR VAL 0
+[  212.744654] IER VAL 2
+[  212.744661] Enter IRQ
+[  212.744665] LSR VAL 0
+[  212.744668] IER VAL 2
+[  212.744675] Enter IRQ
+[  212.744679] LSR VAL 0
+[  212.744683] IER VAL 2
+[  212.744690] Enter IRQ
+[  212.744695] LSR VAL 0
+[  212.744700] IER VAL 2
+[  212.744708] Enter IRQ
+[  212.744714] LSR VAL 0
+[  212.744719] IER VAL 2
+[  212.744728] Enter IRQ
+[  212.744733] LSR VAL 0
+[  212.744738] IER VAL 2
+[  212.744747] Enter IRQ
+[  212.744752] LSR VAL 0
+[  212.744757] IER VAL 2
+[  212.744764] Enter IRQ
+[  212.744768] LSR VAL 0
+[  212.744772] IER VAL 2
+[  212.744778] Enter IRQ
+[  212.744782] LSR VAL 0
+[  212.744787] IER VAL 2
+[  212.744793] Enter IRQ
+[  212.744797] LSR VAL 0
+[  212.744801] IER VAL 2
+[  212.744806] Enter IRQ
+[  212.744810] LSR VAL 0
+[  212.744814] IER VAL 2
+[  212.744820] Enter IRQ
+[  212.744823] LSR VAL 0
+[  212.744827] IER VAL 2
+[  212.744832] Enter IRQ
+[  212.744837] LSR VAL 0
+[  212.744843] IER VAL 2
+[  212.744850] Enter IRQ
+[  212.744856] LSR VAL 0
+[  212.744861] IER VAL 2
+[  212.744869] Enter IRQ
+[  212.744875] LSR VAL 0
+[  212.744879] IER VAL 2
+[  212.744885] Enter IRQ
+[  212.744890] LSR VAL 0
+[  212.744893] IER VAL 2
+[  212.744899] Enter IRQ
+[  212.744904] LSR VAL 0
+[  212.744910] IER VAL 2
+[  212.744916] Enter IRQ
+[  212.744920] LSR VAL 0
+[  212.744924] IER VAL 2
+[  212.744931] Enter IRQ
+[  212.744935] LSR VAL 0
+[  212.744940] IER VAL 2
+[  212.744947] Enter IRQ
+[  212.744951] LSR VAL 0
+[  212.744955] IER VAL 2
+[  212.744962] Enter IRQ
+[  212.744965] LSR VAL 0
+[  212.744969] IER VAL 2
+[  212.744974] Enter IRQ
+[  212.744979] LSR VAL 0
+[  212.744983] IER VAL 2
+[  212.744989] Enter IRQ
+[  212.744992] LSR VAL 0
+[  212.744996] IER VAL 2
+[  212.745003] Enter IRQ
+[  212.745007] LSR VAL 0
+[  212.745011] IER VAL 2
+[  212.745013] Enter IRQ
+[  212.745017] Enter IRQ
+[  212.745019] LSR VAL 97
+[  212.745022] LSR VAL 0
+[  212.745025] IER VAL 1
+[  212.745026] IER VAL 2
+[  212.745028] Entering IRQ (recieve). Called by Port c020
+[  212.745032] Enter IRQ
+[  212.745036] LSR VAL 0
+[  212.745039] RBR Buff Data O
+[  212.745040] IER VAL 2
+[  212.745044] Leaving IRQ
+[  212.745047] Enter IRQ
+[  212.745060] New data in read buffer
+[  212.745073] i 8, count 10, flags 8002, block 0
+[  212.745074] LSR VAL 0
+[  212.745078] IER VAL 2
+[  212.745079] No data in read buffer, going to sleep (0) 
+[  212.745087] Enter IRQ
+[  212.745092] LSR VAL 0
+[  212.745099] IER VAL 2
+[  212.745116] Enter IRQ
+[  212.745124] LSR VAL 0
+[  212.745131] IER VAL 2
+[  212.745141] Enter IRQ
+[  212.745158] LSR VAL 0
+[  212.745164] IER VAL 2
+[  212.745172] Enter IRQ
+[  212.745178] LSR VAL 32
+[  212.745183] IER VAL 2
+[  212.745188] Entering IRQ (send). Called by Port c030
+[  212.745195] TX circ Buff Data L
+[  212.745201] IER VAL 2
+[  212.745208] Leaving IRQ
+[  212.745232] Enter IRQ
+[  212.745240] LSR VAL 0
+[  212.745245] IER VAL 2
+[  212.745264] Enter IRQ
+[  212.745272] LSR VAL 0
+[  212.745279] IER VAL 2
+[  212.745298] Enter IRQ
+[  212.745315] LSR VAL 0
+[  212.745324] IER VAL 2
+[  212.745335] Enter IRQ
+[  212.745342] LSR VAL 0
+[  212.745350] IER VAL 2
+[  212.745361] Enter IRQ
+[  212.745368] LSR VAL 0
+[  212.745376] IER VAL 2
+[  212.745386] Enter IRQ
+[  212.745393] LSR VAL 0
+[  212.745400] IER VAL 2
+[  212.745410] Enter IRQ
+[  212.745415] LSR VAL 0
+[  212.745430] IER VAL 2
+[  212.745447] Enter IRQ
+[  212.745452] LSR VAL 0
+[  212.745459] IER VAL 2
+[  212.745468] Enter IRQ
+[  212.745473] LSR VAL 0
+[  212.745479] IER VAL 2
+[  212.745488] Enter IRQ
+[  212.745494] LSR VAL 0
+[  212.745500] IER VAL 2
+[  212.745515] Enter IRQ
+[  212.745519] LSR VAL 0
+[  212.745523] IER VAL 2
+[  212.745530] Enter IRQ
+[  212.745536] LSR VAL 0
+[  212.745542] IER VAL 2
+[  212.745550] Enter IRQ
+[  212.745555] LSR VAL 0
+[  212.745561] IER VAL 2
+[  212.745569] Enter IRQ
+[  212.745573] LSR VAL 0
+[  212.745577] IER VAL 2
+[  212.745583] Enter IRQ
+[  212.745587] LSR VAL 0
+[  212.745591] IER VAL 2
+[  212.745600] Enter IRQ
+[  212.745604] LSR VAL 0
+[  212.745608] IER VAL 2
+[  212.745615] Enter IRQ
+[  212.745619] LSR VAL 0
+[  212.745624] IER VAL 2
+[  212.745632] Enter IRQ
+[  212.745635] LSR VAL 0
+[  212.745639] IER VAL 2
+[  212.745646] Enter IRQ
+[  212.745650] LSR VAL 0
+[  212.745653] IER VAL 2
+[  212.745659] Enter IRQ
+[  212.745663] LSR VAL 0
+[  212.745667] IER VAL 2
+[  212.745673] Enter IRQ
+[  212.745676] LSR VAL 0
+[  212.745680] IER VAL 2
+[  212.745687] Enter IRQ
+[  212.745691] LSR VAL 0
+[  212.745694] IER VAL 2
+[  212.745700] Enter IRQ
+[  212.745704] LSR VAL 0
+[  212.745708] IER VAL 2
+[  212.745714] Enter IRQ
+[  212.745718] LSR VAL 0
+[  212.745722] IER VAL 2
+[  212.745729] Enter IRQ
+[  212.745743] LSR VAL 0
+[  212.745750] IER VAL 2
+[  212.745761] Enter IRQ
+[  212.745768] LSR VAL 0
+[  212.745776] IER VAL 2
+[  212.745786] Enter IRQ
+[  212.745795] LSR VAL 0
+[  212.745802] IER VAL 2
+[  212.745829] Enter IRQ
+[  212.745836] LSR VAL 0
+[  212.745844] IER VAL 2
+[  212.745855] Enter IRQ
+[  212.745880] LSR VAL 0
+[  212.745887] IER VAL 2
+[  212.745898] Enter IRQ
+[  212.745906] LSR VAL 0
+[  212.745923] IER VAL 2
+[  212.745931] Enter IRQ
+[  212.745936] LSR VAL 0
+[  212.745952] IER VAL 2
+[  212.745962] Enter IRQ
+[  212.745986] LSR VAL 0
+[  212.745993] IER VAL 2
+[  212.746005] Enter IRQ
+[  212.746012] LSR VAL 0
+[  212.746019] IER VAL 2
+[  212.746037] Enter IRQ
+[  212.746043] LSR VAL 0
+[  212.746048] IER VAL 2
+[  212.746069] Enter IRQ
+[  212.746084] LSR VAL 0
+[  212.746101] IER VAL 2
+[  212.746112] Enter IRQ
+[  212.746121] LSR VAL 0
+[  212.746128] IER VAL 2
+[  212.746156] Enter IRQ
+[  212.746163] LSR VAL 0
+[  212.746170] IER VAL 2
+[  212.746182] Enter IRQ
+[  212.746190] LSR VAL 0
+[  212.746205] IER VAL 2
+[  212.746237] Enter IRQ
+[  212.746245] LSR VAL 0
+[  212.746252] IER VAL 2
+[  212.746262] Enter IRQ
+[  212.746271] LSR VAL 0
+[  212.746273] Enter IRQ
+[  212.746284] LSR VAL 97
+[  212.746286] IER VAL 2
+[  212.746291] IER VAL 1
+[  212.746291] Enter IRQ
+[  212.746293] Entering IRQ (recieve). Called by Port c020
+[  212.746294] LSR VAL 0
+[  212.746296] IER VAL 2
+[  212.746301] RBR Buff Data R
+[  212.746302] Enter IRQ
+[  212.746307] LSR VAL 0
+[  212.746308] Leaving IRQ
+[  212.746311] IER VAL 2
+[  212.746312] New data in read buffer
+[  212.746315] i 9, count 10, flags 8002, block 0
+[  212.746316] No data in read buffer, going to sleep (0) 
+[  212.746323] Enter IRQ
+[  212.746328] LSR VAL 0
+[  212.746332] IER VAL 2
+[  212.746338] Enter IRQ
+[  212.746343] LSR VAL 0
+[  212.746347] IER VAL 2
+[  212.746354] Enter IRQ
+[  212.746358] LSR VAL 0
+[  212.746363] IER VAL 2
+[  212.746371] Enter IRQ
+[  212.746375] LSR VAL 0
+[  212.746380] IER VAL 2
+[  212.746387] Enter IRQ
+[  212.746391] LSR VAL 0
+[  212.746395] IER VAL 2
+[  212.746401] Enter IRQ
+[  212.746405] LSR VAL 0
+[  212.746408] IER VAL 2
+[  212.746414] Enter IRQ
+[  212.746418] LSR VAL 32
+[  212.746423] IER VAL 2
+[  212.746425] Entering IRQ (send). Called by Port c030
+[  212.746429] TX circ Buff Data D
+[  212.746434] IER VAL 2
+[  212.746439] Leaving IRQ
+[  212.746446] Enter IRQ
+[  212.746452] LSR VAL 0
+[  212.746455] IER VAL 2
+[  212.746462] Enter IRQ
+[  212.746466] LSR VAL 0
+[  212.746470] IER VAL 2
+[  212.746477] Enter IRQ
+[  212.746481] LSR VAL 0
+[  212.746485] IER VAL 2
+[  212.746490] Enter IRQ
+[  212.746494] LSR VAL 0
+[  212.746498] IER VAL 2
+[  212.746506] Enter IRQ
+[  212.746512] LSR VAL 0
+[  212.746517] IER VAL 2
+[  212.746527] Enter IRQ
+[  212.746532] LSR VAL 0
+[  212.746537] IER VAL 2
+[  212.746545] Enter IRQ
+[  212.746549] LSR VAL 0
+[  212.746553] IER VAL 2
+[  212.746560] Enter IRQ
+[  212.746564] LSR VAL 0
+[  212.746568] IER VAL 2
+[  212.746575] Enter IRQ
+[  212.746580] LSR VAL 0
+[  212.746585] IER VAL 2
+[  212.746593] Enter IRQ
+[  212.746597] LSR VAL 0
+[  212.746601] IER VAL 2
+[  212.746608] Enter IRQ
+[  212.746612] LSR VAL 0
+[  212.746616] IER VAL 2
+[  212.746622] Enter IRQ
+[  212.746626] LSR VAL 0
+[  212.746630] IER VAL 2
+[  212.746638] Enter IRQ
+[  212.746643] LSR VAL 0
+[  212.746648] IER VAL 2
+[  212.746654] Enter IRQ
+[  212.746659] LSR VAL 0
+[  212.746664] IER VAL 2
+[  212.746672] Enter IRQ
+[  212.746676] LSR VAL 0
+[  212.746679] IER VAL 2
+[  212.746686] Enter IRQ
+[  212.746689] LSR VAL 0
+[  212.746693] IER VAL 2
+[  212.746699] Enter IRQ
+[  212.746703] LSR VAL 0
+[  212.746707] IER VAL 2
+[  212.746712] Enter IRQ
+[  212.746716] LSR VAL 0
+[  212.746720] IER VAL 2
+[  212.746727] Enter IRQ
+[  212.746732] LSR VAL 0
+[  212.746736] IER VAL 2
+[  212.746744] Enter IRQ
+[  212.746749] LSR VAL 0
+[  212.746752] IER VAL 2
+[  212.746758] Enter IRQ
+[  212.746762] LSR VAL 0
+[  212.746765] IER VAL 2
+[  212.746772] Enter IRQ
+[  212.746776] LSR VAL 0
+[  212.746780] IER VAL 2
+[  212.746787] Enter IRQ
+[  212.746791] LSR VAL 0
+[  212.746795] IER VAL 2
+[  212.746801] Enter IRQ
+[  212.746805] LSR VAL 0
+[  212.746809] IER VAL 2
+[  212.746816] Enter IRQ
+[  212.746820] LSR VAL 0
+[  212.746824] IER VAL 2
+[  212.746829] Enter IRQ
+[  212.746833] LSR VAL 0
+[  212.746837] IER VAL 2
+[  212.746843] Enter IRQ
+[  212.746847] LSR VAL 0
+[  212.746850] IER VAL 2
+[  212.746857] Enter IRQ
+[  212.746861] LSR VAL 0
+[  212.746864] IER VAL 2
+[  212.746871] Enter IRQ
+[  212.746875] LSR VAL 0
+[  212.746878] IER VAL 2
+[  212.746884] Enter IRQ
+[  212.746888] LSR VAL 0
+[  212.746892] IER VAL 2
+[  212.746897] Enter IRQ
+[  212.746901] LSR VAL 0
+[  212.746905] IER VAL 2
+[  212.746911] Enter IRQ
+[  212.746914] LSR VAL 0
+[  212.746918] IER VAL 2
+[  212.746924] Enter IRQ
+[  212.746928] LSR VAL 0
+[  212.746931] IER VAL 2
+[  212.746938] Enter IRQ
+[  212.746942] LSR VAL 0
+[  212.746946] IER VAL 2
+[  212.746952] Enter IRQ
+[  212.746956] LSR VAL 0
+[  212.746960] IER VAL 2
+[  212.746966] Enter IRQ
+[  212.746969] LSR VAL 0
+[  212.746973] IER VAL 2
+[  212.746981] Enter IRQ
+[  212.746985] LSR VAL 0
+[  212.746989] IER VAL 2
+[  212.746996] Enter IRQ
+[  212.747000] LSR VAL 0
+[  212.747003] IER VAL 2
+[  212.747009] Enter IRQ
+[  212.747013] LSR VAL 0
+[  212.747017] IER VAL 2
+[  212.747023] Enter IRQ
+[  212.747026] LSR VAL 0
+[  212.747030] IER VAL 2
+[  212.747038] Enter IRQ
+[  212.747042] LSR VAL 0
+[  212.747046] IER VAL 2
+[  212.747052] Enter IRQ
+[  212.747056] LSR VAL 0
+[  212.747060] IER VAL 2
+[  212.747067] Enter IRQ
+[  212.747070] LSR VAL 0
+[  212.747074] IER VAL 2
+[  212.747080] Enter IRQ
+[  212.747083] LSR VAL 0
+[  212.747088] IER VAL 2
+[  212.747094] Enter IRQ
+[  212.747098] LSR VAL 0
+[  212.747102] IER VAL 2
+[  212.747108] Enter IRQ
+[  212.747112] LSR VAL 0
+[  212.747116] IER VAL 2
+[  212.747122] Enter IRQ
+[  212.747127] LSR VAL 0
+[  212.747130] IER VAL 2
+[  212.747136] Enter IRQ
+[  212.747140] LSR VAL 0
+[  212.747144] IER VAL 2
+[  212.747150] Enter IRQ
+[  212.747154] LSR VAL 0
+[  212.747157] IER VAL 2
+[  212.747163] Enter IRQ
+[  212.747168] LSR VAL 0
+[  212.747172] IER VAL 2
+[  212.747177] Enter IRQ
+[  212.747181] LSR VAL 0
+[  212.747185] IER VAL 2
+[  212.747191] Enter IRQ
+[  212.747195] LSR VAL 0
+[  212.747198] IER VAL 2
+[  212.747212] Enter IRQ
+[  212.747217] LSR VAL 0
+[  212.747223] IER VAL 2
+[  212.747230] Enter IRQ
+[  212.747234] LSR VAL 0
+[  212.747238] IER VAL 2
+[  212.747245] Enter IRQ
+[  212.747249] LSR VAL 0
+[  212.747254] IER VAL 2
+[  212.747260] Enter IRQ
+[  212.747264] LSR VAL 0
+[  212.747268] IER VAL 2
+[  212.747276] Enter IRQ
+[  212.747280] LSR VAL 0
+[  212.747285] IER VAL 2
+[  212.747291] Enter IRQ
+[  212.747295] LSR VAL 0
+[  212.747299] IER VAL 2
+[  212.747306] Enter IRQ
+[  212.747310] LSR VAL 0
+[  212.747315] IER VAL 2
+[  212.747321] Enter IRQ
+[  212.747325] LSR VAL 0
+[  212.747330] IER VAL 2
+[  212.747338] Enter IRQ
+[  212.747342] LSR VAL 0
+[  212.747346] IER VAL 2
+[  212.747354] Enter IRQ
+[  212.747359] LSR VAL 0
+[  212.747364] IER VAL 2
+[  212.747370] Enter IRQ
+[  212.747374] LSR VAL 0
+[  212.747378] IER VAL 2
+[  212.747383] Enter IRQ
+[  212.747388] LSR VAL 0
+[  212.747392] IER VAL 2
+[  212.747397] Enter IRQ
+[  212.747401] LSR VAL 0
+[  212.747405] IER VAL 2
+[  212.747412] Enter IRQ
+[  212.747416] LSR VAL 0
+[  212.747420] IER VAL 2
+[  212.747427] Enter IRQ
+[  212.747431] LSR VAL 0
+[  212.747434] IER VAL 2
+[  212.747441] Enter IRQ
+[  212.747446] LSR VAL 0
+[  212.747451] IER VAL 2
+[  212.747457] Enter IRQ
+[  212.747461] LSR VAL 0
+[  212.747466] IER VAL 2
+[  212.747472] Enter IRQ
+[  212.747476] LSR VAL 0
+[  212.747480] IER VAL 2
+[  212.747487] Enter IRQ
+[  212.747492] LSR VAL 0
+[  212.747496] IER VAL 2
+[  212.747503] Enter IRQ
+[  212.747508] LSR VAL 0
+[  212.747512] IER VAL 2
+[  212.747518] Enter IRQ
+[  212.747522] LSR VAL 0
+[  212.747526] IER VAL 2
+[  212.747529] Enter IRQ
+[  212.747533] Enter IRQ
+[  212.747534] LSR VAL 97
+[  212.747538] LSR VAL 0
+[  212.747541] IER VAL 1
+[  212.747543] IER VAL 2
+[  212.747545] Entering IRQ (recieve). Called by Port c020
+[  212.747550] Enter IRQ
+[  212.747554] LSR VAL 0
+[  212.747557] RBR Buff Data L
+[  212.747558] IER VAL 2
+[  212.747562] Enter IRQ
+[  212.747566] LSR VAL 0
+[  212.747567] Leaving IRQ
+[  212.747571] IER VAL 2
+[  212.747575] New data in read buffer
+[  212.747578] i 10, count 10, flags 8002, block 0
+[  212.747579] Enter IRQ
+[  212.747582] LSR VAL 0
+[  212.747583] (head, 2 et tail, 2 (tail),
+[  212.747585] (0) NULL
+[  212.747588] IER VAL 2
+[  212.747589] Leaving Reading c020
+[  212.747597] Enter IRQ
+[  212.747601] LSR VAL 0
+[  212.747604] IER VAL 2
+[  212.747610] Enter IRQ
+[  212.747614] LSR VAL 0
+[  212.747618] IER VAL 2
+[  212.747624] Releasing Serial Driver 0! Current mode_r = 0, mode_w= 0 (2)
+[  212.747625] Enter IRQ
+[  212.747627] LSR VAL 0
+[  212.747631] IER VAL 2
+[  212.747637] Enter IRQ
+[  212.747641] LSR VAL 0
+[  212.747645] IER VAL 2
+[  212.747651] Enter IRQ
+[  212.747656] LSR VAL 0
+[  212.747659] IER VAL 2
+[  212.747665] Enter IRQ
+[  212.747669] LSR VAL 96
+[  212.747672] IER VAL 2
+[  212.747676] Entering IRQ (send). Called by Port c030
+[  212.747680] TX circ Buff Data  
+[  212.747685] IER VAL 2
+[  212.747689] Leaving IRQ
+[  212.747696] Enter IRQ
+[  212.747702] LSR VAL 0
+[  212.747705] IER VAL 2
+[  212.747711] Enter IRQ
+[  212.747715] LSR VAL 0
+[  212.747719] IER VAL 2
+[  212.747725] Enter IRQ
+[  212.747729] LSR VAL 0
+[  212.747733] IER VAL 2
+[  212.747741] Enter IRQ
+[  212.747745] LSR VAL 0
+[  212.747748] IER VAL 2
+[  212.747755] Enter IRQ
+[  212.747759] LSR VAL 0
+[  212.747763] IER VAL 2
+[  212.747768] Enter IRQ
+[  212.747772] LSR VAL 0
+[  212.747776] IER VAL 2
+[  212.747783] Enter IRQ
+[  212.747786] LSR VAL 0
+[  212.747791] IER VAL 2
+[  212.747796] Enter IRQ
+[  212.747800] LSR VAL 0
+[  212.747804] IER VAL 2
+[  212.747811] Enter IRQ
+[  212.747814] LSR VAL 0
+[  212.747818] IER VAL 2
+[  212.747824] Enter IRQ
+[  212.747828] LSR VAL 0
+[  212.747832] IER VAL 2
+[  212.747837] Enter IRQ
+[  212.747841] LSR VAL 0
+[  212.747845] IER VAL 2
+[  212.747851] Enter IRQ
+[  212.747855] LSR VAL 0
+[  212.747859] IER VAL 2
+[  212.747866] Enter IRQ
+[  212.747870] LSR VAL 0
+[  212.747873] IER VAL 2
+[  212.747880] Enter IRQ
+[  212.747884] LSR VAL 0
+[  212.747888] IER VAL 2
+[  212.747894] Enter IRQ
+[  212.747899] LSR VAL 0
+[  212.747902] IER VAL 2
+[  212.747909] Enter IRQ
+[  212.747913] LSR VAL 0
+[  212.747916] IER VAL 2
+[  212.747923] Enter IRQ
+[  212.747926] LSR VAL 0
+[  212.747930] IER VAL 2
+[  212.747937] Enter IRQ
+[  212.747941] LSR VAL 0
+[  212.747945] IER VAL 2
+[  212.747951] Enter IRQ
+[  212.747954] LSR VAL 0
+[  212.747959] IER VAL 2
+[  212.747965] Enter IRQ
+[  212.747969] LSR VAL 0
+[  212.747973] IER VAL 2
+[  212.747980] Enter IRQ
+[  212.747983] LSR VAL 0
+[  212.747987] IER VAL 2
+[  212.747994] Enter IRQ
+[  212.747998] LSR VAL 0
+[  212.748002] IER VAL 2
+[  212.748008] Enter IRQ
+[  212.748012] LSR VAL 0
+[  212.748015] IER VAL 2
+[  212.748021] Enter IRQ
+[  212.748025] LSR VAL 0
+[  212.748029] IER VAL 2
+[  212.748035] Enter IRQ
+[  212.748039] LSR VAL 0
+[  212.748043] IER VAL 2
+[  212.748048] Enter IRQ
+[  212.748052] LSR VAL 0
+[  212.748056] IER VAL 2
+[  212.748062] Enter IRQ
+[  212.748066] LSR VAL 0
+[  212.748070] IER VAL 2
+[  212.748075] Enter IRQ
+[  212.748079] LSR VAL 0
+[  212.748083] IER VAL 2
+[  212.748089] Enter IRQ
+[  212.748092] LSR VAL 0
+[  212.748097] IER VAL 2
+[  212.748103] Enter IRQ
+[  212.748106] LSR VAL 0
+[  212.748110] IER VAL 2
+[  212.748116] Enter IRQ
+[  212.748121] LSR VAL 0
+[  212.748125] IER VAL 2
+[  212.748132] Enter IRQ
+[  212.748136] LSR VAL 0
+[  212.748139] IER VAL 2
+[  212.748146] Enter IRQ
+[  212.748150] LSR VAL 0
+[  212.748154] IER VAL 2
+[  212.748160] Enter IRQ
+[  212.748164] LSR VAL 0
+[  212.748168] IER VAL 2
+[  212.748174] Enter IRQ
+[  212.748178] LSR VAL 0
+[  212.748182] IER VAL 2
+[  212.748189] Enter IRQ
+[  212.748193] LSR VAL 0
+[  212.748197] IER VAL 2
+[  212.748214] Enter IRQ
+[  212.748219] LSR VAL 0
+[  212.748225] IER VAL 2
+[  212.748235] Enter IRQ
+[  212.748240] LSR VAL 0
+[  212.748246] IER VAL 2
+[  212.748254] Enter IRQ
+[  212.748260] LSR VAL 0
+[  212.748265] IER VAL 2
+[  212.748274] Enter IRQ
+[  212.748280] LSR VAL 0
+[  212.748285] IER VAL 2
+[  212.748292] Enter IRQ
+[  212.748298] LSR VAL 0
+[  212.748303] IER VAL 2
+[  212.748311] Enter IRQ
+[  212.748317] LSR VAL 0
+[  212.748322] IER VAL 2
+[  212.748330] Enter IRQ
+[  212.748335] LSR VAL 0
+[  212.748340] IER VAL 2
+[  212.748349] Enter IRQ
+[  212.748356] LSR VAL 0
+[  212.748361] IER VAL 2
+[  212.748369] Enter IRQ
+[  212.748374] LSR VAL 0
+[  212.748378] IER VAL 2
+[  212.748384] Enter IRQ
+[  212.748388] LSR VAL 0
+[  212.748392] IER VAL 2
+[  212.748398] Enter IRQ
+[  212.748404] LSR VAL 0
+[  212.748408] IER VAL 2
+[  212.748415] Enter IRQ
+[  212.748420] LSR VAL 0
+[  212.748425] IER VAL 2
+[  212.748431] Enter IRQ
+[  212.748436] LSR VAL 0
+[  212.748440] IER VAL 2
+[  212.748446] Enter IRQ
+[  212.748451] LSR VAL 0
+[  212.748456] IER VAL 2
+[  212.748462] Enter IRQ
+[  212.748467] LSR VAL 0
+[  212.748472] IER VAL 2
+[  212.748478] Enter IRQ
+[  212.748482] LSR VAL 0
+[  212.748487] IER VAL 2
+[  212.748494] Enter IRQ
+[  212.748498] LSR VAL 0
+[  212.748503] IER VAL 2
+[  212.748509] Enter IRQ
+[  212.748513] LSR VAL 0
+[  212.748517] IER VAL 2
+[  212.748523] Enter IRQ
+[  212.748527] LSR VAL 0
+[  212.748531] IER VAL 2
+[  212.748537] Enter IRQ
+[  212.748541] LSR VAL 0
+[  212.748545] IER VAL 2
+[  212.748552] Enter IRQ
+[  212.748556] LSR VAL 0
+[  212.748559] IER VAL 2
+[  212.748566] Enter IRQ
+[  212.748570] LSR VAL 0
+[  212.748574] IER VAL 2
+[  212.748580] Enter IRQ
+[  212.748584] LSR VAL 0
+[  212.748588] IER VAL 2
+[  212.748594] Enter IRQ
+[  212.748597] LSR VAL 0
+[  212.748601] IER VAL 2
+[  212.748607] Enter IRQ
+[  212.748610] LSR VAL 0
+[  212.748614] IER VAL 2
+[  212.748620] Enter IRQ
+[  212.748625] LSR VAL 0
+[  212.748630] IER VAL 2
+[  212.748637] Enter IRQ
+[  212.748642] LSR VAL 0
+[  212.748646] IER VAL 2
+[  212.748653] Enter IRQ
+[  212.748659] LSR VAL 0
+[  212.748663] IER VAL 2
+[  212.748671] Enter IRQ
+[  212.748675] LSR VAL 0
+[  212.748679] IER VAL 2
+[  212.748685] Enter IRQ
+[  212.748689] LSR VAL 0
+[  212.748693] IER VAL 2
+[  212.748700] Enter IRQ
+[  212.748704] LSR VAL 0
+[  212.748708] IER VAL 2
+[  212.748716] Enter IRQ
+[  212.748720] LSR VAL 0
+[  212.748723] IER VAL 2
+[  212.748731] Enter IRQ
+[  212.748735] LSR VAL 0
+[  212.748738] IER VAL 2
+[  212.748744] Enter IRQ
+[  212.748748] LSR VAL 0
+[  212.748752] IER VAL 2
+[  212.748757] Enter IRQ
+[  212.748762] LSR VAL 0
+[  212.748765] IER VAL 2
+[  212.748772] Enter IRQ
+[  212.748776] LSR VAL 0
+[  212.748779] IER VAL 2
+[  212.748785] Enter IRQ
+[  212.748789] LSR VAL 0
+[  212.748793] IER VAL 2
+[  212.748800] Enter IRQ
+[  212.748804] LSR VAL 0
+[  212.748808] IER VAL 2
+[  212.748815] Enter IRQ
+[  212.748819] LSR VAL 0
+[  212.748823] IER VAL 2
+[  212.748828] Enter IRQ
+[  212.748832] LSR VAL 0
+[  212.748836] IER VAL 2
+[  212.748842] Enter IRQ
+[  212.748846] LSR VAL 0
+[  212.748849] IER VAL 2
+[  212.748855] Enter IRQ
+[  212.748859] LSR VAL 0
+[  212.748862] IER VAL 2
+[  212.748868] Enter IRQ
+[  212.748872] LSR VAL 0
+[  212.748876] IER VAL 2
+[  212.748882] Enter IRQ
+[  212.748886] LSR VAL 0
+[  212.748890] IER VAL 2
+[  212.748897] Enter IRQ
+[  212.748901] LSR VAL 0
+[  212.748904] IER VAL 2
+[  212.748910] Enter IRQ
+[  212.748914] LSR VAL 0
+[  212.748917] IER VAL 2
+[  212.748924] Enter IRQ
+[  212.748928] LSR VAL 96
+[  212.748932] IER VAL 2
+[  212.748935] Entering IRQ (send). Called by Port c030
+[  212.748939] TX circ Buff Data 1
+[  212.748944] IER VAL 2
+[  212.748949] Leaving IRQ
+[  212.748955] Enter IRQ
+[  212.748960] LSR VAL 0
+[  212.748964] IER VAL 2
+[  212.748970] Enter IRQ
+[  212.748974] LSR VAL 0
+[  212.748978] IER VAL 2
+[  212.748985] Enter IRQ
+[  212.748989] LSR VAL 0
+[  212.748992] IER VAL 2
+[  212.748999] Enter IRQ
+[  212.749003] LSR VAL 0
+[  212.749007] IER VAL 2
+[  212.749013] Enter IRQ
+[  212.749017] LSR VAL 0
+[  212.749021] IER VAL 2
+[  212.749027] Enter IRQ
+[  212.749031] LSR VAL 0
+[  212.749035] IER VAL 2
+[  212.749043] Enter IRQ
+[  212.749047] LSR VAL 0
+[  212.749050] IER VAL 2
+[  212.749057] Enter IRQ
+[  212.749061] LSR VAL 0
+[  212.749065] IER VAL 2
+[  212.749071] Enter IRQ
+[  212.749076] LSR VAL 0
+[  212.749079] IER VAL 2
+[  212.749086] Enter IRQ
+[  212.749090] LSR VAL 0
+[  212.749093] IER VAL 2
+[  212.749099] Enter IRQ
+[  212.749103] LSR VAL 0
+[  212.749107] IER VAL 2
+[  212.749113] Enter IRQ
+[  212.749117] LSR VAL 0
+[  212.749120] IER VAL 2
+[  212.749126] Enter IRQ
+[  212.749130] LSR VAL 0
+[  212.749134] IER VAL 2
+[  212.749139] Enter IRQ
+[  212.749143] LSR VAL 0
+[  212.749147] IER VAL 2
+[  212.749154] Enter IRQ
+[  212.749158] LSR VAL 0
+[  212.749161] IER VAL 2
+[  212.749168] Enter IRQ
+[  212.749172] LSR VAL 0
+[  212.749177] IER VAL 2
+[  212.749183] Enter IRQ
+[  212.749187] LSR VAL 0
+[  212.749191] IER VAL 2
+[  212.749196] Enter IRQ
+[  212.749200] LSR VAL 0
+[  212.749204] IER VAL 2
+[  212.749221] Enter IRQ
+[  212.749226] LSR VAL 0
+[  212.749231] IER VAL 2
+[  212.749237] Enter IRQ
+[  212.749242] LSR VAL 0
+[  212.749246] IER VAL 2
+[  212.749254] Enter IRQ
+[  212.749259] LSR VAL 0
+[  212.749263] IER VAL 2
+[  212.749270] Enter IRQ
+[  212.749275] LSR VAL 0
+[  212.749279] IER VAL 2
+[  212.749286] Enter IRQ
+[  212.749290] LSR VAL 0
+[  212.749294] IER VAL 2
+[  212.749301] Enter IRQ
+[  212.749306] LSR VAL 0
+[  212.749310] IER VAL 2
+[  212.749317] Enter IRQ
+[  212.749321] LSR VAL 0
+[  212.749325] IER VAL 2
+[  212.749332] Enter IRQ
+[  212.749336] LSR VAL 0
+[  212.749340] IER VAL 2
+[  212.749347] Enter IRQ
+[  212.749351] LSR VAL 0
+[  212.749356] IER VAL 2
+[  212.749363] Enter IRQ
+[  212.749367] LSR VAL 0
+[  212.749371] IER VAL 2
+[  212.749377] Enter IRQ
+[  212.749381] LSR VAL 0
+[  212.749385] IER VAL 2
+[  212.749392] Enter IRQ
+[  212.749396] LSR VAL 0
+[  212.749399] IER VAL 2
+[  212.749406] Enter IRQ
+[  212.749410] LSR VAL 0
+[  212.749414] IER VAL 2
+[  212.749419] Enter IRQ
+[  212.749423] LSR VAL 0
+[  212.749427] IER VAL 2
+[  212.749434] Enter IRQ
+[  212.749438] LSR VAL 0
+[  212.749443] IER VAL 2
+[  212.749452] Enter IRQ
+[  212.749456] LSR VAL 0
+[  212.749460] IER VAL 2
+[  212.749467] Enter IRQ
+[  212.749471] LSR VAL 0
+[  212.749475] IER VAL 2
+[  212.749481] Enter IRQ
+[  212.749485] LSR VAL 0
+[  212.749489] IER VAL 2
+[  212.749496] Enter IRQ
+[  212.749500] LSR VAL 0
+[  212.749504] IER VAL 2
+[  212.749509] Enter IRQ
+[  212.749513] LSR VAL 0
+[  212.749517] IER VAL 2
+[  212.749523] Enter IRQ
+[  212.749527] LSR VAL 0
+[  212.749531] IER VAL 2
+[  212.749537] Enter IRQ
+[  212.749541] LSR VAL 0
+[  212.749545] IER VAL 2
+[  212.749552] Enter IRQ
+[  212.749556] LSR VAL 0
+[  212.749560] IER VAL 2
+[  212.749567] Enter IRQ
+[  212.749570] LSR VAL 0
+[  212.749574] IER VAL 2
+[  212.749581] Enter IRQ
+[  212.749585] LSR VAL 0
+[  212.749588] IER VAL 2
+[  212.749594] Enter IRQ
+[  212.749598] LSR VAL 0
+[  212.749602] IER VAL 2
+[  212.749609] Enter IRQ
+[  212.749613] LSR VAL 0
+[  212.749617] IER VAL 2
+[  212.749624] Enter IRQ
+[  212.749628] LSR VAL 0
+[  212.749632] IER VAL 2
+[  212.749638] Enter IRQ
+[  212.749642] LSR VAL 0
+[  212.749646] IER VAL 2
+[  212.749652] Enter IRQ
+[  212.749656] LSR VAL 0
+[  212.749661] IER VAL 2
+[  212.749667] Enter IRQ
+[  212.749671] LSR VAL 0
+[  212.749675] IER VAL 2
+[  212.749680] Enter IRQ
+[  212.749684] LSR VAL 0
+[  212.749688] IER VAL 2
+[  212.749695] Enter IRQ
+[  212.749699] LSR VAL 0
+[  212.749703] IER VAL 2
+[  212.749709] Enter IRQ
+[  212.749713] LSR VAL 0
+[  212.749717] IER VAL 2
+[  212.749724] Enter IRQ
+[  212.749728] LSR VAL 0
+[  212.749731] IER VAL 2
+[  212.749738] Enter IRQ
+[  212.749742] LSR VAL 0
+[  212.749746] IER VAL 2
+[  212.749751] Enter IRQ
+[  212.749755] LSR VAL 0
+[  212.749759] IER VAL 2
+[  212.749766] Enter IRQ
+[  212.749769] LSR VAL 0
+[  212.749773] IER VAL 2
+[  212.749779] Enter IRQ
+[  212.749783] LSR VAL 0
+[  212.749787] IER VAL 2
+[  212.749794] Enter IRQ
+[  212.749798] LSR VAL 0
+[  212.749802] IER VAL 2
+[  212.749808] Enter IRQ
+[  212.749812] LSR VAL 0
+[  212.749816] IER VAL 2
+[  212.749823] Enter IRQ
+[  212.749826] LSR VAL 0
+[  212.749830] IER VAL 2
+[  212.749837] Enter IRQ
+[  212.749841] LSR VAL 0
+[  212.749845] IER VAL 2
+[  212.749852] Enter IRQ
+[  212.749855] LSR VAL 0
+[  212.749859] IER VAL 2
+[  212.749867] Enter IRQ
+[  212.749870] LSR VAL 0
+[  212.749874] IER VAL 2
+[  212.749879] Enter IRQ
+[  212.749883] LSR VAL 0
+[  212.749887] IER VAL 2
+[  212.749893] Enter IRQ
+[  212.749896] LSR VAL 0
+[  212.749900] IER VAL 2
+[  212.749906] Enter IRQ
+[  212.749910] LSR VAL 0
+[  212.749914] IER VAL 2
+[  212.749919] Enter IRQ
+[  212.749923] LSR VAL 0
+[  212.749927] IER VAL 2
+[  212.749933] Enter IRQ
+[  212.749937] LSR VAL 0
+[  212.749940] IER VAL 2
+[  212.749946] Enter IRQ
+[  212.749950] LSR VAL 0
+[  212.749954] IER VAL 2
+[  212.749960] Enter IRQ
+[  212.749964] LSR VAL 0
+[  212.749968] IER VAL 2
+[  212.749974] Enter IRQ
+[  212.749978] LSR VAL 0
+[  212.749982] IER VAL 2
+[  212.749988] Enter IRQ
+[  212.749992] LSR VAL 0
+[  212.749995] IER VAL 2
+[  212.750003] Enter IRQ
+[  212.750007] LSR VAL 0
+[  212.750011] IER VAL 2
+[  212.750017] Enter IRQ
+[  212.750021] LSR VAL 0
+[  212.750025] IER VAL 2
+[  212.750032] Enter IRQ
+[  212.750035] LSR VAL 0
+[  212.750039] IER VAL 2
+[  212.750045] Enter IRQ
+[  212.750049] LSR VAL 0
+[  212.750061] IER VAL 2
+[  212.750068] Enter IRQ
+[  212.750072] LSR VAL 0
+[  212.750075] IER VAL 2
+[  212.750081] Enter IRQ
+[  212.750085] LSR VAL 0
+[  212.750089] IER VAL 2
+[  212.750096] Enter IRQ
+[  212.750099] LSR VAL 0
+[  212.750103] IER VAL 2
+[  212.750110] Enter IRQ
+[  212.750114] LSR VAL 0
+[  212.750118] IER VAL 2
+[  212.750124] Enter IRQ
+[  212.750128] LSR VAL 0
+[  212.750132] IER VAL 2
+[  212.750137] Enter IRQ
+[  212.750141] LSR VAL 0
+[  212.750145] IER VAL 2
+[  212.750152] Enter IRQ
+[  212.750156] LSR VAL 0
+[  212.750159] IER VAL 2
+[  212.750166] Enter IRQ
+[  212.750170] LSR VAL 0
+[  212.750174] IER VAL 2
+[  212.750180] Enter IRQ
+[  212.750192] LSR VAL 32
+[  212.750196] IER VAL 2
+[  212.750199] Entering IRQ (send). Called by Port c030
+[  212.750203] TX circ Buff Data 2
+[  212.750208] IER VAL 2
+[  212.750212] Leaving IRQ
+[  212.750237] Enter IRQ
+[  212.750243] LSR VAL 0
+[  212.750247] IER VAL 2
+[  212.750255] Enter IRQ
+[  212.750259] LSR VAL 0
+[  212.750263] IER VAL 2
+[  212.750271] Enter IRQ
+[  212.750275] LSR VAL 0
+[  212.750279] IER VAL 2
+[  212.750286] Enter IRQ
+[  212.750290] LSR VAL 0
+[  212.750294] IER VAL 2
+[  212.750301] Enter IRQ
+[  212.750305] LSR VAL 0
+[  212.750310] IER VAL 2
+[  212.750315] Enter IRQ
+[  212.750320] LSR VAL 0
+[  212.750324] IER VAL 2
+[  212.750332] Enter IRQ
+[  212.750336] LSR VAL 0
+[  212.750340] IER VAL 2
+[  212.750347] Enter IRQ
+[  212.750352] LSR VAL 0
+[  212.750356] IER VAL 2
+[  212.750363] Enter IRQ
+[  212.750367] LSR VAL 0
+[  212.750371] IER VAL 2
+[  212.750377] Enter IRQ
+[  212.750382] LSR VAL 0
+[  212.750386] IER VAL 2
+[  212.750394] Enter IRQ
+[  212.750399] LSR VAL 0
+[  212.750403] IER VAL 2
+[  212.750408] Enter IRQ
+[  212.750413] LSR VAL 0
+[  212.750417] IER VAL 2
+[  212.750425] Enter IRQ
+[  212.750430] LSR VAL 0
+[  212.750433] IER VAL 2
+[  212.750447] Enter IRQ
+[  212.750451] LSR VAL 0
+[  212.750455] IER VAL 2
+[  212.750462] Enter IRQ
+[  212.750466] LSR VAL 0
+[  212.750470] IER VAL 2
+[  212.750476] Enter IRQ
+[  212.750479] LSR VAL 0
+[  212.750483] IER VAL 2
+[  212.750489] Enter IRQ
+[  212.750493] LSR VAL 0
+[  212.750497] IER VAL 2
+[  212.750502] Enter IRQ
+[  212.750506] LSR VAL 0
+[  212.750511] IER VAL 2
+[  212.750517] Enter IRQ
+[  212.750521] LSR VAL 0
+[  212.750525] IER VAL 2
+[  212.750531] Enter IRQ
+[  212.750534] LSR VAL 0
+[  212.750538] IER VAL 2
+[  212.750545] Enter IRQ
+[  212.750549] LSR VAL 0
+[  212.750552] IER VAL 2
+[  212.750558] Enter IRQ
+[  212.750563] LSR VAL 0
+[  212.750568] IER VAL 2
+[  212.750576] Enter IRQ
+[  212.750580] LSR VAL 0
+[  212.750585] IER VAL 2
+[  212.750591] Enter IRQ
+[  212.750595] LSR VAL 0
+[  212.750599] IER VAL 2
+[  212.750607] Enter IRQ
+[  212.750611] LSR VAL 0
+[  212.750614] IER VAL 2
+[  212.750621] Enter IRQ
+[  212.750625] LSR VAL 0
+[  212.750629] IER VAL 2
+[  212.750636] Enter IRQ
+[  212.750640] LSR VAL 0
+[  212.750644] IER VAL 2
+[  212.750650] Enter IRQ
+[  212.750655] LSR VAL 0
+[  212.750658] IER VAL 2
+[  212.750664] Enter IRQ
+[  212.750668] LSR VAL 0
+[  212.750672] IER VAL 2
+[  212.750678] Enter IRQ
+[  212.750682] LSR VAL 0
+[  212.750686] IER VAL 2
+[  212.750692] Enter IRQ
+[  212.750696] LSR VAL 0
+[  212.750700] IER VAL 2
+[  212.750707] Enter IRQ
+[  212.750710] LSR VAL 0
+[  212.750714] IER VAL 2
+[  212.750721] Enter IRQ
+[  212.750725] LSR VAL 0
+[  212.750729] IER VAL 2
+[  212.750736] Enter IRQ
+[  212.750740] LSR VAL 0
+[  212.750744] IER VAL 2
+[  212.750750] Enter IRQ
+[  212.750754] LSR VAL 0
+[  212.750757] IER VAL 2
+[  212.750764] Enter IRQ
+[  212.750768] LSR VAL 0
+[  212.750771] IER VAL 2
+[  212.750778] Enter IRQ
+[  212.750782] LSR VAL 0
+[  212.750786] IER VAL 2
+[  212.750800] Enter IRQ
+[  212.750804] LSR VAL 0
+[  212.750808] IER VAL 2
+[  212.750815] Enter IRQ
+[  212.750819] LSR VAL 0
+[  212.750823] IER VAL 2
+[  212.750829] Enter IRQ
+[  212.750832] LSR VAL 0
+[  212.750836] IER VAL 2
+[  212.750841] Enter IRQ
+[  212.750845] LSR VAL 0
+[  212.750849] IER VAL 2
+[  212.750854] Enter IRQ
+[  212.750859] LSR VAL 0
+[  212.750863] IER VAL 2
+[  212.750868] Enter IRQ
+[  212.750872] LSR VAL 0
+[  212.750876] IER VAL 2
+[  212.750882] Enter IRQ
+[  212.750886] LSR VAL 0
+[  212.750889] IER VAL 2
+[  212.750896] Enter IRQ
+[  212.750900] LSR VAL 0
+[  212.750904] IER VAL 2
+[  212.750909] Enter IRQ
+[  212.750914] LSR VAL 0
+[  212.750917] IER VAL 2
+[  212.750923] Enter IRQ
+[  212.750927] LSR VAL 0
+[  212.750930] IER VAL 2
+[  212.750937] Enter IRQ
+[  212.750941] LSR VAL 0
+[  212.750944] IER VAL 2
+[  212.750951] Enter IRQ
+[  212.750955] LSR VAL 0
+[  212.750958] IER VAL 2
+[  212.750966] Enter IRQ
+[  212.750970] LSR VAL 0
+[  212.750973] IER VAL 2
+[  212.750980] Enter IRQ
+[  212.750984] LSR VAL 0
+[  212.750988] IER VAL 2
+[  212.750994] Enter IRQ
+[  212.750998] LSR VAL 0
+[  212.751002] IER VAL 2
+[  212.751008] Enter IRQ
+[  212.751012] LSR VAL 0
+[  212.751016] IER VAL 2
+[  212.751023] Enter IRQ
+[  212.751027] LSR VAL 0
+[  212.751030] IER VAL 2
+[  212.751037] Enter IRQ
+[  212.751041] LSR VAL 0
+[  212.751045] IER VAL 2
+[  212.751052] Enter IRQ
+[  212.751055] LSR VAL 0
+[  212.751059] IER VAL 2
+[  212.751065] Enter IRQ
+[  212.751069] LSR VAL 0
+[  212.751073] IER VAL 2
+[  212.751078] Enter IRQ
+[  212.751082] LSR VAL 0
+[  212.751086] IER VAL 2
+[  212.751092] Enter IRQ
+[  212.751096] LSR VAL 0
+[  212.751100] IER VAL 2
+[  212.751107] Enter IRQ
+[  212.751110] LSR VAL 0
+[  212.751114] IER VAL 2
+[  212.751121] Enter IRQ
+[  212.751125] LSR VAL 0
+[  212.751128] IER VAL 2
+[  212.751134] Enter IRQ
+[  212.751137] LSR VAL 0
+[  212.751141] IER VAL 2
+[  212.751147] Enter IRQ
+[  212.751151] LSR VAL 0
+[  212.751155] IER VAL 2
+[  212.751160] Enter IRQ
+[  212.751164] LSR VAL 0
+[  212.751168] IER VAL 2
+[  212.751173] Enter IRQ
+[  212.751177] LSR VAL 0
+[  212.751181] IER VAL 2
+[  212.751197] Enter IRQ
+[  212.751201] LSR VAL 0
+[  212.751204] IER VAL 2
+[  212.751231] Enter IRQ
+[  212.751235] LSR VAL 0
+[  212.751239] IER VAL 2
+[  212.751245] Enter IRQ
+[  212.751249] LSR VAL 0
+[  212.751253] IER VAL 2
+[  212.751260] Enter IRQ
+[  212.751265] LSR VAL 0
+[  212.751270] IER VAL 2
+[  212.751277] Enter IRQ
+[  212.751282] LSR VAL 0
+[  212.751286] IER VAL 2
+[  212.751292] Enter IRQ
+[  212.751297] LSR VAL 0
+[  212.751301] IER VAL 2
+[  212.751307] Enter IRQ
+[  212.751312] LSR VAL 0
+[  212.751316] IER VAL 2
+[  212.751322] Enter IRQ
+[  212.751327] LSR VAL 0
+[  212.751331] IER VAL 2
+[  212.751337] Enter IRQ
+[  212.751341] LSR VAL 0
+[  212.751346] IER VAL 2
+[  212.751353] Enter IRQ
+[  212.751357] LSR VAL 0
+[  212.751361] IER VAL 2
+[  212.751370] Enter IRQ
+[  212.751374] LSR VAL 0
+[  212.751378] IER VAL 2
+[  212.751386] Enter IRQ
+[  212.751390] LSR VAL 0
+[  212.751402] IER VAL 2
+[  212.751407] Enter IRQ
+[  212.751411] LSR VAL 0
+[  212.751415] IER VAL 2
+[  212.751422] Enter IRQ
+[  212.751426] LSR VAL 0
+[  212.751429] IER VAL 2
+[  212.751436] Enter IRQ
+[  212.751440] LSR VAL 96
+[  212.751444] IER VAL 2
+[  212.751446] Entering IRQ (send). Called by Port c030
+[  212.751451] TX circ Buff Data 3
+[  212.751454] NO DATA
+[  212.751460] (head, 7 et tail, 7 (tail),
+[  212.751464] (0) NULL
+[  212.751468] IER VAL 0
+[  212.751473] Leaving IRQ
+[  260.508954] Exiting
+[  260.509346] Removing Serial Driver 0: Goodbye !
+[  260.509565] Removing Serial Driver 1: Goodbye !
+[  346.420029] kauditd_printk_skb: 28 callbacks suppressed
+[  346.420031] audit: type=1400 audit(1574541203.361:40): apparmor="DENIED" operation="link" profile="/usr/bin/evince" name="/home/ens/AN46710/.local/share/gvfs-metadata/.openJKa3KA" pid=2630 comm="evince" requested_mask="l" denied_mask="l" fsuid=2376 ouid=2376 target="/home/ens/AN46710/.local/share/gvfs-metadata/home"
+[  346.420947] audit: type=1400 audit(1574541203.362:41): apparmor="DENIED" operation="open" profile="/usr/bin/evince" name="/run/user/2376/gvfs-metadata/.opend46hZV" pid=2630 comm="evince" requested_mask="r" denied_mask="r" fsuid=2376 ouid=2376
+[  346.421064] audit: type=1400 audit(1574541203.362:42): apparmor="DENIED" operation="unlink" profile="/usr/bin/evince" name="/run/user/2376/gvfs-metadata/.opend46hZV" pid=2630 comm="evince" requested_mask="d" denied_mask="d" fsuid=2376 ouid=2376

@@ -32,18 +32,50 @@ serialcomm * serialcomm_init(int base_addr){
 	return s;
 }
 
-//returns baud rate that was set
+//returns baud rate that was really set
 int serialcomm_set_baud(serialcomm * s, int baud_rate){
+	
 	uint16_t div = FCLK / (16 * baud_rate);
-	serialcomm_write_reg(s, DLM, div >> 8);		//set dlm to upper 8 bits of div
-	serialcomm_write_reg(s, DLL, div & 0x0F);	//set dlm to lower 8 bits of div 
-	uint8_t dll_val = serialcomm_read_reg(s, DLL);
-	uint8_t dlm_val = serialcomm_read_reg(s, DLM);
-	printk(KERN_WARNING"DLL VAL %u", dll_val);
-	printk(KERN_WARNING"DLM VAL %u", dlm_val);
+	//serialcomm_write_reg(s, DLM, (uint8_t)(div >> 8));		//set dlm to upper 8 bits of div
+	//serialcomm_write_reg(s, DLL, (uint8_t)(div & 0x00FF));	//set dlm to lower 8 bits of div 
+
+	serialcomm_rst_bit(s, LCR, 7);
+	uint8_t dlab_val=  inb(s->base_addr + LCR_ADDR);  rmb();
+	printk(KERN_WARNING"serialComm: Current rst DLAB val %x", dlab_val);
+	
+	serialcomm_set_bit(s, LCR, 7);
+	dlab_val=  inb(s->base_addr + LCR_ADDR);  rmb();
+	printk(KERN_WARNING"serialComm: Current set DLAB val %x", dlab_val);
+
+	outb(div >> 8, s->base_addr + DLM_ADDR); wmb();
+
+
+	serialcomm_rst_bit(s, LCR, 7);
+	dlab_val=  inb(s->base_addr + LCR_ADDR);  rmb();
+	printk(KERN_WARNING"serialComm: Current rst DLAB val %x", dlab_val);
+	
+	serialcomm_set_bit(s, LCR, 7);
+	dlab_val=  inb(s->base_addr + LCR_ADDR);  rmb();
+	printk(KERN_WARNING"serialComm: Current set DLAB val %x", dlab_val);
+
+	outb(div & 0x00FF, s->base_addr + DLL_ADDR); wmb();
+
+	//outb(0, s->base_addr + DLM_ADDR); wmb();
+	
+	//serialcomm_set_bit(s, LCR, 7);
+
+	uint8_t  dll_val  = inb(s->base_addr + DLL_ADDR); rmb();
+	uint8_t dlm_val =  inb(s->base_addr + DLM_ADDR); rmb();
+	//uint8_t dlab_val=  inb(s->base_addr + LCR_ADDR);  rmb();
+	//printk(KERN_WARNING"serialComm: Current DLAB val %x", dlab_val);
+	//printk(KERN_WARNING"serialComm: Setting DL to %x", div);
+	printk(KERN_WARNING"serialComm: Set dll val %x, read DLL VAL %x", div & 0x00FF, dll_val);
+	printk(KERN_WARNING"serialComm: Set dlm val %x, read DLM VAL %x", div >> 8, dlm_val);
+	
 	return  FCLK / (16 * div);
 
 }
+
 void serialcomm_set_word_len(serialcomm *s, int word_len){
 
 	if(word_len >= 5 && word_len <= 8){
@@ -80,11 +112,15 @@ void serialcomm_write_reg(serialcomm * s, uint8_t adresse, int dlab, uint8_t acc
 	//then we dont need to change it.
 	//If current dlab is not properly set, and dlab isnt "dont care",
 	//then we need to toggle the dblab bit.
-	if(s->current_dlab != dlab && dlab != -1){
-		s->current_dlab = dlab;	
-		ret = inb(s->base_addr + LCR_ADDR);
-		rmb();
-		outb((ret & ~(1 << 7)) | (dlab << 7), s->base_addr + LCR_ADDR); //toggle DLAB to bit
+
+	if(dlab != -1){
+		printk(KERN_WARNING"Setting DLAB to %x", dlab);
+		uint8_t dlab_val = inb(s->base_addr + LCR_ADDR); rmb();
+		outb((dlab_val & ~(1 << 7)) | (dlab << 7), s->base_addr + LCR_ADDR); //set/reset DLAB to bit
+		wmb();
+		dlab_val = inb(s->base_addr + LCR_ADDR); rmb();
+		printk(KERN_WARNING"NEW LCR(DLAB) val %x", dlab_val);
+
 	}
 	outb(val, s->base_addr + adresse);
 	wmb();
@@ -98,10 +134,10 @@ uint8_t serialcomm_read_reg(serialcomm * s, uint8_t adresse, int dlab, uint8_t a
 	if(!(access & R))
 		return;	//Cant read this register
 
-	if(s->current_dlab != dlab && dlab != -1){
-		ret = inb(s->base_addr + LCR_ADDR);
-		rmb();
-		outb((ret & ~(1 << 7)) | (dlab << 7), s->base_addr + LCR_ADDR); //toggle DLAB to 1
+	if(dlab != -1){
+		uint8_t dlab_val = inb(s->base_addr + LCR_ADDR); rmb();
+		outb((dlab_val & ~(1 << 7)) | (dlab << 7), s->base_addr + LCR_ADDR); //set/reset DLAB to bit
+		wmb();
 	}
 	//printk(KERN_WARNING"Base ADDR : %d ", s->base_addr);
 	ret = inb(s->base_addr + adresse);
@@ -121,11 +157,14 @@ void serialcomm_write_bit(serialcomm * s, uint8_t adresse, int dlab, uint8_t acc
 	//then we dont need to change it.
 	//If current dlab is not properly set, and dlab isnt "dont care",
 	//then we need to toggle the dblab bit.
-	if(s->current_dlab != dlab && dlab != -1){
-		s->current_dlab = dlab;	
-		ret = inb(s->base_addr + LCR_ADDR);
-		rmb();
-		outb((ret & ~(1 << 7)) | (dlab << 7), s->base_addr + LCR_ADDR); //toggle DLAB to bit
+	if(dlab != -1){
+		printk(KERN_WARNING"Setting DLAB to %x", dlab);
+		uint8_t dlab_val = inb(s->base_addr + LCR_ADDR); rmb();
+		outb((dlab_val & ~(1 << 7)) | (dlab << 7), s->base_addr + LCR_ADDR); //set/reset DLAB to bit
+		wmb();
+		dlab_val = inb(s->base_addr + LCR_ADDR); rmb();
+		printk(KERN_WARNING"NEW LCR(DLAB) val %x", dlab_val);
+
 	}
 	ret = inb(s->base_addr + adresse); 
 	rmb();
@@ -148,11 +187,9 @@ void serialcomm_set_bit(serialcomm * s, uint8_t adresse, int dlab, uint8_t acces
 	//then we dont need to change it.
 	//If current dlab is not properly set, and dlab isnt "dont care",
 	//then we need to toggle the dblab bit.
-	if(s->current_dlab != dlab && dlab != -1){
-		s->current_dlab = dlab;	
-		ret = inb(s->base_addr + LCR_ADDR);
-		rmb();
-		outb((ret & ~(1 << 7)) | (dlab << 7), s->base_addr + LCR_ADDR); //toggle DLAB to bit
+	if(dlab != -1){
+		uint8_t dlab_val = inb(s->base_addr + LCR_ADDR); rmb();
+		outb((dlab_val & ~(1 << 7)) | (dlab << 7), s->base_addr + LCR_ADDR); //set/reset DLAB to bit
 		wmb();
 	}
 	ret = inb(s->base_addr + adresse);
@@ -173,11 +210,9 @@ void serialcomm_rst_bit(serialcomm * s, uint8_t adresse, int dlab, uint8_t acces
 	//then we dont need to change it.
 	//If current dlab is not properly set, and dlab isnt "dont care",
 	//then we need to toggle the dblab bit.
-	if(s->current_dlab != dlab && dlab != -1){
-		s->current_dlab = dlab;	
-		ret = inb(s->base_addr + LCR_ADDR);
-		rmb();
-		outb((ret & ~(1 << 7)) | (dlab << 7), s->base_addr + LCR_ADDR); //toggle DLAB to bit
+	if(dlab != -1){
+		uint8_t dlab_val = inb(s->base_addr + LCR_ADDR); rmb();
+		outb((dlab_val & ~(1 << 7)) | (dlab << 7), s->base_addr + LCR_ADDR); //set/reset DLAB to bit
 		wmb();
 	}
 	ret = inb(s->base_addr + adresse);
@@ -197,10 +232,10 @@ uint8_t serialcomm_read_bit(serialcomm * s, uint8_t adresse, int dlab, uint8_t a
 	if(!(access & R))
 		return;	//Cant read this register
 
-	if(s->current_dlab != dlab && dlab != -1){
-		ret = inb(s->base_addr + LCR_ADDR);
-		rmb();
-		outb((ret & ~(1 << 7)) | (dlab << 7), s->base_addr + LCR_ADDR); //toggle DLAB to 1
+	if(dlab != -1){
+		uint8_t dlab_val = inb(s->base_addr + LCR_ADDR); rmb();
+		outb((dlab_val & ~(1 << 7)) | (dlab << 7), s->base_addr + LCR_ADDR); //set/reset DLAB to bit
+		wmb();
 	}
 	ret = inb( s->base_addr + adresse);
 	rmb();
