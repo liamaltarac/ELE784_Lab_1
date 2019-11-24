@@ -24,5 +24,5 @@ void   circular_resize(circular * c, int size);
 
 void   circular_reset(circular * c);
 void   circular_destroy(circular * c);
-
+void circular_display(circular * c);
 

@@ -75,7 +75,7 @@ int main(int argc, char *argv[]) {
 
 		while(1){
 
-			if((fd = open(node, O_WRONLY)) == -1){
+			if((fd = open(node, O_WRONLY | nonBlocking)) == -1){
 				printf("Cannot open Node %s.\n", node);
 				return -1;
 			}
@@ -87,7 +87,7 @@ int main(int argc, char *argv[]) {
 				scanf("%s", data);
 			}
 			printf("\tWriting %d bytes to %s\n", (int)strlen(data), node);
-			err = write(fd, data, strlen(data));
+			err = write(fd, strcat(data, "\n"), size);
 			close(fd);
 			printf("\tWrite status : %d\n\n", err);
 			if(!continuous){
