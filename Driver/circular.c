@@ -97,6 +97,15 @@ void  circular_reset(circular * c){
 	return;
 }
 
+void circular_resize(circular * c, int size){
+	circular * nc = circular_init(size);
+	int num_data =  c->num_data;
+	for(int i = 0; i < num_data; i++){
+		circular_add(nc,circular_remove(c));
+	}
+	circular_destroy(c);
+	* c = * nc;
+}
 
 void circular_destroy(circular * c){
 	kfree(c->buffer);
