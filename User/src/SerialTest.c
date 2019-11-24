@@ -81,7 +81,7 @@ int main(int argc, char *argv[]) {
 				printf("Cannot open Node %s.\n", node);
 				return -1;
 			}
-			ioctl(fd, SERIAL_DRIVER_SET_BAUD_RATE, &baud);
+			//ioctl(fd, SERIAL_DRIVER_SET_BAUD_RATE, &baud);
 			printf("Opened write mode : %d at baud :  %d\n", fd, baud);
 
 			if(continuous){
@@ -117,7 +117,7 @@ int main(int argc, char *argv[]) {
 					printf("Cannot open Node %s.\n\n", node);
 					return -1;
 			}
-			ioctl(fd, SERIAL_DRIVER_SET_BAUD_RATE, &baud);
+			//ioctl(fd, SERIAL_DRIVER_SET_BAUD_RATE, &baud);
 			//sleep(2);
 			printf("Opened read mode : %d\n", fd);
 

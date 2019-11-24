@@ -20,7 +20,16 @@ MODULE_LICENSE("Dual BSD/GPL");
 
 circular * circular_init(int buffer_size){
 	circular * c = kmalloc(sizeof(circular *), GFP_KERNEL);	
+	if(!c){
+		printk(KERN_ALERT"pointer C circ_init not allocated");
+		return;
+	}
 	c->buffer = (char*) kmalloc(buffer_size * sizeof(char), GFP_KERNEL);
+	if(!c->buffer){
+		kfree(c);
+		printk(KERN_ALERT"pointer C->buffer circ_init not allocated");
+		return;
+	}
 	int i = 0;
 	while(i<buffer_size){
 		c->buffer[i] = NULL;

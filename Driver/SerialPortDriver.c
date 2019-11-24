@@ -46,7 +46,7 @@ static ssize_t serial_driver_write(struct file * filp, const char __user *buf, s
                                    loff_t *f_pos);
 irqreturn_t serial_driver_irq(int irq, void *dev_id);
 static long serial_driver_ioctl (struct file *filp,
-                                unsigned int cmd, unsigned long arg);
+                                 unsigned int cmd, unsigned long arg);
 
 
 struct file_operations 	serial_fops = {
@@ -118,10 +118,10 @@ struct serial_driver_struct {
 };
 
 
-struct Driver_Info{
+struct Driver_Info {
 	struct cdev cdev;
 	struct class * dev_class;
-}driver_info;
+} driver_info;
 
 unsigned long read_spin_flags;
 unsigned long write_spin_flags;
@@ -157,7 +157,7 @@ static int __init serial_driver_init (void) {
 
 		snprintf(t_buf, 20, "Serial%d", i);
 		if (request_region(serial[i].PortAddr, 8, t_buf) == NULL) {
-			printk(KERN_WARNING"request_region FAIL");
+			printk(KERN_ALERT"request_region FAIL");
 			goto fail_request_irq;
 			//return -EAGAIN;
 		}
@@ -167,14 +167,6 @@ static int __init serial_driver_init (void) {
 
 
 
-		printk(KERN_WARNING"Requesting IRQ (%d) \n", serial[i].PortIRQ);
-		snprintf(t_buf, 20, "serial_irq_%d", i);
-
-		serial[i].IRQStatus = -1;
-		serial[i].IRQStatus = request_irq(serial[i].PortIRQ, serial_driver_irq, IRQF_SHARED, t_buf, &serial[i]);  // == IRQ_NONE){
-		printk(KERN_WARNING"Request IRQ Status (%d) \n", serial[i].IRQStatus);
-		if (serial[i].IRQStatus < 0)
-			goto fail_request_irq; 
 
 		serial[i].tx_buf = circular_init(8);
 		serial[i].rx_buf = circular_init(8);
@@ -200,7 +192,6 @@ static int __init serial_driver_init (void) {
 		//printk(KERN_WARNING"Before FCR val %u\n", val);
 
 		//Set RCVR trigger level at 1 Byte (bit[7:8] = 0b00)
-		serialcomm_write_reg(serial[i].comm, FCR, 0x03);
 
 		//val = serialcomm_read_reg(serial[i].comm, FCR);
 		//rmb();
@@ -226,65 +217,125 @@ static int __init serial_driver_init (void) {
 		serialcomm_set_bit(serial[i].comm, LCR, 2);
 		//serialcomm_set_bit(serial[i].comm, MCR, 4);
 
+
+		//snprintf(t_buf, 20, "serial_irq_%d", i);
+
 		num_devices_installed++;
 	}
 
-		//Allocation dynamique d`un numero d`unite-materiel
-				printk(KERN_WARNING"Alloc chrdev");
+	//Allocation dynamique d`un numero d`unite-materiel
+	printk(KERN_WARNING"Alloc chrdev");
 
 	if (alloc_chrdev_region(&dev, 0, NUM_DEVICES, "SerialDriver") < 0) {
-		printk(KERN_WARNING"alloc_chrdev_region failed \n");
-		return -EAGAIN;
+		printk(KERN_ALERT"alloc_chrdev_region failed \n");
+		goto fail_alloc_chrdev;
+
+		//return -EAGAIN;
 	}
 
 
-/*	driver_info.cdev = cdev_alloc();
-	if (driver_info.cdev == NULL) {
-		printk(KERN_WARNING"cdev_alloc FAIL");
-		goto fail_cdev_alloc;
-	}*/
+	/*	driver_info.cdev = cdev_alloc();
+		if (driver_info.cdev == NULL) {
+			printk(KERN_WARNING"cdev_alloc FAIL");
+			goto fail_cdev_alloc;
+		}*/
 
 
 	//snprintf(t_buf, 20, "Serial Driver %d", i);
-					printk(KERN_WARNING"class crate");
+	printk(KERN_WARNING"class crate");
 
 	driver_info.dev_class = class_create(THIS_MODULE, "Serial Driver");
-	// i=0;
-						printk(KERN_WARNING"dev create");
+	if(IS_ERR(driver_info.dev_class)){
 
-		for(i = 0 ; i < NUM_DEVICES; i++){
-			serial[i].dev = MKDEV(MAJOR(dev), MINOR(dev) + i);
-			device_create(driver_info.dev_class, NULL,
+		printk(KERN_ALERT"device_create FAIL");
+		goto fail_class_create;
+	}
+
+	// i=0;
+	printk(KERN_WARNING"dev create");
+
+	for (i = 0 ; i < NUM_DEVICES; i++) {
+		serial[i].dev = MKDEV(MAJOR(dev), MINOR(dev) + i);
+		device_create(driver_info.dev_class, NULL,
 		              serial[i].dev,
 		              NULL, "SerialDev%d", i);
-			printk(KERN_WARNING"Creating Device SerialDev%d\n", i);
+		printk(KERN_WARNING"Creating Device SerialDev%d\n", i);
 
-		}
+	}
+	printk(KERN_WARNING"Doing CDEV init");
 
 	cdev_init(&driver_info.cdev, &serial_fops);
 	driver_info.cdev.ops = &serial_fops;
 	driver_info.cdev.owner = THIS_MODULE;
+	
+	printk(KERN_WARNING"Doing CDEV add");
 
 	if (cdev_add(&driver_info.cdev, serial[0].dev, NUM_DEVICES) < 0) {
-		printk(KERN_WARNING"device_create FAIL");
+		printk(KERN_ALERT"device_create FAIL");
 		goto fail_cdev_add;
 	}
 
 
+	for(i = 0; i<num_devices_installed; i++){
+		
+		printk(KERN_WARNING"Requesting IRQ (%d) \n", serial[i].PortIRQ);
+
+		serial[i].IRQStatus = -1;
+		serial[i].IRQStatus = request_irq(serial[i].PortIRQ, serial_driver_irq, IRQF_SHARED, "serial_irq", &serial[i]);  // == IRQ_NONE){
+		printk(KERN_WARNING"Request IRQ Status (%d) \n", serial[i].IRQStatus);
+		if (serial[i].IRQStatus < 0){
+			printk(KERN_ALERT"Fail IRQ request (%d)  \n", serial[i].PortIRQ); 
+			goto fail_request_irq;
+		}
+
+	}
+
+	printk(KERN_WARNING"Doing FCR\n");
+	serialcomm_write_reg(serial[0].comm, FCR, 0x01);
+	serialcomm_write_reg(serial[1].comm, FCR, 0x01);
 
 	return 0;
 
-fail_request_irq:
-fail_cdev_add:	 	 device_destroy(driver_info.dev_class, serial[i].dev);
-					 class_destroy(driver_info.dev_class);
-fail_cdev_alloc:     release_region(serial[i].PortAddr, 8);
-fail_request_region: return -EAGAIN;
+
+fail_request_irq:	cdev_del(&driver_info.cdev);
+					for (i = 0; i < NUM_DEVICES; i++) {
+						if (serial[i].IRQStatus < 0) {
+							free_irq(serial[i].PortIRQ, &serial[i]);
+						}
+					}
 
 
+fail_cdev_add:
+
+fail_class_create:	for (i = 0; i < NUM_DEVICES; i++) {
+						device_destroy(driver_info.dev_class, serial[i].dev);
+					}
+
+fail_alloc_chrdev:	class_destroy(driver_info.dev_class);
+					for (i = 0; i < num_devices_installed; i++) {
+						printk(KERN_ALERT"DESTROYING CIC_BUF and SERIALCOMM");
+
+						circular_destroy(serial[i].tx_buf);
+						circular_destroy(serial[i].rx_buf);
+						serialcomm_deinit(serial[i].comm);
+					}
+
+
+fail_cdev_alloc:     unregister_chrdev_region(serial[0].dev, NUM_DEVICES);
+					 for (i = 0; i < num_devices_installed; i++){
+
+					 	release_region(serial[i].PortAddr, 8);
+
+						circular_destroy(serial[i].tx_buf);
+						circular_destroy(serial[i].rx_buf);
+
+						serialcomm_deinit(serial[i].comm);
+
+					}
+fail_request_region:return -EAGAIN;
 
 
 }
-
 
 
 static void __exit serial_driver_exit (void) {
@@ -294,24 +345,35 @@ static void __exit serial_driver_exit (void) {
 	int i = 0;
 
 	cdev_del(&driver_info.cdev);
-	for (i = 0; i < num_devices_installed; i++){
+	for (i = 0; i < num_devices_installed; i++) {
+		printk(KERN_WARNING"Device Destroy %d!\n", i);
+
 		device_destroy(driver_info.dev_class, serial[i].dev);
 	}
+			printk(KERN_WARNING"Class Destroy!\n");
+
 	class_destroy(driver_info.dev_class);
+			printk(KERN_WARNING"unregister_chrdev_region !\n");
 
 	unregister_chrdev_region(serial[0].dev, NUM_DEVICES);
 
 	for (i = 0; i < num_devices_installed; i++) {
 
 		serialcomm_write_reg(serial[i].comm, IER, 0);
-		
-		if (!serial[i].IRQStatus) {
+
+		if (serial[i].IRQStatus < 0) {
+					printk(KERN_WARNING"free irq  %d!\n", i);
+
 			free_irq(serial[i].PortIRQ, &serial[i]);
 		}
+				printk(KERN_WARNING"release region %d!\n", i);
+
 		release_region(serial[i].PortAddr, 8);
+				printk(KERN_WARNING"circular_destroy  %d!\n", i);
 
 		circular_destroy(serial[i].tx_buf);
 		circular_destroy(serial[i].rx_buf);
+				printk(KERN_WARNING"serial comm deiit  %d!\n", i);
 
 		serialcomm_deinit(serial[i].comm);
 
@@ -319,12 +381,9 @@ static void __exit serial_driver_exit (void) {
 
 	}
 
-
-
 	return;
 
 }
-
 
 /*
 "
@@ -405,7 +464,7 @@ static int serial_driver_release(struct inode *inode, struct file *flip) {
 	//	serialcomm_rst_bit(serial[port_num].comm, IER, 1);
 	if (!serial[port_num].mode_r)
 		serialcomm_rst_bit(serial[port_num].comm, IER, 0);
-	
+
 	/*if (!serial[port_num].IRQStatus) {
 		free_irq(serial[port_num].PortIRQ, &serial[port_num]);
 	} */
@@ -542,13 +601,12 @@ writeNextChunk:
 waitForRoomInBuf:
 
 	val = serialcomm_read_reg(p->comm, IER);
-	//printk(KERN_WARNING"Write , Before IER %u\n", val);
-
+	printk(KERN_WARNING"Write , Before IER %u\n", val);
 
 	serialcomm_set_bit(p->comm, IER, 1);
 
 	val = serialcomm_read_reg(p->comm, IER);
-	//rintk(KERN_WARNING"Write , After IER %u\n", val);
+	printk(KERN_WARNING"Write , After IER %u\n", val);
 
 	while (p->tx_buf->num_data == p->tx_buf->size) {
 
@@ -601,12 +659,12 @@ irqreturn_t serial_driver_irq(int irq, void *dev_id) {
 	struct serial_driver_struct * p = (struct serial_driver_struct *) dev_id; //structure perso
 	char data;
 
-	printk(KERN_WARNING"Enter IRQ");
+	//printk(KERN_WARNING"Enter IRQ");
 
 	uint8_t LSR_val = serialcomm_read_reg(p->comm, LSR);
-	printk(KERN_WARNING"LSR VAL %u\n", LSR_val);
+	printk(KERN_ALERT"LSR VAL %u\n", LSR_val);
 	uint8_t IER_val = serialcomm_read_reg(p->comm, IER);
-	printk(KERN_WARNING"IER VAL %u\n", IER_val);
+	printk(KERN_ALERT"IER VAL %u\n", IER_val);
 
 	//If Transmitter empty  and is ready to send data
 	if ((LSR_val & 0x20) && (IER_val & 0x02) ) {
@@ -667,22 +725,29 @@ irqreturn_t serial_driver_irq(int irq, void *dev_id) {
 		serialcomm_rst_bit(p->comm, IER , 3);
 	}
 
+	if(!p->mode_r){
+		serialcomm_rst_bit(p->comm, IER , 0);
+	}
+
+	if(!p->mode_w){
+		serialcomm_rst_bit(p->comm, IER , 1);
+	}
 
 	return IRQ_HANDLED;
 }
 
 static long serial_driver_ioctl (struct file *filp,
-                                unsigned int cmd, unsigned long arg) {
+                                 unsigned int cmd, unsigned long arg) {
 	int retval = 0;
 	int user_data = 0;
 
-	//printk(KERN_ALERT"IOCTL %d, arg %d \n", cmd, arg);	
+	//printk(KERN_ALERT"IOCTL %d, arg %d \n", cmd, arg);
 
 	struct serial_driver_struct * p = (struct serial_driver_struct *) filp->private_data;
 	switch (cmd) {
 	case SERIAL_DRIVER_SET_BAUD_RATE:
 		get_user(user_data, (int *) arg);
-		printk(KERN_ALERT"IOCTL baud %d\n", user_data);	
+		printk(KERN_ALERT"IOCTL baud %d\n", user_data);
 
 		if (user_data >= 50 && user_data <= 115200) {
 			serialcomm_set_baud(p->comm, user_data);
