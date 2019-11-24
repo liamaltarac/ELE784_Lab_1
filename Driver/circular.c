@@ -76,7 +76,15 @@ void circular_remove_n(circular * c, char * removed_data, int n){
 			i++;
 		}
 }
-
+void circular_resize(circular * c, int size){
+	circular * nc = circular_init(size);
+	int num_data =  c->num_data;
+	for(int i = 0; i < num_data; i++){
+		circular_add(nc,circular_remove(c));
+	}
+	circular_destroy(c);
+	* c = * nc;
+}
 void  circular_reset(circular * c){
 	int i = 0;
 	while(i < c->size){

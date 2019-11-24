@@ -47,6 +47,7 @@ static ssize_t serial_driver_write(struct file * filp, const char __user *buf, s
 irqreturn_t serial_driver_irq(int irq, void *dev_id);
 static int serial_driver_ioctl (struct inode *inode, struct file *filp,
 		unsigned int cmd, unsigned long arg);
+static int resize_buf(circular *c, int size)
 
 
 struct file_operations 	serial_fops = {
@@ -608,7 +609,7 @@ irqreturn_t serial_driver_irq(int irq, void *dev_id){
 static int serial_driver_ioctl (struct inode *inode, struct file *filp,
 					unsigned int cmd, unsigned long arg){
 	int retval = 0;
-	int user_data= 0;
+	int user_data = 0;
 	struct serial_driver_struct * p = (struct serial_driver_struct *) filp->private_data;
 	switch(cmd){
 	case SERIAL_DRIVER_SET_BAUD_RATE:
@@ -640,18 +641,18 @@ static int serial_driver_ioctl (struct inode *inode, struct file *filp,
 		break;
 	case SERIAL_DRIVER_GET_BUF_SIZE:
 		retval = put_user(serial[iminor(inode)].size,(int __user *)arg);
-			return -ENOTTY;
 		break;
 	case SERIAL_DRIVER_SET_BUF_SIZE:
 		if(!capable(CAP_SYS_ADMIN)) return -EPERM;
 		get_user(user_data, (int __user *) arg);
 		spin_lock(&p->tx_buf_lock);
 		spin_lock(&p->rx_buf_lock);
-		if(user_data<0 && user_data>p->rx_buf->num_data && user_data>p->tx_buf->num_data)
+		if(user_data<0 || user_data>p->rx_buf->num_data || user_data>p->tx_buf->num_data)
 			return -ENOTTY;
-		// ON GOING!!!
-
-		re
+		circular_resize(p->rx_buf);
+		circular_resize(p->tx_buf);
+		spin_unlock(&p->tx_buf_lock);
+		spin_unlock(&p->rx_buf_lock);
 		break;
 	default:
 		return -ENOTTY;

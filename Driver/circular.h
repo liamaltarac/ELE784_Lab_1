@@ -20,6 +20,8 @@ void   circular_add_n(circular * c, char * data, int n);
 char   circular_remove(circular * c);
 void   circular_remove_n(circular * c, char * removed_data, int n);
 
+void   circular_resize(circular * c, int size);
+
 void   circular_reset(circular * c);
 void   circular_destroy(circular * c);
 
