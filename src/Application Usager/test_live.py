@@ -2,6 +2,7 @@ import curses, time
 import os
 import sys
 
+#https://docs.python.org/2/library/curses.html
 def get_key(stdscr):
 	stdscr.nodelay(True);
 	return stdscr.getch()
