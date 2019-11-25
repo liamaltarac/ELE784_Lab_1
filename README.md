@@ -16,7 +16,7 @@ Ensiute, pour l'installer faites la commande
  setserial -ga /dev/ttyS[56]
 ```
 Et prennez en note les numeros de ports et IRQs des deux lignes.
-Maintenant, vous pouvez installer le pilate avec la commande suivante :
+Maintenant, vous pouvez installer le pilote avec la commande suivante :
 
 ```
 sudo insmod SerialDriver.ko Port0Addr=[Port0Addr] Port1Addr=[Port1Addr] Port0IRQ=[Port0IRQ] Port1IRQ=[Port1IRQ]
