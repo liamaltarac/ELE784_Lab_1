@@ -1,6 +1,7 @@
 # ELE784_Lab_1
 
 Pilot Linux d'un port serie pc16550d
+
 ## Installation
 
 Pour telecharger le code, faite:
@@ -22,12 +23,20 @@ sudo insmod SerialDriver.ko Port0Addr=[Port0Addr] Port1Addr=[Port1Addr] Port0IRQ
 ```
 (Remplacez les [PortXYX] par les valeurs de retour de la commande ```setserial```)
 
+## Desinstallation
+
+```
+sudo rmmod SerialDriver
+```
+** Il faut redemaer l'ordi pour bien desistaller **
+
+
 ## Usage
 Pour tester le pilote, nous avons écrit une application usager. 
 
 Cet application peut etre executé en 3 modes.
 - Read (Blocking)
-- Write(Blocking)
+- Write (Blocking)
 - Read/Write (Non-blocking)
 
 Voici les arguments pour executer l'application:
