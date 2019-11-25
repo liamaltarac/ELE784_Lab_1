@@ -28,7 +28,7 @@ sudo insmod SerialDriver.ko Port0Addr=[Port0Addr] Port1Addr=[Port1Addr] Port0IRQ
 ```
 sudo rmmod SerialDriver
 ```
-** Il faut redemaer l'ordi pour bien desistaller **
+**Il faut redemaer l'ordi pour bien desistaller**
 
 
 ## Usage
