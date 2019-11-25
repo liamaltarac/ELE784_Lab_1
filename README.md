@@ -78,7 +78,7 @@ Voici la liste des parameters avec un leur description.
 | --set_buf_size | Specifier la taille du tampon circulaire (Ex.: ``` --set_buf_size 20 ```)|
 | --set_data_size | Specifie la taille des donnees (5bits - 8bits) (Ex.: ``` --set_baud 8 ```)|
 
-## Autheurs
+## Auteurs
 Liam et Maxym
 ## License
 [Dual BSD/GPL]
