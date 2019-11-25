@@ -23,7 +23,12 @@ sudo insmod SerialDriver.ko Port0Addr=[Port0Addr] Port1Addr=[Port1Addr] Port0IRQ
 (Remplacez les [PortXYX] par les valeurs de retour de la commande ```setserial```)
 
 ## Usage
-Pour tester le pilote, nous avons écrit une application usager. Cet 
+Pour tester le pilote, nous avons écrit une application usager. 
+
+Cet application peut etre executé en 3 modes.
+-Read (Blocking)
+-Write(Blocking)
+-Read/Write (Non-blocking)
 
 Pour la lancer, 
 
