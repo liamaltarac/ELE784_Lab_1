@@ -291,8 +291,8 @@ static int __init serial_driver_init (void) {
 	}
 
 	printk(KERN_WARNING"Doing FCR\n");
-	serialcomm_write_reg(serial[0].comm, FCR, 0x01);
-	serialcomm_write_reg(serial[1].comm, FCR, 0x01);
+	serialcomm_write_reg(serial[0].comm, FCR, 0x00);
+	serialcomm_write_reg(serial[1].comm, FCR, 0x00);
 
 	return 0;
 
@@ -701,10 +701,10 @@ irqreturn_t serial_driver_irq(int irq, void *dev_id) {
 		//printk(KERN_WARNING"IRQ ready to recieve\n");
 
 		spin_lock(&p->rx_buf_lock);
-		if (p->rx_buf->num_data < p->rx_buf->size) {
+		if (p->rx_buf->num_data < p->rx_buf->size) {	
 			//si il y a de la place dans le tampon circulaire
 			data = serialcomm_read_reg(p->comm, RBR);
-
+			
 			printk(KERN_WARNING"RBR Buff Data %c\n", data);
 
 			circular_add(p->rx_buf, data);
@@ -725,13 +725,6 @@ irqreturn_t serial_driver_irq(int irq, void *dev_id) {
 		serialcomm_rst_bit(p->comm, IER , 3);
 	}
 
-	if(!p->mode_r){
-		serialcomm_rst_bit(p->comm, IER , 0);
-	}
-
-	if(!p->mode_w){
-		serialcomm_rst_bit(p->comm, IER , 1);
-	}
 
 	return IRQ_HANDLED;
 }
@@ -745,21 +738,21 @@ static long serial_driver_ioctl (struct file *filp,
 
 	struct serial_driver_struct * p = (struct serial_driver_struct *) filp->private_data;
 	switch (cmd) {
-	case SERIAL_DRIVER_SET_BAUD_RATE:
-		get_user(user_data, (int *) arg);
-		printk(KERN_ALERT"IOCTL baud %d\n", user_data);
+		case SERIAL_DRIVER_SET_BAUD_RATE:
+			get_user(user_data, (int *) arg);
+			printk(KERN_ALERT"IOCTL baud %d\n", user_data);
 
-		if (user_data >= 50 && user_data <= 115200) {
-			serialcomm_set_baud(p->comm, user_data);
-			retval = user_data;
-		}
-		else return -ENOTTY;
+			if (user_data >= 50 && user_data <= 115200) {
+				serialcomm_set_baud(p->comm, user_data);
+				retval = user_data;
+			}
+			else return -ENOTTY;
 
-		break;
-		/*case SERIAL_DRIVER_SET_DATA_SIZE:
+			break;
+		case SERIAL_DRIVER_SET_DATA_SIZE:
 			get_user(user_data, (int __user *) arg);
 			if (user_data>=5 && user_data<=8){
-				serialcomm_set_word_len(serial[iminor(inode)].comm, user_data);
+				serialcomm_set_word_len(p->comm, user_data);
 				retval = user_data;
 			}
 			else return -ENOTTY;
@@ -768,34 +761,34 @@ static long serial_driver_ioctl (struct file *filp,
 		case SERIAL_DRIVER_SET_PARITY:
 			get_user(user_data, (int __user *) arg);
 			if (user_data>=0 && user_data<=2){
-				serialcomm_set_parity(serial[iminor(inode)].comm, user_data);
+				serialcomm_set_parity(p->comm, user_data);
 				retval = user_data;
 			}
 			else return -ENOTTY;
 
 			break;
 		case SERIAL_DRIVER_GET_BUF_SIZE:
-			retval = put_user(serial[iminor(inode)].size,(int __user *)arg);
+			retval = put_user(p->tx_buf->size,(int __user *)arg);
 				return -ENOTTY;
 			break;
 		case SERIAL_DRIVER_SET_BUF_SIZE:
-			if(!capable(CAP_SYS_ADMIN)) return -EPERM;
+			//if(!capable(CAP_SYS_ADMIN)) return -EPERM;
 			get_user(user_data, (int __user *) arg);
 			spin_lock(&p->tx_buf_lock);
 			spin_lock(&p->rx_buf_lock);
-			if(user_data<0 && user_data>p->rx_buf->num_data && user_data>p->tx_buf->num_data)
+			if(user_data<0 ||  user_data > p->rx_buf->num_data ||  user_data > p->tx_buf->num_data)
 				return -ENOTTY;
-			// ON GOING!!!
-
-
+			circular_resize(p->rx_buf, user_data);
+			circular_resize(p->tx_buf, user_data);
+			spin_unlock(&p->tx_buf_lock);
+			spin_unlock(&p->rx_buf_lock);
 			break;
 		default:
 			return -ENOTTY;
-		*/
+		}
+	return retval;	
 	}
 
-	return retval;
-}
 module_init(serial_driver_init);
 module_exit(serial_driver_exit);
 

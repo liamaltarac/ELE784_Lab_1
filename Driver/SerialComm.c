@@ -23,7 +23,7 @@ MODULE_LICENSE("Dual BSD/GPL");
 
 
 serialcomm * serialcomm_init(int base_addr){
-	serialcomm * s = kmalloc(sizeof(serialcomm *), GFP_KERNEL);	
+	serialcomm * s = kmalloc(sizeof(serialcomm), GFP_KERNEL);	
 
 
 	s->current_dlab = -1;
@@ -36,11 +36,13 @@ serialcomm * serialcomm_init(int base_addr){
 int serialcomm_set_baud(serialcomm * s, int baud_rate){
 	uint16_t div = FCLK / (16 * baud_rate);
 	serialcomm_write_reg(s, DLM, div >> 8);		//set dlm to upper 8 bits of div
-	serialcomm_write_reg(s, DLL, div & 0x0F);	//set dlm to lower 8 bits of div 
+	serialcomm_write_reg(s, DLL, div & 0x00FF);	//set dlm to lower 8 bits of div 
 	uint8_t dll_val = serialcomm_read_reg(s, DLL);
 	uint8_t dlm_val = serialcomm_read_reg(s, DLM);
-	printk(KERN_WARNING"DLL VAL %u", dll_val);
-	printk(KERN_WARNING"DLM VAL %u", dlm_val);
+	uint8_t dlab_val = serialcomm_read_reg(s, LCR);	
+	printk(KERN_WARNING"DLL VAL %x", dll_val);
+	printk(KERN_WARNING"DLM VAL %x", dlm_val);
+	printk(KERN_WARNING"LCR VAL %x", dlab_val);
 	return  FCLK / (16 * div);
 
 }

@@ -10,6 +10,7 @@
 
 #define READ 1
 #define WRITE 0
+#define RW 2
 
 #define PROGRAM "SerialTest"
 
@@ -22,21 +23,25 @@
 
 #include <ctype.h>
 #include "serial_driver_ioctl.h"
-
+#include <termios.h>
 char buffer[5];
+int ret_val = -1 ;
+	char key_val[1];
 int main(int argc, char *argv[]) {
 
 	int fd = 1;
 	int size = 0;
 
 	int err;
-	int mode = READ;
+	int mode = -1;
 	char * node = argv[1];
-	char * data;
+	char data[1024];
 	char continuous = 0;
 	int tramSize = 1;
 	int nonBlocking = O_NONBLOCK;
 	int baud = 9600;
+	int parity = 0;
+	int buf_size = 0;
 	/*Extraire les arguments : -w pour ecrire (write)
 							   -r pour lire (read) en continu
 							   -d pour data   (en mode ecriture)
@@ -51,24 +56,81 @@ int main(int argc, char *argv[]) {
 			mode = WRITE;
 		if(!strcmp(argv[i], "-r") || !strcmp(argv[i], "-R"))
 			mode = READ;
+		if(!strcmp(argv[i], "-rw") || !strcmp(argv[i], "-RW"))
+			mode = RW;
 		if(!strcmp(argv[i], "-d") || !strcmp(argv[i], "-D"))
-			data = argv[i+1];
+			strcpy(data,argv[i+1]);
 		if(!strcmp(argv[i], "-s") || !strcmp(argv[i], "-S"))
 			tramSize = atoi(argv[i+1]);
 		if(!strcmp(argv[i], "-c") || !strcmp(argv[i], "-C"))
 			continuous = 1;
-		if(!strcmp(argv[i], "-b") || !strcmp(argv[i], "-B"))
-			baud = atoi(argv[i+1]);
+		//if(!strcmp(argv[i], "-b") || !strcmp(argv[i], "-B"))
+		//	nonBlocking = 0;
+		if(!strcmp(argv[i], "--set_parity")){
+			if((fd = open(node, O_RDWR)) == -1){
+				printf("Cannot open Node %s.\n", node);
+				return -1;
+			}			
+			parity = atoi(argv[i+1]);			
+			ioctl(fd, SERIAL_DRIVER_SET_PARITY, &parity);
+			close(fd);			
+		}
+		if(!strcmp(argv[i], "--get_buf_size")){
+			if((fd = open(node, O_RDWR)) == -1){
+				printf("Cannot open Node %s.\n", node);
+				return -1;
+			}
+			buf_size = argv[i+1];
+			ioctl(fd, SERIAL_DRIVER_GET_BUF_SIZE, &buf_size);
+			printf("IOCTL SERIAL_DRIVER_GET_BUF_SIZE : %d \n", buf_size);
+			close(fd);		
+		}
+		if(!strcmp(argv[i], "--set_data_size")){
+			if((fd = open(node, O_RDWR)) == -1){
+				printf("Cannot open Node %s.\n", node);
+				return -1;
+			}
+			data_size = argv[i+1];
+			ioctl(fd, SERIAL_DRIVER_SET_DATA_SIZE, &data_size);
+			printf("IOCTL SERIAL_DRIVER_SET_DATA_SIZE Done");
+			close(fd);
+		}
+		if(!strcmp(argv[i], "--set_buf_size")){
+			if((fd = open(node, O_RDWR)) == -1){
+				printf("Cannot open Node %s.\n", node);
+				return -1;
+			}
+			buf_size = atoi(argv[i+1]);	
+			ioctl(fd, SERIAL_DRIVER_GET_BUF_SIZE, &buf_size);
+			printf("IOCTL SERIAL_DRIVER_SET_BUF_SIZE Done \n");
+			close(fd);
+		}
+		if(!strcmp(argv[i], "--set_baud")){
+			if((fd = open(node, O_RDWR)) == -1){
+				printf("Cannot open Node %s.\n", node);
+				return -1;
+			}
+			baud = atoi(argv[i+1]);			
+			ioctl(fd, SERIAL_DRIVER_SET_BAUD_RATE, &baud);
+			printf("IOCTL SERIAL_DRIVER_SET_BAUD_RATE at %d baud : Done \n", baud);
+			close(fd);
+		}
 		if(!strcmp(argv[i], "-?") ){
-			printf("usage: ./%s <noeud> {-R|-W} [-d donnnées] [-s taille] [-cb?]\n\n", PROGRAM);
+			printf("usage: ./%s <noeud> {-R|-W} [-d donnnées] [-s taille] [-cb?] --set_parity --get_buf_size --set_buf_size --set_data_size\n\n", PROGRAM);
 			printf("\tnoeud : Emplacement du noeud. Ex.: /dev/pts/1\n");
 			printf("\tR : Mode lecture  (Read) (DEFAULT)\n");
 			printf("\tW : Mde ecriture (Write)\n");
 			printf("\tc : Pour envoyer des données en continu\n");
-			printf("\tb : Baud Rate\n");
-			printf("\t? : Pour avoir de l'aide avec les arguments\n\n");
-			printf("\td donnnées : Données a envoyer si non en continu (en string)\n");
-			printf("\ts taille : Taille (en bytes) de la trame a lire\n\n");
+			printf("\ts taille : Taille (en bytes) de la trame a lire\n");
+			printf("\td donnnées : Données a envoyer si non en continu (en string)\n\n");
+			
+			printf("\t--set_baud : Specifie la parite du port serie\n");
+			printf("\t--set_parity : Specifie la parite du port serie\n");
+			printf("\t--get_buf_size : Retourne la taille du tampon circulaire\n");
+			printf("\t--set_buf_size : Specifie la taille du tampon circulaire\n");
+			printf("\t--set_data_size : Specifie la taille du tampon de transmission\n\n");
+			printf("\t? : Pour avoir de l'aide avec les arguments\n");
+
 			return 1;
 		}
 	}
@@ -77,19 +139,17 @@ int main(int argc, char *argv[]) {
 
 		while(1){
 
-			if((fd = open(node, O_WRONLY)) == -1){
+			if((fd = open(node, O_WRONLY )) < 0){
 				printf("Cannot open Node %s.\n", node);
 				return -1;
 			}
-			//ioctl(fd, SERIAL_DRIVER_SET_BAUD_RATE, &baud);
-			printf("Opened write mode : %d at baud :  %d\n", fd, baud);
 
 			if(continuous){
 				printf(">>>\t");
 				fflush(stdout);
-				scanf("%s", data);
+				scanf("%20[^\n]", data);
 			}
-			printf("\tWriting %d bytes to %s\n", (int)strlen(data), node);
+
 			err = write(fd, data, strlen(data));
 			close(fd);
 			printf("\tWrite status : %d\n\n", err);
@@ -100,7 +160,9 @@ int main(int argc, char *argv[]) {
 		}
 	}
 
-	else if(mode == READ){
+
+	if(mode == READ){
+
 //		printf("reading %d byte trams\n", tramSize);
 //		fflush(stdout);
 		//lseek(fd, 0, SEEK_SET);
@@ -110,32 +172,46 @@ int main(int argc, char *argv[]) {
 		//printf("OK\n");
 		//data = malloc(tramSize);
 		char data = 0;
-		//while(data != '\n'){
-			printf("OK %d, %s\n", tramSize, node);
-			fd = open(node, O_RDWR );
-			if(fd == -1){
+		while(1){
+			//printf("OK %d, %s\n", tramSize, node);
+			fd = open(node, O_RDONLY );
+			if(fd < 0){
 					printf("Cannot open Node %s.\n\n", node);
 					return -1;
 			}
-			//ioctl(fd, SERIAL_DRIVER_SET_BAUD_RATE, &baud);
-			//sleep(2);
-			printf("Opened read mode : %d\n", fd);
+			//sleep(1);
+			//printf("Message :");
 
-			read(fd, buffer, tramSize);
-			//printf("Non blocking %ul\n" ,(int)O_NONBLOCK);
-			//printf("%s, %d\n",buffer, 1);
+			err = read(fd, buffer, tramSize);
 
-			//int x = read(fd, buffer, 1024);
-			printf("Message : %s\n",buffer);
-			//lseek(fd, 0, SEEK_SET);
-
-
-			fflush(stdout);
 			close(fd);
+			
+			if(!continuous){
+				printf("Message : %s\n\n", buffer);
+				//fflush(stdout);
+				return err;
+			}
+			
 
-		//}
+			printf("%s\n", buffer);
+			fflush(stdout);
+			
+			
+
+
+		}
 
 	}
+
+
+	if(mode == RW){
+		char command[50];
+		sprintf(command, "python test_live.py %s", node);
+		printf("%s\n", command);
+		system(command)	;	
+
+	}
+
 
 	return EXIT_SUCCESS;
 }

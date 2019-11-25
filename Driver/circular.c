@@ -19,17 +19,8 @@ MODULE_LICENSE("Dual BSD/GPL");
 
 
 circular * circular_init(int buffer_size){
-	circular * c = kmalloc(sizeof(circular *), GFP_KERNEL);	
-	if(!c){
-		printk(KERN_ALERT"pointer C circ_init not allocated");
-		return;
-	}
+	circular * c = kmalloc(sizeof(circular), GFP_KERNEL);	
 	c->buffer = (char*) kmalloc(buffer_size * sizeof(char), GFP_KERNEL);
-	if(!c->buffer){
-		kfree(c);
-		printk(KERN_ALERT"pointer C->buffer circ_init not allocated");
-		return;
-	}
 	int i = 0;
 	while(i<buffer_size){
 		c->buffer[i] = NULL;
@@ -99,6 +90,35 @@ void  circular_reset(circular * c){
 }
 
 
+void circular_resize(circular * c, int new_size){
+
+	
+	if(new_size < c->num_data){		//Si il nỳ a pas assez de place dans le nouveau tampon, on retour.
+		return;
+	}
+
+	char * t_buffer = (char*) kmalloc(new_size * sizeof(char), GFP_KERNEL);
+
+	int count = 0;
+	int j=0;
+	int index=c->tail;
+	int i = 0;
+	while(i < c->num_data){
+		if(c->buffer[index] != NULL){
+			t_buffer[i] = c->buffer[index];
+			i++;
+		}
+		index = (index+1) % c->size ;	
+	}
+	c->head = 0;
+	c->tail = i;
+	c->size = new_size;
+	kfree(c->buffer);	
+	c->buffer = t_buffer;
+
+}
+
+
 void circular_destroy(circular * c){
 	kfree(c->buffer);
 	kfree(c);
@@ -107,7 +127,7 @@ void circular_destroy(circular * c){
 
 char b[10];
 
-void circular_display(circular * c){
+/*void circular_display(circular * c){
 	//char * val;
 	int i = 0;
 
@@ -141,4 +161,23 @@ void circular_display(circular * c){
 	} 
 	//printk(KERN_WARNING"head: %d, tail: %d\n", c->head, c->tail);
 	return;
-} 
+}  */
+
+
+
+void circular_display(circular * c){
+	void * val;
+	int i = 0;
+	for(i = 0; i<c->size; i++){
+		val = c->buffer[i];
+		if(val == NULL)
+			printk(KERN_CONT" , ");
+		else
+			printk(KERN_CONT"%d, ", val);
+	} 
+	printk(KERN_CONT" head: %d, tail: %d\n", c->head, c->tail);
+	printk(KERN_CONT"\n");
+	return;
+}
+
+
