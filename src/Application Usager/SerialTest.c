@@ -27,6 +27,7 @@
 char buffer[5];
 int ret_val = -1 ;
 char key_val[1];
+int data_size;
 int main(int argc, char *argv[]) {
 
 	int fd = 1;
@@ -148,7 +149,7 @@ int main(int argc, char *argv[]) {
 			if (continuous) {
 				printf(">>>\t");
 				fflush(stdout);
-				scanf("%20[^\n]", data);
+				scanf(" %s", data);
 			}
 
 			err = write(fd, data, strlen(data));
